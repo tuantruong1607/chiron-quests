@@ -1,0 +1,2346 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VSTEP Lab PRD</title>
+<meta name="description" content="PRD v1.2 — IELTS Speaking & Writing Lab, chuẩn BABOK v3 / SRS">
+<style>
+:root {
+  --bg:#f7f7f5; --surface:#ffffff; --text:#1d1d1b; --muted:#5f5f5a; --border:#e3e2dd;
+  --accent:#2f5d8a; --accent-soft:#e7eef6; --code-bg:#f0efeb;
+  --prop-bg:#fff4d6; --prop-fg:#7a5a00; --tbd-bg:#fde8e6; --tbd-fg:#9b2c22;
+  --m:#2f5d8a; --s:#3f7d4f; --c:#8a6d2f; --w:#8a8a85;
+  --shadow:0 1px 2px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#161614; --surface:#1f1f1c; --text:#e9e8e3; --muted:#a3a29b; --border:#34332f;
+    --accent:#8db6e0; --accent-soft:#23303d; --code-bg:#2a2a26;
+    --prop-bg:#3a3017; --prop-fg:#f0cf7a; --tbd-bg:#3d2220; --tbd-fg:#f2a49b;
+    --m:#8db6e0; --s:#8fc79c; --c:#d9bb7c; --w:#8f8e88; --shadow:none;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#161614; --surface:#1f1f1c; --text:#e9e8e3; --muted:#a3a29b; --border:#34332f;
+  --accent:#8db6e0; --accent-soft:#23303d; --code-bg:#2a2a26;
+  --prop-bg:#3a3017; --prop-fg:#f0cf7a; --tbd-bg:#3d2220; --tbd-fg:#f2a49b;
+  --m:#8db6e0; --s:#8fc79c; --c:#d9bb7c; --w:#8f8e88; --shadow:none;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:16px; }
+body { margin:0; background:var(--bg); color:var(--text);
+  font:15.5px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; }
+.layout { display:grid; grid-template-columns:260px minmax(0,1fr); gap:32px; max-width:1240px; margin:0 auto; padding:24px; }
+nav.toc { position:sticky; top:24px; align-self:start; max-height:calc(100vh - 48px); overflow:auto;
+  font-size:13.5px; padding:16px; background:var(--surface); border:1px solid var(--border); border-radius:10px; }
+nav.toc summary { cursor:pointer; list-style:none; } nav.toc summary::-webkit-details-marker { display:none; } nav.toc summary::after { content:' ▾'; } nav.toc details:not([open]) summary::after { content:' ▸'; }
+nav.toc .toc-title { font-weight:600; margin:0; color:var(--muted); font-size:12px; letter-spacing:.06em; text-transform:uppercase; }
+nav.toc ul { list-style:none; margin:8px 0 0; padding:0; }
+nav.toc li a { display:block; padding:4px 8px; border-radius:6px; color:var(--text); text-decoration:none; }
+nav.toc li a:hover { background:var(--accent-soft); color:var(--accent); }
+main { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:40px 48px; box-shadow:var(--shadow); min-width:0; }
+h1 { font-size:28px; line-height:1.25; margin:0 0 12px; }
+h2 { font-size:21px; margin:44px 0 12px; padding-top:20px; border-top:1px solid var(--border); }
+h3 { font-size:17px; margin:28px 0 8px; }
+a { color:var(--accent); }
+p, ul, ol { margin:10px 0; }
+hr { display:none; }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.88em; background:var(--code-bg); padding:1px 5px; border-radius:4px; }
+blockquote.note { margin:14px 0; padding:10px 14px; border-left:3px solid var(--accent); background:var(--accent-soft); border-radius:0 8px 8px 0; color:var(--text); }
+blockquote.note p { margin:4px 0; }
+.table-wrap { overflow-x:auto; margin:14px 0; border:1px solid var(--border); border-radius:8px; }
+table { border-collapse:collapse; width:100%; font-size:14px; }
+th, td { text-align:left; vertical-align:top; padding:8px 12px; border-bottom:1px solid var(--border); }
+th { background:var(--code-bg); font-weight:600; }
+tr:last-child td { border-bottom:none; }
+td:first-child { white-space:nowrap; font-weight:500; }
+.tag { display:inline-block; font-size:11.5px; font-weight:600; padding:1px 7px; border-radius:999px; white-space:nowrap; vertical-align:1px; }
+.tag-prop { background:var(--prop-bg); color:var(--prop-fg); }
+.tag-tbd { background:var(--tbd-bg); color:var(--tbd-fg); }
+.pri { display:inline-block; min-width:22px; text-align:center; font-weight:700; font-size:12px; padding:1px 6px; border-radius:5px; color:var(--surface); }
+.pri-M { background:var(--m); } .pri-S { background:var(--s); } .pri-C { background:var(--c); } .pri-W { background:var(--w); }
+strong.ac { color:var(--accent); }
+.legend { display:flex; flex-wrap:wrap; gap:8px 14px; font-size:13px; color:var(--muted); margin:0 0 16px; }
+.theme-btn { position:fixed; right:16px; bottom:16px; border:1px solid var(--border); background:var(--surface); color:var(--text);
+  border-radius:999px; padding:8px 14px; font-size:13px; cursor:pointer; box-shadow:var(--shadow); }
+@media (max-width:900px) {
+  .layout { grid-template-columns:1fr; padding:16px; gap:16px; }
+  nav.toc { position:static; max-height:none; }
+  main { padding:24px 16px; border-radius:10px; }
+  h1 { font-size:23px; }
+}
+@media print {
+  nav.toc, .theme-btn { display:none; }
+  .layout { display:block; padding:0; } main { border:none; padding:0; }
+  .table-wrap { overflow:visible; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="Mục lục"><details id="tocDetails" open><summary class="toc-title">Mục lục</summary><div class="toc">
+<ul>
+<li><a href="#document-control">Document Control</a></li>
+<li><a href="#1-introduction">1. Introduction</a></li>
+<li><a href="#2-business-context-baccm">2. Business Context (BACCM)</a></li>
+<li><a href="#3-business-objectives-kpi">3. Business Objectives &amp; KPI</a></li>
+<li><a href="#4-stakeholders">4. Stakeholders</a></li>
+<li><a href="#5-scope">5. Scope</a></li>
+<li><a href="#6-business-requirements">6. Business Requirements</a></li>
+<li><a href="#7-overall-description">7. Overall Description</a></li>
+<li><a href="#8-functional-requirements">8. Functional Requirements</a></li>
+<li><a href="#9-non-functional-requirements">9. Non-Functional Requirements</a></li>
+<li><a href="#10-external-interfaces">10. External Interfaces</a></li>
+<li><a href="#11-data-requirements">11. Data Requirements</a></li>
+<li><a href="#12-compliance-legal">12. Compliance &amp; Legal</a></li>
+<li><a href="#13-go-to-market-seeding-cộng-đồng-public">13. Go-to-Market (seeding cộng đồng public)</a></li>
+<li><a href="#14-risks-mitigations">14. Risks &amp; Mitigations</a></li>
+<li><a href="#15-kế-thừa-từ-prd-ielts-v2-1-và-từ-phân-tích-tham-khảo">15. Kế thừa từ PRD IELTS v2.1 và từ phân tích tham khảo</a></li>
+<li><a href="#16-kiến-trúc-triển-khai-tóm-tắt">16. Kiến trúc &amp; triển khai (tóm tắt)</a></li>
+<li><a href="#17-glossary">17. Glossary</a></li>
+<li><a href="#18-roadmap">18. Roadmap</a></li>
+<li><a href="#19-open-issues-tbd">19. Open Issues (TBD)</a></li>
+<li><a href="#20-traceability-matrix">20. Traceability Matrix</a></li>
+<li><a href="#21-approval">21. Approval</a></li>
+<li><a href="#nguồn">Nguồn</a></li>
+</ul>
+</div>
+</details></nav>
+<main>
+<h1 id="vstep-lab-product-requirements-document-prd-srs">VSTEP Lab — Product Requirements Document (PRD / SRS)</h1><div class="legend"><span><span class="pri pri-M">M</span> Must</span><span><span class="pri pri-S">S</span> Should</span><span><span class="pri pri-C">C</span> Could</span><span><span class="pri pri-W">W</span> Won&#39;t</span><span><span class="tag tag-prop">Đề xuất</span> chờ duyệt</span><span><span class="tag tag-tbd">TBD-xx</span> quyết định mở</span></div>
+<blockquote class="note">
+<p>Chuẩn IIBA BABOK v3 (Agile Perspective) + cấu trúc SRS (BRD + FRD + NFR).
+<strong>Đổi thị trường</strong> từ IELTS (PRD v1.0–v2.1) sang <strong>VSTEP</strong> (Bài thi đánh giá năng lực tiếng Anh bậc 3–5 theo Khung năng lực ngoại ngữ 6 bậc dùng cho Việt Nam).
+Chiến lược: <strong>"Đậu B1 nhanh nhất, rẻ nhất"</strong> — sản phẩm ra nhanh hơn, giá thấp hơn rõ rệt so với đối thủ, dự đoán "đủ bậc chưa", cohort theo đợt thi. Tái sử dụng engine chấm, dự đoán và cohort đã thiết kế ở PRD v2.1.</p>
+</blockquote>
+<hr />
+<h2 id="document-control">Document Control</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Document ID</td>
+<td>PRD-2026-002</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>3.0</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Draft — chờ Founder duyệt</td>
+</tr>
+<tr>
+<td>Owner</td>
+<td>Founder (kiêm Sponsor / PO / BA / Developer)</td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-09-27</td>
+</tr>
+<tr>
+<td>Tên sản phẩm</td>
+<td>VSTEP Lab (tên làm việc; thương hiệu chung <span class="tag tag-tbd">TBD-01</span>)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="quy-ước">Quy ước</h3>
+<ul>
+<li><strong>PHẢI</strong> (Must) · <strong>NÊN</strong> (Should) · <strong>CÓ THỂ</strong> (Could). Priority theo MoSCoW: <code>M</code> · <code>S</code> · <code>C</code> · <code>W</code> (không làm trong release này).</li>
+<li><strong><span class="tag tag-prop">Đề xuất</span></strong> — con số do BA đề xuất, <strong>chưa được Founder duyệt</strong>; chốt trước mốc ghi ở §19.</li>
+<li><strong><code>TBD-xx</code></strong> — quyết định còn mở, xem §19.</li>
+<li><strong><code>[Cần kiểm chứng]</code></strong> — dữ kiện lấy từ nguồn thứ cấp, phải đối chiếu văn bản chính thức trước khi triển khai.</li>
+</ul>
+<h3 id="change-log">Change Log</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Author</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0 – 2.1</td>
+<td>2026-09-27</td>
+<td>Founder + BA</td>
+<td>Chuỗi PRD cho IELTS (xem <code>PRD_IELTS-Lab_v2.1_20260927.md</code>)</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>2026-09-27</td>
+<td>BA (Claude) + Founder</td>
+<td>Đổi thị trường sang VSTEP; chiến lược nhanh-rẻ; bộ nền kỹ thuật MIT; 2 tuần kiểm chứng đầu roadmap</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="vì-sao-đổi-sang-vstep-tóm-tắt-quá-trình-ra-quyết-định">Vì sao đổi sang VSTEP (tóm tắt quá trình ra quyết định)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Thị trường đã xét</th>
+<th>Lý do không chọn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IELTS (luyện thi chung)</td>
+<td>ChatGPT voice miễn phí đã làm tốt luyện nói; Prep, STUDY4 mạnh về kho đề, thương hiệu, giá</td>
+</tr>
+<tr>
+<td>IELTS One Skill Retake</td>
+<td>Founder đánh giá chưa phổ biến ở Việt Nam</td>
+</tr>
+<tr>
+<td>Cambridge YLE (trẻ em)</td>
+<td>FLYER đã rất mạnh (600.000+ người dùng, 6.000+ đề, AI Speaking, 57.000–99.000đ/tháng)</td>
+</tr>
+<tr>
+<td>HSK/HSKK, TOEIC S&amp;W</td>
+<td>Đã có nhiều app AI (HSK); nội dung ETS bảo vệ chặt (TOEIC); không khớp lợi thế của Founder</td>
+</tr>
+<tr>
+<td><strong>VSTEP</strong> ✅</td>
+<td>Nhu cầu <strong>bắt buộc</strong>; đối thủ <strong>nhỏ, phân mảnh, giá cao</strong>; khớp 3 lợi thế của Founder (giỏi tiếng Anh, ra sản phẩm nhanh-rẻ, seeding được trong cộng đồng public)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="1-introduction">1. Introduction</h2>
+<h3 id="1-1-purpose">1.1 Purpose</h3>
+<p>Đặc tả yêu cầu business, chức năng và phi chức năng cho <strong>VSTEP Lab — Release 1</strong>: nền tảng luyện thi VSTEP bậc 3–5 (trọng tâm B1) chấm Writing/Speaking bằng AI, thi thử đủ 4 kỹ năng trên giao diện mô phỏng thi máy, dự đoán bậc, và cohort theo đợt thi.</p>
+<h3 id="1-2-product-scope">1.2 Product Scope</h3>
+<p>Web app <strong>mobile-first</strong> (PWA), cho người cần chứng chỉ VSTEP — trước hết là <strong>sinh viên cần B1 để tốt nghiệp</strong>.</p>
+<p><strong>Định vị:</strong> <em>"Đậu B1 nhanh nhất, rẻ nhất — biết trước mình đủ bậc chưa."</em>
+- <strong>Rẻ hơn rõ rệt</strong> so với đối thủ trả phí (VSTEPPRO 299.000–499.000đ/tháng).
+- <strong>"Đủ B1 chưa?"</strong> — dự đoán bậc trước khi đóng lệ phí thi (1.200.000–1.800.000đ tùy trường), hiệu chỉnh dần bằng kết quả thi thật (kế thừa lợi thế A của PRD v2.x).
+- <strong>Cohort theo đợt thi</strong> — nhóm ôn cùng ngày thi, nhắc học chủ động (kế thừa lợi thế C).</p>
+<p>Mọi điểm và bậc do hệ thống đưa ra là <strong>ước lượng</strong>, không phải kết quả chính thức.</p>
+<h3 id="1-3-references">1.3 References</h3>
+<ul>
+<li>Quyết định 729/QĐ-BGDĐT (11/03/2015) về định dạng đề thi VSTEP bậc 3–5.</li>
+<li>Thông tư 09/2026/TT-BGDĐT (hiệu lực 15/04/2026) về tổ chức thi đánh giá năng lực ngoại ngữ <code>[Cần kiểm chứng: đọc văn bản gốc]</code>.</li>
+<li>Dự thảo khung năng lực ngoại ngữ 7 bậc, dự kiến hiệu lực 01/01/2027 <code>[Cần kiểm chứng]</code>.</li>
+<li><code>docs/architecture/REFERENCE_ielts-cd_analysis.md</code> — bài học kiến trúc (chỉ ý tưởng, không code).</li>
+<li>PRD IELTS Lab v2.1 — engine chấm, dự đoán, cohort, AI Gateway.</li>
+</ul>
+<hr />
+<h2 id="2-business-context-baccm">2. Business Context (BACCM)</h2>
+<h3 id="2-1-change">2.1 Change</h3>
+<p>Xây mới nền tảng luyện thi VSTEP, dựng trên template mã nguồn mở MIT, tái sử dụng thiết kế engine từ PRD v2.1, ra thị trường trong khoảng 10 tuần sau 2 tuần kiểm chứng.</p>
+<h3 id="2-2-need">2.2 Need</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Nhu cầu</th>
+<th>Bằng chứng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N1</td>
+<td>Sinh viên phải có B1 (bậc 3) để đạt chuẩn đầu ra, xét tốt nghiệp</td>
+<td>Mục đích sử dụng VSTEP được các đơn vị tổ chức thi công bố <code>[Xác nhận]</code>; tỉ lệ trường yêu cầu <code>[Cần kiểm chứng]</code></td>
+</tr>
+<tr>
+<td>N2</td>
+<td>Học viên cao học, nghiên cứu sinh, giáo viên, một số vị trí cần B1–C1</td>
+<td><code>[Cần kiểm chứng theo từng quy định hiện hành]</code></td>
+</tr>
+<tr>
+<td>N3</td>
+<td>Lệ phí thi 1.200.000–1.800.000đ/lần → trượt rất tốn kém; người học muốn biết đủ bậc chưa trước khi đăng ký</td>
+<td>Lệ phí <code>[Xác nhận]</code>; nhu cầu dự đoán <code>[Giả thuyết]</code></td>
+</tr>
+<tr>
+<td>N4</td>
+<td>Writing và Speaking là hai kỹ năng khó tự luyện vì cần người chấm</td>
+<td><code>[Giả thuyết]</code> — kiểm chứng ở P0</td>
+</tr>
+<tr>
+<td>N5</td>
+<td>Các nền tảng trả phí hiện có giá cao so với túi tiền sinh viên</td>
+<td>VSTEPPRO 299.000–499.000đ/tháng <code>[Công bố]</code>; mức sẵn sàng trả của sinh viên <code>[Giả thuyết]</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="2-3-solution-high-level">2.3 Solution (high-level)</h3>
+<p>(1) Công cụ miễn phí để thu hút (chấm thử Writing, "Đủ B1 chưa?" rút gọn); (2) thi thử đủ 4 kỹ năng đúng định dạng VSTEP trên giao diện mô phỏng thi máy; (3) AI chấm Writing/Speaking theo tiêu chí; (4) quy đổi điểm 0–10 và bậc; (5) dự đoán bậc có trạng thái hiệu chỉnh; (6) Error Memory và làm lại; (7) cohort theo đợt thi và nhắc học; (8) gói giá rẻ, thanh toán VietQR.</p>
+<h3 id="2-4-context">2.4 Context</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ràng buộc</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nhân lực</td>
+<td>Founder solo — giỏi tiếng Anh, ra sản phẩm nhanh</td>
+</tr>
+<tr>
+<td>Ngân sách</td>
+<td>&lt; 10.000.000đ phát triển; hạ tầng ~100.000đ/tháng (VPS 2 vCPU/4 GB/30 GB NVMe đã chọn) + object storage</td>
+</tr>
+<tr>
+<td>Nền kỹ thuật</td>
+<td><a href="https://github.com/fastapi/full-stack-fastapi-template"><code>fastapi/full-stack-fastapi-template</code></a> (MIT): FastAPI + PostgreSQL + React/Vite + Docker Compose + Traefik + CI</td>
+</tr>
+<tr>
+<td>Phân phối</td>
+<td>Seeding trong cộng đồng public (nhóm Facebook/Zalo ôn thi VSTEP, nhóm sinh viên) — <strong>không có cộng đồng riêng</strong></td>
+</tr>
+<tr>
+<td>Pháp lý</td>
+<td>Luật Bảo vệ dữ liệu cá nhân 2025; người dùng chủ yếu là người trưởng thành</td>
+</tr>
+<tr>
+<td>Định dạng đề</td>
+<td>Công khai theo Quyết định 729/QĐ-BGDĐT; nội dung đề phải tự soạn</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="2-5-định-vị-cạnh-tranh">2.5 Định vị cạnh tranh</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Đối thủ</th>
+<th>Có gì</th>
+<th>Giá</th>
+<th>Nhận xét</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VSTEPPRO</strong> (vsteppro.vn)</td>
+<td>AI chấm Writing/Speaking, 10.000+ câu hỏi, dự đoán CEFR ("95% accuracy"), khóa học có giảng viên; tự công bố 50.000+ học viên</td>
+<td>Free (giới hạn) · Premium 299.000đ/tháng (chỉ AI Writing) · Pro 499.000đ/tháng</td>
+<td>Đối thủ trả phí chính; <strong>giá cao</strong></td>
+</tr>
+<tr>
+<td><strong>luyenthivstep.vn</strong></td>
+<td>Thi thử miễn phí, giao diện thi máy, chấm Writing/Speaking (giám khảo + AI), lịch thi, liên kết nhiều trường, khóa B1/B2 có cam kết đầu ra</td>
+<td>Không công khai</td>
+<td>Mạnh về nội dung SEO và liên kết trường</td>
+</tr>
+<tr>
+<td><strong>VSTEPUP</strong> (vstepup.vn)</td>
+<td>Thi thử 4 kỹ năng miễn phí, AI chấm Writing/Speaking, Pro cho luyện từng kỹ năng; do một cá nhân vận hành</td>
+<td>Freemium</td>
+<td><strong>Cạnh tranh giá trực tiếp</strong> — gần miễn phí</td>
+</tr>
+<tr>
+<td><strong>Prep</strong></td>
+<td>Nền tảng lớn; phòng luyện thi ảo AI cho IELTS; có nội dung VSTEP</td>
+<td>IELTS PRO: 90 ngày 2.000.000đ (≈ 667.000đ/tháng), 180 ngày 3.400.000đ, 365 ngày 4.800.000đ (≈ 400.000đ/tháng) — theo trang giá ngày 27/09/2026</td>
+<td>Mặt bằng giá của "ông lớn" rất cao → khẳng định có chỗ cho sản phẩm giá thấp</td>
+</tr>
+<tr>
+<td>ZIM, trung tâm</td>
+<td>Bài blog, khóa học VSTEP</td>
+<td>Khóa học đắt</td>
+<td>Gián tiếp</td>
+</tr>
+<tr>
+<td>ChatGPT</td>
+<td>Chấm bài chung chung nếu biết cách prompt</td>
+<td>Miễn phí</td>
+<td>Không có giao diện thi, không quy đổi bậc VSTEP, không dự đoán</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Mặt bằng giá thị trường:</strong> các nền tảng trả phí có AI ở mức <strong>~300.000–670.000đ/tháng</strong> (VSTEPPRO, Prep). Gói tháng đề xuất 99.000đ rẻ hơn 3–6 lần. Lưu ý: ở phân khúc rẻ đã có VSTEPUP (VSTEP, freemium) và STUDY4 (IELTS), nên <strong>giá rẻ là điều kiện cần, không đủ</strong> — phải đi kèm chất lượng chấm đã kiểm chứng.</p>
+<p><strong>Khác biệt phải giữ được:</strong>
+1. <strong>Giá</strong> thấp hơn rõ rệt VSTEPPRO, và <strong>gói theo đợt thi</strong> hợp với hành vi mua gần ngày thi.
+2. <strong>"Đủ B1 chưa?"</strong> có khoảng sai số, công bố số liệu đo trên kết quả thật khi đủ dữ liệu — thay vì con số "95%" không rõ nguồn.
+3. <strong>Cohort theo đợt thi</strong> + nhắc học chủ động.
+4. <strong>Chất lượng chấm được kiểm chứng</strong> (eval set, model cố định) — để "rẻ" không đồng nghĩa "kém".</p>
+<p>Nguồn: <a href="https://vsteppro.vn/">VSTEPPRO</a> · <a href="https://luyenthivstep.vn/">luyenthivstep.vn</a> · <a href="https://www.vstepup.vn/">VSTEPUP</a></p>
+<hr />
+<h2 id="3-business-objectives-kpi">3. Business Objectives &amp; KPI</h2>
+<blockquote class="note">
+<p>Mọi ngưỡng là <strong><span class="tag tag-prop">Đề xuất</span></strong>, duyệt trước tuần 3 (<span class="tag tag-tbd">TBD-02</span>).</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Objective</th>
+<th>KPI</th>
+<th>Deadline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O1</td>
+<td>Kiểm chứng nhu cầu trước khi xây (P0)</td>
+<td>≥ 6/10 sinh viên phỏng vấn nói Writing/Speaking là khó nhất <strong>và</strong> chấp nhận mức giá đề xuất; công cụ miễn phí thử nghiệm đạt ≥ 200 lượt dùng từ seeding</td>
+<td>Tuần 2</td>
+</tr>
+<tr>
+<td>O2</td>
+<td>Chất lượng chấm đủ dùng</td>
+<td>Chấm lại cùng bài trong eval set: chênh ≤ 0,5 điểm ở ≥ 90% bài; 👍 ≥ 70%; 0 trích dẫn không có trong bài/transcript</td>
+<td>Tuần 9</td>
+</tr>
+<tr>
+<td>O3</td>
+<td>Tăng trưởng từ seeding</td>
+<td>≥ 1.000 người dùng đăng ký sau 4 tuần ra mắt; chi phí quảng cáo ≈ 0</td>
+<td>Tuần 14</td>
+</tr>
+<tr>
+<td>O4</td>
+<td>Sẵn sàng trả tiền</td>
+<td>≥ 50 người trả phí và chuyển đổi ≥ 4% người dùng hoạt động trong 30 ngày</td>
+<td>Tuần 14</td>
+</tr>
+<tr>
+<td>O5</td>
+<td>Unit economics</td>
+<td>Chi phí AI ≤ 30% doanh thu thuần; trung bình ≤ 1.500đ/bài Writing, ≤ 4.000đ/bài Speaking đủ 3 phần</td>
+<td>Tuần 14</td>
+</tr>
+<tr>
+<td>O6</td>
+<td>Dữ liệu kết quả thật</td>
+<td>≥ 100 kết quả thi thật hợp lệ gửi về</td>
+<td>Tháng 6</td>
+</tr>
+<tr>
+<td>O7</td>
+<td>Độ chính xác dự đoán bậc</td>
+<td>Đúng bậc (B1/B2/C1/chưa đạt) ở ≥ 80% trường hợp trên ≥ 100 kết quả kiểm tra</td>
+<td>Tháng 6–9</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="4-stakeholders">4. Stakeholders</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Người/đơn vị</th>
+<th>Trách nhiệm</th>
+<th>Influence</th>
+<th>Interest</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sponsor / PO / BA / Dev / người duyệt đề</td>
+<td>Founder</td>
+<td>Toàn bộ</td>
+<td>High</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Người dùng chính</td>
+<td>Sinh viên năm 3–4 cần B1</td>
+<td>Dùng, trả phí, giới thiệu</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Người dùng mở rộng</td>
+<td>Học viên cao học (B1/B2), giáo viên (B2/C1), người đi làm</td>
+<td>Dùng, trả phí</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Admin nhóm cộng đồng</td>
+<td>Nhóm Facebook/Zalo ôn thi VSTEP, nhóm sinh viên</td>
+<td>Cho phép/không cho phép đăng bài</td>
+<td>Med</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>AI &amp; speech provider</td>
+<td><span class="tag tag-tbd">TBD-04</span></td>
+<td>Chấm bài, STT, chấm phát âm, TTS</td>
+<td>Med</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Payment provider</td>
+<td><span class="tag tag-tbd">TBD-05</span> (VietQR/ví điện tử)</td>
+<td>Thu tiền</td>
+<td>Med</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Cố vấn pháp lý</td>
+<td><span class="tag tag-tbd">TBD-10</span></td>
+<td>Privacy, điều khoản, quảng cáo</td>
+<td>Med</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="5-scope">5. Scope</h2>
+<h3 id="5-1-release-plan">5.1 Release plan</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Release</th>
+<th>Nội dung</th>
+<th>Gate</th>
+<th>Thời điểm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P0 — Kiểm chứng</strong></td>
+<td>Dùng thử đối thủ, phỏng vấn 10 sinh viên, công cụ miễn phí thử nghiệm + seeding, kiểm tra provider</td>
+<td>O1 đạt → vào R1; không đạt → xem lại giá/định vị</td>
+<td>Tuần 1–2</td>
+</tr>
+<tr>
+<td><strong>R1 — MVP</strong></td>
+<td>Thi thử 4 kỹ năng VSTEP, AI chấm Writing/Speaking, quy đổi bậc, dự đoán (chưa hiệu chỉnh), gói giá rẻ, công cụ miễn phí</td>
+<td>P0 đạt</td>
+<td>Tuần 3–10 (ra mắt tuần 10)</td>
+</tr>
+<tr>
+<td><strong>R1.1 — Giữ chân</strong></td>
+<td>Cohort theo đợt thi, nhắc học, Error Memory đầy đủ, thu thập kết quả thật</td>
+<td>O3 đạt</td>
+<td>Tuần 11–14</td>
+</tr>
+<tr>
+<td>R2 — Hiệu chỉnh &amp; mở rộng</td>
+<td>Công bố độ chính xác dự đoán; mở rộng B2/C1 chuyên sâu; app store (Capacitor)</td>
+<td>O6, O7</td>
+<td>Tháng 4–9</td>
+</tr>
+<tr>
+<td>R3 — Khung 7 bậc</td>
+<td>Cập nhật nếu Bộ GD&amp;ĐT ban hành khung/định dạng mới</td>
+<td>Văn bản chính thức</td>
+<td>Theo quy định</td>
+</tr>
+<tr>
+<td>R4 — Mở rộng IELTS giá rẻ</td>
+<td>Dùng lại engine chấm/dự đoán cho IELTS với cùng chiến lược giá (Prep ≈ 400.000–667.000đ/tháng); tái sử dụng PRD IELTS v2.1</td>
+<td>O3, O4 đạt ở VSTEP; phân biệt được với STUDY4</td>
+<td>Sau R2</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="5-2-in-scope-r1-r1-1">5.2 In-Scope (R1 + R1.1)</h3>
+<ul>
+<li>✅ Công cụ miễn phí: chấm thử Writing VSTEP; "Đủ B1 chưa?" rút gọn</li>
+<li>✅ Thi thử đủ 4 kỹ năng đúng định dạng VSTEP bậc 3–5, chế độ thi và chế độ luyện</li>
+<li>✅ AI chấm Writing (2 task) và Speaking (3 phần) theo tiêu chí</li>
+<li>✅ Quy đổi điểm 0–10 từng kỹ năng, điểm trung bình, bậc</li>
+<li>✅ Dự đoán "Đủ B1/B2/C1 chưa?" có trạng thái hiệu chỉnh; thu thập kết quả thật</li>
+<li>✅ Error Memory, làm lại bài, đề tương đương</li>
+<li>✅ Cohort theo đợt thi + nhắc học (R1.1)</li>
+<li>✅ Gói giá, thanh toán VietQR (xác nhận thủ công giai đoạn đầu), AI Gateway, admin</li>
+</ul>
+<h3 id="5-3-out-of-scope">5.3 Out-of-Scope</h3>
+<ul>
+<li>❌ Khóa học có giảng viên, chấm tay bởi giáo viên</li>
+<li>❌ VSTEP bậc 2 (A2) — cân nhắc sau</li>
+<li>❌ App store trong R1 (web/PWA trước; Capacitor ở R2)</li>
+<li>❌ Crawl hoặc dùng lại đề của đơn vị tổ chức thi, sách có bản quyền, đề thi thật do thí sinh nhớ lại</li>
+<li>❌ Seeding bằng tài khoản ảo, review giả</li>
+<li>❌ Cam kết hoàn tiền theo kết quả (xem xét ở R2 khi có dữ liệu)</li>
+<li>❌ Bán cho trường/doanh nghiệp (B2B)</li>
+</ul>
+<hr />
+<h2 id="6-business-requirements">6. Business Requirements</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Priority</th>
+<th>Rationale</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-01</td>
+<td>Người học PHẢI làm được bài thi thử đủ 4 kỹ năng đúng định dạng VSTEP bậc 3–5 trên giao diện mô phỏng thi máy</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Giá trị cốt lõi</td>
+<td>N1, N2</td>
+</tr>
+<tr>
+<td>BR-02</td>
+<td>Writing và Speaking PHẢI được AI chấm theo tiêu chí, có nhận xét gắn bằng chứng, điểm 0–10</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Kỹ năng khó tự luyện nhất</td>
+<td>N4, O2</td>
+</tr>
+<tr>
+<td>BR-03</td>
+<td>Hệ thống PHẢI quy đổi điểm từng kỹ năng, điểm trung bình và bậc theo quy tắc VSTEP</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Người học cần biết đạt bậc nào</td>
+<td>N1</td>
+</tr>
+<tr>
+<td>BR-04</td>
+<td>Hệ thống PHẢI dự đoán "đủ bậc mục tiêu chưa" kèm độ tin cậy và trạng thái hiệu chỉnh</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Khác biệt định vị</td>
+<td>N3, O7</td>
+</tr>
+<tr>
+<td>BR-05</td>
+<td>Hệ thống PHẢI có công cụ miễn phí dùng được không cần đăng ký để seeding</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Kênh tăng trưởng duy nhất</td>
+<td>O3</td>
+</tr>
+<tr>
+<td>BR-06</td>
+<td>Giá PHẢI thấp hơn rõ rệt đối thủ trả phí; có gói theo đợt thi</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Lợi thế cạnh tranh chính</td>
+<td>N5, O4</td>
+</tr>
+<tr>
+<td>BR-07</td>
+<td>Chi phí AI PHẢI được kiểm soát dưới trần</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Giá thấp → biên mỏng</td>
+<td>O5</td>
+</tr>
+<tr>
+<td>BR-08</td>
+<td>Dữ liệu người dùng CHỈ được gửi tới provider cam kết không huấn luyện trên dữ liệu</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Privacy</td>
+<td>§12</td>
+</tr>
+<tr>
+<td>BR-09</td>
+<td>Chấm PHẢI nhất quán giữa các lần (model/rubric cố định)</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Dự đoán và tiến bộ phụ thuộc vào điều này</td>
+<td>O2</td>
+</tr>
+<tr>
+<td>BR-10</td>
+<td>Tài khoản an toàn, dữ liệu cách ly; bài làm và ghi âm không bị mất</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Cơ bản</td>
+<td>—</td>
+</tr>
+<tr>
+<td>BR-11</td>
+<td>Nội dung đề PHẢI tự soạn (AI + Founder duyệt), qua kiểm tra tự động</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Pháp lý + chất lượng</td>
+<td>§12</td>
+</tr>
+<tr>
+<td>BR-12</td>
+<td>Hệ thống PHẢI thu thập kết quả thi thật tự nguyện để hiệu chỉnh dự đoán</td>
+<td><span class="pri pri-S" title="Should">S</span></td>
+<td>Nền cho độ chính xác dự đoán</td>
+<td>O6</td>
+</tr>
+<tr>
+<td>BR-13</td>
+<td>Hệ thống NÊN ghi nhớ lỗi lặp lại và gợi ý làm lại/đề tương đương</td>
+<td><span class="pri pri-S" title="Should">S</span></td>
+<td>Giữ chân</td>
+<td>O4</td>
+</tr>
+<tr>
+<td>BR-14</td>
+<td>Hệ thống NÊN có cohort theo đợt thi và nhắc học chủ động</td>
+<td><span class="pri pri-S" title="Should">S</span></td>
+<td>Lợi thế C, giữ chân</td>
+<td>O4</td>
+</tr>
+<tr>
+<td>BR-15</td>
+<td>Người dùng NÊN chia sẻ được thẻ kết quả (opt-in)</td>
+<td><span class="pri pri-S" title="Should">S</span></td>
+<td>Lan truyền trong nhóm</td>
+<td>O3</td>
+</tr>
+<tr>
+<td>BR-16</td>
+<td>Hệ thống PHẢI cung cấp số liệu vận hành cho Founder (usage, chi phí, funnel, feedback)</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Điều hành một mình</td>
+<td>O3–O5</td>
+</tr>
+<tr>
+<td>BR-17</td>
+<td>Hệ thống CÓ THỂ có referral thưởng khi người được giới thiệu trả phí</td>
+<td><span class="pri pri-C" title="Could">C</span></td>
+<td>Tăng trưởng</td>
+<td>O3</td>
+</tr>
+<tr>
+<td>BR-18</td>
+<td>App iOS/Android trên store</td>
+<td><span class="pri pri-W" title="Won't">W</span></td>
+<td>R2</td>
+<td>—</td>
+</tr>
+<tr>
+<td>BR-19</td>
+<td>Cam kết hoàn tiền theo kết quả</td>
+<td><span class="pri pri-W" title="Won't">W</span></td>
+<td>Cần dữ liệu (R2)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>MoSCoW (in-scope):</strong> Must 12 (71%) · Should 4 (24%) · Could 1 (6%) · Won't 2.</p>
+<blockquote class="note">
+<p>⚠️ Must chiếm 71%. Giảm rủi ro bằng: L/R chỉ có trắc nghiệm (engine đơn giản), dùng template MIT, và thứ tự cắt scope ở §18.</p>
+</blockquote>
+<hr />
+<h2 id="7-overall-description">7. Overall Description</h2>
+<h3 id="7-1-persona">7.1 Persona</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Persona</th>
+<th>Mô tả</th>
+<th>Mục tiêu</th>
+<th>Hành vi mua <code>[Giả thuyết]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P1 — Sinh viên cần B1</strong> (chính)</td>
+<td>Năm 3–4, trình độ A2–B1, học trên điện thoại</td>
+<td>Đạt B1 một lần, tốn ít tiền và thời gian</td>
+<td>Mua 4–8 tuần trước ngày thi; rất nhạy giá; tin lời khuyên trong nhóm</td>
+</tr>
+<tr>
+<td>P2 — Học viên cao học</td>
+<td>Đi làm, ít thời gian</td>
+<td>B1 hoặc B2</td>
+<td>Sẵn sàng trả hơn P1</td>
+</tr>
+<tr>
+<td>P3 — Giáo viên / người đi làm</td>
+<td>Cần B2/C1</td>
+<td>Đạt bậc cao</td>
+<td>Chú trọng Writing/Speaking</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="7-2-nền-tảng-thiết-bị">7.2 Nền tảng &amp; thiết bị</h3>
+<ul>
+<li><strong>Web/PWA mobile-first</strong> (P1 học chủ yếu trên điện thoại); giao diện thi đầy đủ tối ưu cho laptop/tablet (thi thật trên máy tính).</li>
+<li>Speaking cần micro; hỗ trợ ghi âm trên Chrome/Safari di động và desktop.</li>
+<li>R2: đóng gói iOS/Android bằng Capacitor (MIT) khi cần có mặt trên store.</li>
+</ul>
+<h3 id="7-3-ràng-buộc-thiết-kế">7.3 Ràng buộc thiết kế</h3>
+<ul>
+<li>Frontend React + Vite (SPA) từ template; landing page SEO làm riêng dạng tĩnh.</li>
+<li>API key AI/payment chỉ ở backend. Audio và ảnh lưu trên object storage, không trên VPS.</li>
+</ul>
+<h3 id="7-4-assumptions-dependencies">7.4 Assumptions &amp; Dependencies</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Có AI provider (Lớp A) chấm Writing ≤ 1.500đ/bài và speech provider cho Speaking ≤ 4.000đ/bài đủ 3 phần <span class="tag tag-prop">Đề xuất</span> — kiểm chứng tuần 1</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Sinh viên chấp nhận mức giá đề xuất (§13) — kiểm chứng ở P0</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Admin các nhóm cộng đồng cho phép chia sẻ công cụ miễn phí có giá trị — kiểm chứng ở P0</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>Định dạng VSTEP bậc 3–5 không đổi trong 2026; theo dõi dự thảo khung 7 bậc từ 2027</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>Founder đủ năng lực tiếng Anh để duyệt đề và kiểm tra chất lượng chấm</td>
+</tr>
+<tr>
+<td>A6</td>
+<td>Người thi sẵn sàng gửi kết quả thi thật đổi lấy phần thưởng — kiểm chứng sau ra mắt</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="8-functional-requirements">8. Functional Requirements</h2>
+<h3 id="8-1-f1-tài-khoản-bảo-mật-m">8.1 F1 — Tài khoản &amp; bảo mật (M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-001</td>
+<td>Đăng ký/đăng nhập bằng Google và email + mật khẩu (hash an toàn)</td>
+<td>BR-10</td>
+<td>Theo template; khóa tạm 15 phút sau 5 lần sai liên tiếp</td>
+</tr>
+<tr>
+<td>FR-002</td>
+<td>Reset mật khẩu bằng link hết hạn ≤ 30 phút, không tiết lộ email có tồn tại</td>
+<td>BR-10</td>
+<td>Link quá hạn bị từ chối</td>
+</tr>
+<tr>
+<td>FR-003</td>
+<td>Kiểm tra quyền sở hữu ở server cho mọi bài làm, ghi âm, giao dịch</td>
+<td>BR-10</td>
+<td>Truy cập tài nguyên người khác → 404</td>
+</tr>
+<tr>
+<td>FR-004</td>
+<td>Xóa tài khoản và dữ liệu; thông báo rõ dữ liệu giữ lại theo nghĩa vụ pháp lý</td>
+<td>BR-08, BR-10</td>
+<td>Sau xóa, bài làm/ghi âm không truy cập được</td>
+</tr>
+<tr>
+<td>FR-005</td>
+<td>Thông báo xử lý dữ liệu (bài viết, <strong>ghi âm</strong>, gửi AI provider, lưu audio 30 ngày) và ghi nhận đồng ý trước lần nộp đầu</td>
+<td>BR-08</td>
+<td>Chưa đồng ý → không gửi đi chấm</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="8-2-f2-công-cụ-miễn-phí-để-seeding-m">8.2 F2 — Công cụ miễn phí để seeding (M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-010</td>
+<td><strong>Chấm thử Writing VSTEP:</strong> dán bài Task 1 hoặc Task 2, nhận điểm ước lượng 0–10 + 3 lỗi chính + gợi ý sửa, <strong>không cần đăng ký</strong></td>
+<td>BR-05</td>
+<td>AC-F2-1</td>
+</tr>
+<tr>
+<td>FR-011</td>
+<td><strong>"Đủ B1 chưa?" rút gọn:</strong> ~15 phút (một phần Nghe, một bài Đọc, 1 câu Speaking Part 1), trả về bậc ước lượng kèm cảnh báo "rút gọn, độ tin cậy thấp"</td>
+<td>BR-04, BR-05</td>
+<td>AC-F2-2</td>
+</tr>
+<tr>
+<td>FR-012</td>
+<td>Giới hạn dùng miễn phí theo thiết bị/IP (VD: 2 lượt chấm Writing/ngày <span class="tag tag-prop">Đề xuất</span>); vượt giới hạn → mời đăng ký</td>
+<td>BR-07</td>
+<td>Lượt thứ 3 trong ngày hiển thị lời mời đăng ký</td>
+</tr>
+<tr>
+<td>FR-013</td>
+<td>Kết quả công cụ có nút lưu (cần đăng ký) và nút chia sẻ thẻ kết quả (không lộ nội dung bài)</td>
+<td>BR-05, BR-15</td>
+<td>Thẻ chia sẻ chỉ có điểm/bậc và tên nếu người dùng chọn</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F2-1</strong> — Given khách chưa đăng nhập, When dán bài Task 2 dài 260 từ và bấm "Chấm", Then nhận điểm ước lượng và 3 lỗi chính trong ≤ 60 giây, mỗi lỗi có trích đoạn khớp nguyên văn bài.</li>
+<li><strong>AC-F2-2</strong> — Given khách làm xong bài rút gọn, When xem kết quả, Then thấy bậc ước lượng kèm nhãn "bài rút gọn — độ tin cậy thấp, làm bài thi thử đầy đủ để chính xác hơn".</li>
+</ul>
+<h3 id="8-3-f3-engine-đề-giao-diện-thi-m">8.3 F3 — Engine đề &amp; giao diện thi (M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-020</td>
+<td><strong>Nghe:</strong> 3 phần, 35 câu trắc nghiệm, ~40 phút; audio phát <strong>một lần</strong> trong chế độ thi, tải đủ trước khi bắt đầu</td>
+<td>BR-01</td>
+<td>AC-F3-1</td>
+</tr>
+<tr>
+<td>FR-021</td>
+<td><strong>Đọc:</strong> 4 bài đọc (tổng ~1.900–2.050 từ), 40 câu trắc nghiệm, 60 phút</td>
+<td>BR-01</td>
+<td>Đồng hồ 60 phút, tự nộp khi hết giờ</td>
+</tr>
+<tr>
+<td>FR-022</td>
+<td><strong>Viết:</strong> 60 phút cho 2 task — Task 1 thư/email ~120 từ (1/3 điểm), Task 2 bài luận ~250 từ (2/3 điểm); đếm từ; cảnh báo (không chặn) khi thiếu từ</td>
+<td>BR-01</td>
+<td>Đếm từ cập nhật khi gõ</td>
+</tr>
+<tr>
+<td>FR-023</td>
+<td><strong>Nói:</strong> 3 phần, ~12 phút — Part 1 giao tiếp xã hội (3–6 câu về 2 chủ đề), Part 2 thảo luận giải pháp (có 1 phút chuẩn bị), Part 3 phát triển chủ đề (kèm câu hỏi mở rộng); ghi âm từng phần, câu hỏi phát bằng giọng đọc</td>
+<td>BR-01</td>
+<td>AC-F3-2</td>
+</tr>
+<tr>
+<td>FR-024</td>
+<td>Cấu trúc đề, thời gian, số câu lưu trong metadata có version (không hard-code UI)</td>
+<td>BR-01</td>
+<td>Đổi định dạng không cần sửa code giao diện</td>
+</tr>
+<tr>
+<td>FR-025</td>
+<td><strong>Chế độ thi</strong> mô phỏng thi máy (đồng hồ, điều hướng câu, đánh dấu câu, xác nhận nộp); <strong>chế độ luyện</strong> cho tạm dừng, xem giải thích sau từng phần</td>
+<td>BR-01</td>
+<td>Hai chế độ tách biệt</td>
+</tr>
+<tr>
+<td>FR-026</td>
+<td><strong>Thi thử đầy đủ</strong> Nghe → Đọc → Viết → Nói (~172 phút) hoặc từng kỹ năng; đồng hồ mỗi phần không reset khi tải lại trang</td>
+<td>BR-01</td>
+<td>AC-F3-3</td>
+</tr>
+<tr>
+<td>FR-027</td>
+<td>Autosave local ≤ 5 giây và đồng bộ server; bản ghi âm lưu local đến khi server xác nhận; tiếp tục được sau gián đoạn</td>
+<td>BR-10</td>
+<td>AC-F3-4</td>
+</tr>
+<tr>
+<td>FR-028</td>
+<td>Nộp lặp không tạo lượt chấm trùng, không trừ lượt hai lần</td>
+<td>BR-07, BR-10</td>
+<td>2 lần bấm nộp → 1 lượt chấm</td>
+</tr>
+<tr>
+<td>FR-029</td>
+<td>Sau khi nộp: xem đáp án, giải thích, đánh dấu vị trí bằng chứng trong bài đọc/transcript</td>
+<td>BR-01</td>
+<td>Bấm câu → highlight đoạn chứa đáp án</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F3-1</strong> — Given đang làm Nghe ở chế độ thi, When mất mạng giữa chừng, Then audio vẫn phát tiếp (đã tải trước) và câu trả lời lưu local.</li>
+<li><strong>AC-F3-2</strong> — Given Part 2, When hết 1 phút chuẩn bị, Then ghi âm tự bắt đầu và tự dừng khi hết thời gian của phần.</li>
+<li><strong>AC-F3-3</strong> — Given đang làm Đọc phút thứ 20, When tải lại trang, Then đồng hồ tiếp tục từ phút 20, không quay về 60.</li>
+<li><strong>AC-F3-4</strong> — Given đã ghi xong Part 1 rồi mất mạng, When có mạng lại, Then bản ghi tự upload, không phải ghi lại.</li>
+</ul>
+<h3 id="8-4-f4-ai-chấm-writing-m">8.4 F4 — AI chấm Writing (M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-030</td>
+<td>Chấm mỗi task theo <strong>tiêu chí chấm Writing VSTEP</strong> (bộ tiêu chí chính thức: <span class="tag tag-tbd">TBD-06</span>), điểm task và điểm Writing 0–10 theo trọng số 1/3 – 2/3</td>
+<td>BR-02, BR-03</td>
+<td>AC-F4-1</td>
+</tr>
+<tr>
+<td>FR-031</td>
+<td>Nhận xét quan trọng PHẢI trỏ tới câu trong bài, trích đoạn khớp nguyên văn</td>
+<td>BR-02, BR-09</td>
+<td>Trích đoạn không khớp → loại và ghi log</td>
+</tr>
+<tr>
+<td>FR-032</td>
+<td>Highlight lỗi trong bài, giải thích bằng tiếng Việt, gợi ý sửa</td>
+<td>BR-02</td>
+<td>Bấm highlight mở giải thích</td>
+</tr>
+<tr>
+<td>FR-033</td>
+<td>Bài quá ngắn, lạc đề, sai dạng (VD Task 1 không viết dạng thư) → nêu rõ và giới hạn điểm theo tiêu chí</td>
+<td>BR-02, BR-09</td>
+<td>AC-F4-2</td>
+</tr>
+<tr>
+<td>FR-034</td>
+<td>Lưu model, provider, prompt version, rubric version cho mỗi lượt chấm</td>
+<td>BR-09, BR-16</td>
+<td>Có trong DB và admin</td>
+</tr>
+<tr>
+<td>FR-035</td>
+<td>Nhãn "Điểm ước lượng bởi AI — không phải kết quả chính thức" ở mọi vị trí có điểm</td>
+<td>BR-02</td>
+<td>100% vị trí có điểm</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F4-1</strong> — Given Task 1 được 6,0 và Task 2 được 5,0, When tính điểm Writing, Then điểm = 6,0 × 1/3 + 5,0 × 2/3 = 5,33 → làm tròn theo quy tắc §8.6.</li>
+<li><strong>AC-F4-2</strong> — Given Task 1 là bài luận thay vì thư, When chấm, Then nhận xét nêu "sai dạng bài" và tiêu chí hoàn thành nhiệm vụ bị giới hạn.</li>
+</ul>
+<h3 id="8-5-f5-ai-chấm-speaking-m">8.5 F5 — AI chấm Speaking (M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-040</td>
+<td>Chấm theo <strong>tiêu chí chấm Speaking VSTEP</strong> (bộ tiêu chí chính thức: <span class="tag tag-tbd">TBD-06</span>; nguồn thứ cấp nêu: ngữ pháp, từ vựng, phát âm, độ trôi chảy &amp; phát triển ý, mạch lạc), điểm 0–10</td>
+<td>BR-02</td>
+<td>AC-F5-1</td>
+</tr>
+<tr>
+<td>FR-041</td>
+<td>Hiển thị transcript từng phần; nhận xét trỏ tới đoạn transcript khớp nguyên văn; người dùng báo được "transcript sai"</td>
+<td>BR-02, BR-09</td>
+<td>Báo sai được xác nhận → hoàn lượt</td>
+</tr>
+<tr>
+<td>FR-042</td>
+<td>Phát âm CHỈ đánh giá từ phân tích audio (speech provider), không suy ra từ transcript; không có dữ liệu audio → ghi "chưa đánh giá được"</td>
+<td>BR-02, BR-09</td>
+<td>AC-F5-2</td>
+</tr>
+<tr>
+<td>FR-043</td>
+<td>Độ trôi chảy dựa trên số đo từ audio (tốc độ nói, khoảng ngừng, từ đệm)</td>
+<td>BR-02</td>
+<td>Số đo hiển thị trong report</td>
+</tr>
+<tr>
+<td>FR-044</td>
+<td>Bấm từ phát âm sai → nghe lại đoạn của mình + nghe mẫu (TTS)</td>
+<td>BR-02</td>
+<td>Hoạt động trên mobile</td>
+</tr>
+<tr>
+<td>FR-045</td>
+<td>Trạng thái xử lý (đang upload/đang chấm/xong/lỗi); lỗi được thử lại, không trừ lượt, không phải ghi âm lại</td>
+<td>BR-07, BR-10</td>
+<td>Lỗi provider → trạng thái "lỗi", lượt không bị trừ</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F5-1</strong> — Given bài nói đủ 3 phần hợp lệ, When chấm xong, Then có điểm Speaking 0–10 bước 0,5 và nhận xét theo từng tiêu chí trong ≤ 120 giây (p95).</li>
+<li><strong>AC-F5-2</strong> — Given speech provider lỗi phần phân tích phát âm, When tạo report, Then tiêu chí phát âm ghi "chưa đánh giá được" và điểm tổng nêu rõ dựa trên các tiêu chí còn lại.</li>
+</ul>
+<h3 id="8-6-f6-quy-đổi-điểm-bậc-m">8.6 F6 — Quy đổi điểm &amp; bậc (M)</h3>
+<p><strong>Business Rules</strong> <code>[Cần kiểm chứng với quy định chính thức]</code></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RULE-01</td>
+<td>Mỗi kỹ năng chấm thang 0–10, làm tròn đến 0,5</td>
+</tr>
+<tr>
+<td>RULE-02</td>
+<td>Điểm trung bình = trung bình cộng 4 kỹ năng đã làm tròn, làm tròn đến 0,5: phần lẻ từ ,25 đến ,74 → ,5; từ ,75 trở lên → lên số nguyên kế tiếp; dưới ,25 → xuống số nguyên</td>
+</tr>
+<tr>
+<td>RULE-03</td>
+<td>Quy đổi bậc: 4,0–5,5 → <strong>Bậc 3 (B1)</strong>; 6,0–8,0 → <strong>Bậc 4 (B2)</strong>; 8,5–10 → <strong>Bậc 5 (C1)</strong>; dưới 4,0 → <strong>chưa đạt bậc 3</strong></td>
+</tr>
+<tr>
+<td>RULE-04</td>
+<td>Nghe/Đọc: số câu đúng → điểm 0–10 theo <strong>bảng quy đổi riêng của từng đề</strong>; bảng khởi đầu là tỉ lệ tuyến tính <span class="tag tag-prop">Đề xuất</span>, sau đó hiệu chỉnh bằng thống kê câu hỏi và kết quả thật</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-050</td>
+<td>Tính điểm từng kỹ năng, điểm trung bình và bậc theo RULE-01 – RULE-04</td>
+<td>BR-03</td>
+<td>AC-F6-1</td>
+</tr>
+<tr>
+<td>FR-051</td>
+<td>Thiếu một kỹ năng → không hiển thị bậc tổng, chỉ hiển thị điểm kỹ năng đã có</td>
+<td>BR-03</td>
+<td>Bậc tổng ẩn khi thiếu kỹ năng</td>
+</tr>
+<tr>
+<td>FR-052</td>
+<td>Mỗi đề có bảng quy đổi Nghe/Đọc có version; đề mới gắn nhãn "chưa hiệu chỉnh" đến khi đủ ≥ 50 lượt làm <span class="tag tag-prop">Đề xuất</span></td>
+<td>BR-03, BR-04</td>
+<td>Nhãn hiển thị cạnh điểm</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F6-1</strong> — Given Nghe 6,0, Nói 6,0, Đọc 6,5, Viết 5,5, When tính, Then trung bình 6,0 → Bậc 4 (B2).</li>
+</ul>
+<h3 id="8-7-f7-dự-đoán-đủ-bậc-chưa-kết-quả-thật-m-s">8.7 F7 — Dự đoán "Đủ bậc chưa?" &amp; kết quả thật (M/S)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-060</td>
+<td>Người dùng chọn bậc mục tiêu (B1/B2/C1) và ngày thi dự kiến</td>
+<td>BR-04</td>
+<td>Sửa được trong Settings</td>
+</tr>
+<tr>
+<td>FR-061</td>
+<td>Dự đoán dựa trên ≥ 2 bài thi thử đầy đủ trong 21 ngày gần nhất <span class="tag tag-prop">Đề xuất</span>, chỉ dùng đề đủ độ dài và <strong>ưu tiên đề chưa làm</strong> (làm lại đề cũ làm điểm bị thổi phồng)</td>
+<td>BR-04, BR-09</td>
+<td>AC-F7-1</td>
+</tr>
+<tr>
+<td>FR-062</td>
+<td>Hiển thị: bậc dự đoán, xác suất đạt bậc mục tiêu dạng mức (Cao/Trung bình/Thấp), kỹ năng kéo điểm, và trạng thái "chưa được hiệu chỉnh bằng kết quả thật" cho đến khi đạt FR-066</td>
+<td>BR-04</td>
+<td>AC-F7-2</td>
+</tr>
+<tr>
+<td>FR-063</td>
+<td>Bài chấm bằng model dự phòng hoặc đề "chưa hiệu chỉnh" không dùng làm đầu vào dự đoán</td>
+<td>BR-04, BR-09</td>
+<td>Bị loại khỏi tính toán</td>
+</tr>
+<tr>
+<td>FR-064</td>
+<td>Người dùng gửi được kết quả thi thật (điểm 4 kỹ năng, ngày thi, đơn vị tổ chức, ảnh phiếu điểm để xác minh); ảnh tự xóa ≤ 7 ngày; consent riêng cho mục đích hiệu chỉnh; thưởng 1 tháng gói <span class="tag tag-prop">Đề xuất</span> sau xác minh</td>
+<td>BR-12</td>
+<td>AC-F7-3</td>
+</tr>
+<tr>
+<td>FR-065</td>
+<td>Chống gian lận: không nhận trùng số báo danh + ngày thi (lưu hash); chỉ tính khi có bài thi thử trong 28 ngày trước ngày thi; admin duyệt</td>
+<td>BR-12</td>
+<td>Gửi trùng → từ chối và gắn cờ</td>
+</tr>
+<tr>
+<td>FR-066</td>
+<td>Chỉ công bố độ chính xác dự đoán khi có ≥ 100 kết quả kiểm tra; câu công bố gồm số lượng, tỉ lệ đúng bậc, ngày cập nhật</td>
+<td>BR-04, BR-12</td>
+<td>Nút công bố bị khóa khi chưa đủ</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F7-1</strong> — Given người dùng làm lại đề #3 lần thứ hai, When tính dự đoán, Then lượt làm lại không được dùng nếu còn đề đầy đủ chưa làm.</li>
+<li><strong>AC-F7-2</strong> — Given chưa đủ dữ liệu hiệu chỉnh, When hiển thị dự đoán, Then có nhãn "chưa được hiệu chỉnh bằng kết quả thật" và không có con số độ chính xác.</li>
+<li><strong>AC-F7-3</strong> — Given kết quả được xác minh lúc T, When đến T + 7 ngày, Then ảnh phiếu điểm bị xóa, chỉ còn các con số.</li>
+</ul>
+<h3 id="8-8-f8-error-memory-làm-lại-s">8.8 F8 — Error Memory &amp; làm lại (S)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-070</td>
+<td>Gắn mỗi lỗi Writing/Speaking với error tag (taxonomy có version, gồm nhóm lỗi thường gặp của người Việt)</td>
+<td>BR-13</td>
+<td>Lỗi có tag trong DB</td>
+</tr>
+<tr>
+<td>FR-071</td>
+<td>Đánh dấu lỗi lặp lại khi cùng tag xuất hiện ở ≥ 2 bài</td>
+<td>BR-13</td>
+<td>Dashboard hiện top 3 lỗi lặp lại</td>
+</tr>
+<tr>
+<td>FR-072</td>
+<td>Viết lại bài Writing / nói lại phần Speaking; so sánh lỗi đã sửa / chưa sửa / lỗi mới</td>
+<td>BR-13</td>
+<td>Report so sánh 3 trạng thái</td>
+</tr>
+<tr>
+<td>FR-073</td>
+<td>Gợi ý đề tương đương chưa làm nhắm vào lỗi lặp lại</td>
+<td>BR-13</td>
+<td>Có ≥ 1 gợi ý khi còn đề</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="8-9-f9-cohort-theo-đợt-thi-nhắc-học-s">8.9 F9 — Cohort theo đợt thi &amp; nhắc học (S)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-080</td>
+<td>Admin tạo cohort theo <strong>đợt thi</strong> (đơn vị tổ chức + ngày thi), bắt đầu 4–6 tuần trước ngày thi <span class="tag tag-prop">Đề xuất</span></td>
+<td>BR-14</td>
+<td>Trang Cohort trong admin</td>
+</tr>
+<tr>
+<td>FR-081</td>
+<td>Lộ trình: 1 nhiệm vụ/ngày ≤ 20 phút + 1 bài thi thử đầy đủ mỗi tuần</td>
+<td>BR-14</td>
+<td>Hiển thị % hoàn thành</td>
+</tr>
+<tr>
+<td>FR-082</td>
+<td>Bảng tiến độ nhóm ẩn danh mặc định; hiện tên khi opt-in</td>
+<td>BR-14</td>
+<td>Mặc định ẩn danh</td>
+</tr>
+<tr>
+<td>FR-083</td>
+<td>Nhắc học qua email (mặc định) hoặc Zalo (<span class="tag tag-tbd">TBD-08</span>); tối đa 1 tin/ngày; không gửi 22:00–07:00; tắt bằng 1 chạm</td>
+<td>BR-14</td>
+<td>Không có tin trong giờ yên lặng</td>
+</tr>
+<tr>
+<td>FR-084</td>
+<td>Sau ngày thi, nhắc gửi kết quả thật (F7)</td>
+<td>BR-12, BR-14</td>
+<td>Tối đa 2 lần nhắc</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="8-10-f10-quy-trình-soạn-đề-m">8.10 F10 — Quy trình soạn đề (M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-090</td>
+<td>Đề đi qua: AI soạn nháp → <strong>kiểm tra tự động</strong> → Founder duyệt → pilot → xuất bản; lưu provenance</td>
+<td>BR-11</td>
+<td>Trạng thái draft/reviewed/pilot/published</td>
+</tr>
+<tr>
+<td>FR-091</td>
+<td>Kiểm tra tự động Nghe/Đọc (trắc nghiệm): mỗi câu có <strong>đúng một</strong> đáp án; đáp án đúng có căn cứ trong bài đọc/transcript; phương án nhiễu không trùng nghĩa với đáp án; số câu và số từ bài đọc đúng định dạng</td>
+<td>BR-11</td>
+<td>AC-F10-1</td>
+</tr>
+<tr>
+<td>FR-092</td>
+<td><strong>Tự kiểm tra:</strong> chấm "bài làm hoàn hảo" dựng từ đáp án phải đạt tuyệt đối</td>
+<td>BR-11</td>
+<td>Không đạt → chặn xuất bản</td>
+</tr>
+<tr>
+<td>FR-093</td>
+<td>Audio Nghe tạo bằng TTS có quyền dùng thương mại (<span class="tag tag-tbd">TBD-07</span>), nhiều giọng; Founder nghe lại toàn bộ trước khi xuất bản</td>
+<td>BR-11</td>
+<td>Checklist duyệt audio bắt buộc</td>
+</tr>
+<tr>
+<td>FR-094</td>
+<td>Báo lỗi từng câu; sửa đáp án → <strong>chấm lại một chiều</strong> (chỉ sai → đúng, không trừ điểm người đã xem kết quả)</td>
+<td>BR-11</td>
+<td>AC-F10-2</td>
+</tr>
+<tr>
+<td>FR-095</td>
+<td>Công cụ import từ chối đề không có provenance hợp lệ; không crawl, không dùng đề có bản quyền hay đề thi thật</td>
+<td>BR-11</td>
+<td>Import thiếu provenance bị từ chối</td>
+</tr>
+<tr>
+<td>FR-096</td>
+<td>Ngân hàng đề trước ra mắt: ≥ 5 bộ đề đầy đủ 4 kỹ năng + ≥ 20 đề Writing mỗi task + ≥ 20 bộ câu hỏi Speaking <span class="tag tag-prop">Đề xuất</span></td>
+<td>BR-01</td>
+<td>Đếm trong admin</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F10-1</strong> — Given AI soạn câu Đọc có hai phương án cùng đúng, When chạy kiểm tra tự động, Then đề bị giữ ở draft kèm lỗi cụ thể.</li>
+<li><strong>AC-F10-2</strong> — Given câu 12 được sửa đáp án từ B sang C, When chấm lại, Then người đã chọn C được cộng điểm, người đã chọn B <strong>không bị trừ</strong>.</li>
+</ul>
+<h3 id="8-11-f11-gói-giá-thanh-toán-m">8.11 F11 — Gói giá &amp; thanh toán (M)</h3>
+<p><strong>Business Rules</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule <span class="tag tag-prop">Đề xuất</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RULE-10</td>
+<td><strong>Free:</strong> công cụ miễn phí (F2), 1 bài thi thử đầy đủ/tháng, 2 lượt chấm Writing/ngày</td>
+</tr>
+<tr>
+<td>RULE-11</td>
+<td><strong>Gói "Đến ngày thi":</strong> 199.000đ, dùng đến ngày thi + 7 ngày (tối đa 90 ngày); 30 lượt chấm Writing + 15 bài Speaking đủ 3 phần</td>
+</tr>
+<tr>
+<td>RULE-12</td>
+<td><strong>Gói tháng:</strong> 99.000đ/tháng; 20 lượt Writing + 10 bài Speaking</td>
+</tr>
+<tr>
+<td>RULE-13</td>
+<td>Nghe/Đọc không tốn lượt</td>
+</tr>
+<tr>
+<td>RULE-14</td>
+<td>Lỗi xử lý, nộp trùng, mở lại report: không trừ lượt</td>
+</tr>
+<tr>
+<td>RULE-15</td>
+<td>Chỉ kích hoạt gói sau khi thanh toán được xác minh (webhook có chữ ký, hoặc admin xác nhận chuyển khoản thủ công có audit log giai đoạn đầu)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Cơ sở giá:</strong> VSTEPPRO 299.000–499.000đ/tháng → gói tháng rẻ hơn ≥ 3 lần. Trường hợp xấu nhất gói "Đến ngày thi": 30 × 1.500đ + 15 × 4.000đ = 105.000đ chi phí AI trên ~193.000đ doanh thu thuần (~54%); mức dùng trung bình dự kiến 30–40% → ~20% doanh thu, đạt O5.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-100</td>
+<td>Trang giá hiển thị gói, quyền lợi, thời hạn, điều kiện hoàn tiền trước khi thanh toán</td>
+<td>BR-06</td>
+<td>Đủ 4 thông tin</td>
+</tr>
+<tr>
+<td>FR-101</td>
+<td>Thanh toán VietQR qua payment adapter; mã đơn duy nhất; xử lý idempotent</td>
+<td>BR-06</td>
+<td>Webhook lặp không cộng lượt hai lần</td>
+</tr>
+<tr>
+<td>FR-102</td>
+<td>Giai đoạn đầu: admin xác nhận chuyển khoản thủ công, ghi audit log</td>
+<td>BR-06</td>
+<td>Log có admin, thời gian, mã đơn, số tiền</td>
+</tr>
+<tr>
+<td>FR-103</td>
+<td>Trang "Gói của tôi": gói, hạn, lượt còn lại, lịch sử giao dịch</td>
+<td>BR-06</td>
+<td>Hiển thị đúng</td>
+</tr>
+<tr>
+<td>FR-104</td>
+<td>Không tự gia hạn trong R1</td>
+<td>BR-06</td>
+<td>Không có giao dịch tự động</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="8-12-f12-ai-gateway-m">8.12 F12 — AI Gateway (M)</h3>
+<p>Kế thừa thiết kế PRD v2.1 §8.9, rút gọn:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-110</td>
+<td>Phân loại dữ liệu: <strong>Lớp A</strong> (bài làm, ghi âm) chỉ tới provider trả phí cam kết không huấn luyện; <strong>Lớp B/C</strong> (soạn đề, dev) được dùng gói miễn phí hợp lệ — mỗi provider một tài khoản</td>
+<td>BR-08</td>
+<td>Request Lớp A tới provider không được phép → bị chặn</td>
+</tr>
+<tr>
+<td>FR-111</td>
+<td>Mỗi rubric version gắn <strong>một model chấm cố định</strong>; đổi model = rubric mới + chạy lại eval set</td>
+<td>BR-09</td>
+<td>Không đổi model ngầm</td>
+</tr>
+<tr>
+<td>FR-112</td>
+<td>Circuit breaker theo provider (mở sau 3 lỗi liên tiếp/60 giây, thử lại sau 60 giây <span class="tag tag-prop">Đề xuất</span>); fallback ghi nhận trong report</td>
+<td>BR-07, BR-10</td>
+<td>Fallback được ghi nhận</td>
+</tr>
+<tr>
+<td>FR-113</td>
+<td>Prompt caching cho phần rubric cố định; chống chấm trùng theo hash nội dung</td>
+<td>BR-07</td>
+<td>Nộp lại y hệt → trả report cũ, không trừ lượt</td>
+</tr>
+<tr>
+<td>FR-114</td>
+<td>Trần chi phí tháng; cảnh báo 50/80/100% qua email</td>
+<td>BR-07</td>
+<td>Email khi vượt 80%</td>
+</tr>
+<tr>
+<td>FR-115</td>
+<td>Validate output theo JSON schema và khoảng điểm hợp lệ</td>
+<td>BR-09</td>
+<td>Sai schema → retry ≤ 2 lần rồi báo lỗi</td>
+</tr>
+<tr>
+<td>FR-116</td>
+<td>Log provider, model, token, chi phí, latency, trạng thái — <strong>không</strong> log toàn văn bài làm</td>
+<td>BR-08, BR-16</td>
+<td>Log không chứa nội dung bài</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="8-13-f13-admin-số-liệu-m">8.13 F13 — Admin &amp; số liệu (M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-120</td>
+<td>Quản lý người dùng, gói, lượt</td>
+<td>BR-16</td>
+<td>Trang Users</td>
+</tr>
+<tr>
+<td>FR-121</td>
+<td>AI usage &amp; chi phí theo ngày/provider/model, tỉ lệ lỗi, latency</td>
+<td>BR-16, BR-07</td>
+<td>Trang AI Usage</td>
+</tr>
+<tr>
+<td>FR-122</td>
+<td><strong>Funnel seeding:</strong> nguồn truy cập (mã nhóm/UTM) → dùng công cụ miễn phí → đăng ký → thi thử → trả phí</td>
+<td>BR-16, BR-05</td>
+<td>Funnel theo từng nguồn</td>
+</tr>
+<tr>
+<td>FR-123</td>
+<td>Hộp feedback &amp; báo lỗi (chấm, đề, transcript, thanh toán)</td>
+<td>BR-16</td>
+<td>Lọc theo loại</td>
+</tr>
+<tr>
+<td>FR-124</td>
+<td>Duyệt đề, duyệt kết quả thật, xác nhận thanh toán; audit log mọi hành động admin</td>
+<td>BR-16, BR-10</td>
+<td>Có actor, action, thời gian</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="8-14-f14-lan-truyền-s-c">8.14 F14 — Lan truyền (S/C)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>BR</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-130</td>
+<td>Thẻ kết quả chia sẻ (opt-in): điểm/bậc, không lộ nội dung bài; link có mã nguồn để đo funnel</td>
+<td>BR-15</td>
+<td><span class="pri pri-S" title="Should">S</span></td>
+</tr>
+<tr>
+<td>FR-131</td>
+<td>Referral: cả hai bên nhận thêm lượt khi người được giới thiệu <strong>trả phí</strong></td>
+<td>BR-17</td>
+<td><span class="pri pri-C" title="Could">C</span></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="9-non-functional-requirements">9. Non-Functional Requirements</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nhóm</th>
+<th>Requirement</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-P01</td>
+<td>Performance</td>
+<td>Report Writing</td>
+<td>p95 ≤ 60 giây</td>
+</tr>
+<tr>
+<td>NFR-P02</td>
+<td>Performance</td>
+<td>Report Speaking đủ 3 phần</td>
+<td>p95 ≤ 120 giây <span class="tag tag-prop">Đề xuất</span></td>
+</tr>
+<tr>
+<td>NFR-P03</td>
+<td>Performance</td>
+<td>Tải trang trên 4G, điện thoại tầm trung</td>
+<td>LCP ≤ 2,5 giây</td>
+</tr>
+<tr>
+<td>NFR-P04</td>
+<td>Performance</td>
+<td>API không liên quan AI</td>
+<td>p95 ≤ 500 ms</td>
+</tr>
+<tr>
+<td>NFR-R01</td>
+<td>Reliability</td>
+<td>Uptime tháng</td>
+<td>≥ 99% <span class="tag tag-prop">Đề xuất</span></td>
+</tr>
+<tr>
+<td>NFR-R02</td>
+<td>Reliability</td>
+<td>Chấm thành công sau retry/fallback</td>
+<td>≥ 98%</td>
+</tr>
+<tr>
+<td>NFR-R03</td>
+<td>Reliability</td>
+<td>Backup DB hằng ngày ra storage ngoài VPS; diễn tập khôi phục hằng tháng</td>
+<td>RPO ≤ 24h, RTO ≤ 8h</td>
+</tr>
+<tr>
+<td>NFR-R04</td>
+<td>Reliability</td>
+<td>Mất bài/bản ghi do lỗi hệ thống</td>
+<td>0 trường hợp</td>
+</tr>
+<tr>
+<td>NFR-S01</td>
+<td>Security</td>
+<td>HTTPS, hash mật khẩu, phân quyền ở server, rate limit nộp bài ≤ 10/phút/người</td>
+<td>Bắt buộc</td>
+</tr>
+<tr>
+<td>NFR-S02</td>
+<td>Security</td>
+<td>Audio và ảnh phiếu điểm trên storage riêng tư, URL ký hạn ≤ 15 phút; audio tự xóa sau 30 ngày</td>
+<td>Bắt buộc</td>
+</tr>
+<tr>
+<td>NFR-S03</td>
+<td>Security</td>
+<td>Secrets chỉ ở backend; CI quét secret</td>
+<td>Bắt buộc</td>
+</tr>
+<tr>
+<td>NFR-U01</td>
+<td>Usability</td>
+<td>Dùng công cụ miễn phí từ lúc mở link đến lúc có kết quả</td>
+<td>≤ 3 thao tác, không cần đăng ký</td>
+</tr>
+<tr>
+<td>NFR-U02</td>
+<td>Usability</td>
+<td>Mobile-first; giao diện thi đầy đủ dùng tốt từ 360px, tối ưu cho ≥ 1024px</td>
+<td>Kiểm tra trên 2 điện thoại + 1 laptop</td>
+</tr>
+<tr>
+<td>NFR-U03</td>
+<td>Usability</td>
+<td>Nhãn "ước lượng" ở 100% vị trí có điểm/bậc; nhãn trạng thái hiệu chỉnh ở 100% vị trí có dự đoán</td>
+<td>Bắt buộc</td>
+</tr>
+<tr>
+<td>NFR-M01</td>
+<td>Maintainability</td>
+<td>Test tự động cho: auth, autosave/nộp idempotent, quy đổi điểm/bậc (RULE-01–04), lượt/gói, webhook, validate output AI, kiểm tra đề</td>
+<td>100% có test</td>
+</tr>
+<tr>
+<td>NFR-C01</td>
+<td>Cost</td>
+<td>Chi phí AI/bài Writing; /bài Speaking đủ 3 phần</td>
+<td>≤ 1.500đ; ≤ 4.000đ <span class="tag tag-prop">Đề xuất</span></td>
+</tr>
+<tr>
+<td>NFR-C02</td>
+<td>Cost</td>
+<td>Hạ tầng tháng</td>
+<td>~100.000đ VPS + storage (đã chọn gói 2 vCPU/4 GB/30 GB)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="10-external-interfaces">10. External Interfaces</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>System</th>
+<th>Mục đích</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Google OAuth</td>
+<td>Đăng nhập</td>
+<td>—</td>
+</tr>
+<tr>
+<td>AI provider(s)</td>
+<td>Chấm Writing/Speaking (Lớp A), soạn đề (Lớp B)</td>
+<td><span class="tag tag-tbd">TBD-04</span></td>
+</tr>
+<tr>
+<td>Speech provider(s)</td>
+<td>STT, chấm phát âm (Lớp A); TTS audio Nghe và câu hỏi Nói (Lớp B, cache)</td>
+<td><span class="tag tag-tbd">TBD-04</span>, <span class="tag tag-tbd">TBD-07</span></td>
+</tr>
+<tr>
+<td>Payment</td>
+<td>VietQR/ví điện tử, webhook có chữ ký</td>
+<td><span class="tag tag-tbd">TBD-05</span></td>
+</tr>
+<tr>
+<td>Email / Zalo</td>
+<td>Nhắc học, xác thực, cảnh báo chi phí</td>
+<td><span class="tag tag-tbd">TBD-08</span></td>
+</tr>
+<tr>
+<td>Object storage</td>
+<td>Audio, ảnh phiếu điểm, audio TTS</td>
+<td>S3-compatible, lifecycle xóa 30 ngày</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="11-data-requirements">11. Data Requirements</h2>
+<h3 id="11-1-data-model-ý-tưởng-triển-khai-mới-trên-template">11.1 Data model (ý tưởng; triển khai mới trên template)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Trường chính</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>user</code>, <code>session</code></td>
+<td>Theo template; thêm bậc mục tiêu, ngày thi dự kiến</td>
+</tr>
+<tr>
+<td><code>test_form</code></td>
+<td>version, trạng thái, provenance, cờ AI-generated, cấu trúc phần/câu (metadata), bảng quy đổi Nghe/Đọc có version</td>
+</tr>
+<tr>
+<td><code>item</code></td>
+<td>kỹ năng, phần, nội dung, phương án, đáp án đúng, giải thích, vị trí bằng chứng, thống kê (tỉ lệ đúng, độ phân biệt)</td>
+</tr>
+<tr>
+<td><code>attempt</code></td>
+<td>user, đề, chế độ, trạng thái, câu trả lời, hạn chót từng phần, điểm từng kỹ năng</td>
+</tr>
+<tr>
+<td><code>writing_submission</code>, <code>speaking_recording</code></td>
+<td>nội dung/đường dẫn audio, transcript, số đo audio, hạn xóa audio</td>
+</tr>
+<tr>
+<td><code>assessment</code></td>
+<td>điểm tiêu chí, nhận xét + bằng chứng, model/provider/prompt/rubric version, cờ fallback</td>
+</tr>
+<tr>
+<td><code>error_tag</code>, <code>error_occurrence</code></td>
+<td>taxonomy có version; lỗi theo người dùng, bài nguồn</td>
+</tr>
+<tr>
+<td><code>prediction</code></td>
+<td>bậc dự đoán, mức xác suất, đầu vào, calibration version</td>
+</tr>
+<tr>
+<td><code>official_result</code></td>
+<td>điểm 4 kỹ năng, ngày thi, đơn vị, hash số báo danh, trạng thái xác minh, consent hiệu chỉnh</td>
+</tr>
+<tr>
+<td><code>cohort</code>, <code>cohort_member</code></td>
+<td>đợt thi, lịch, % hoàn thành</td>
+</tr>
+<tr>
+<td><code>plan</code>, <code>entitlement</code>, <code>payment_order</code>, <code>payment_event</code></td>
+<td>gói, lượt, hạn, giao dịch</td>
+</tr>
+<tr>
+<td><code>ai_request_log</code>, <code>free_tool_usage</code></td>
+<td>chi phí, latency; lượt dùng công cụ miễn phí theo thiết bị/IP, nguồn seeding</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="11-2-retention">11.2 Retention</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dữ liệu</th>
+<th>Thời hạn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bài làm, report, Error Memory</td>
+<td>Đến khi người dùng xóa</td>
+</tr>
+<tr>
+<td>Audio ghi âm</td>
+<td>30 ngày, tự xóa</td>
+</tr>
+<tr>
+<td>Ảnh phiếu điểm</td>
+<td>≤ 7 ngày sau xác minh/từ chối</td>
+</tr>
+<tr>
+<td>Bài dán vào công cụ miễn phí (khách chưa đăng ký)</td>
+<td>≤ 24 giờ <span class="tag tag-prop">Đề xuất</span>, rồi xóa</td>
+</tr>
+<tr>
+<td>Log vận hành AI</td>
+<td>90 ngày <span class="tag tag-prop">Đề xuất</span></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="12-compliance-legal">12. Compliance &amp; Legal</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Hạng mục</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Luật Bảo vệ dữ liệu cá nhân 2025</td>
+<td>Thông báo &amp; đồng ý, xóa dữ liệu, chuyển dữ liệu tới AI provider nước ngoài — <strong>rà soát pháp lý <span class="tag tag-tbd">TBD-10</span></strong></td>
+</tr>
+<tr>
+<td>Giọng nói</td>
+<td>Đồng ý riêng trước khi ghi âm; không dùng để nhận dạng danh tính</td>
+</tr>
+<tr>
+<td>Nội dung đề</td>
+<td>Tự soạn; định dạng đề công khai nhưng <strong>không</strong> sao chép đề mẫu/đề thật của đơn vị tổ chức thi</td>
+</tr>
+<tr>
+<td>Tên gọi &amp; thương hiệu</td>
+<td>Không gây hiểu nhầm là sản phẩm của Bộ GD&amp;ĐT hay đơn vị tổ chức thi; ghi rõ "luyện thi theo định dạng VSTEP"</td>
+</tr>
+<tr>
+<td>Quảng cáo</td>
+<td>Không tuyên bố độ chính xác chưa đo được; mọi con số công bố kèm số lượng mẫu và ngày</td>
+</tr>
+<tr>
+<td>Seeding</td>
+<td>Đăng bằng danh tính thật, theo luật từng nhóm; không tài khoản ảo, không review giả</td>
+</tr>
+<tr>
+<td>Thanh toán</td>
+<td>Không lưu dữ liệu thẻ</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="13-go-to-market-seeding-cộng-đồng-public">13. Go-to-Market (seeding cộng đồng public)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Bước</th>
+<th>Hành động</th>
+<th>Đo lường</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Liệt kê 15–20 nhóm Facebook/Zalo ôn thi VSTEP và nhóm sinh viên các trường có yêu cầu B1; đọc luật từng nhóm</td>
+<td>Danh sách + luật</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Đóng góp nội dung trước: lịch thi, mẹo, chữa bài mẫu</td>
+<td>Tương tác</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Chia sẻ <strong>công cụ miễn phí</strong> (FR-010, FR-011) với link có mã nhóm</td>
+<td>Funnel theo nhóm (FR-122)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Thẻ kết quả chia sẻ (FR-130) tạo lan truyền tự nhiên</td>
+<td>Lượt truy cập từ thẻ</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Cohort theo đợt thi của từng trường</td>
+<td>Số người vào cohort</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="14-risks-mitigations">14. Risks &amp; Mitigations</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Risk</th>
+<th>Prob.</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Chiến tranh giá (VSTEPUP gần miễn phí)</td>
+<td>High</td>
+<td>High</td>
+<td>Cạnh tranh bằng chất lượng chấm đã kiểm chứng + dự đoán + cohort, không chỉ giá</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>Đối thủ hạ giá khi thấy mình</td>
+<td>Med</td>
+<td>Med</td>
+<td>Chi phí vận hành thấp (1 người, VPS rẻ); gói theo đợt thi</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Chất lượng chấm AI kém làm mất uy tín</td>
+<td>Med</td>
+<td>High</td>
+<td>Eval set, model cố định, nhãn ước lượng, báo lỗi</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Admin nhóm cấm đăng</td>
+<td>Med</td>
+<td>High</td>
+<td>Đóng góp giá trị trước; công cụ miễn phí thật sự hữu ích; nhiều nhóm</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Định dạng/khung thay đổi (dự thảo 7 bậc từ 2027)</td>
+<td>Med</td>
+<td>Med</td>
+<td>Định dạng trong metadata (FR-024); theo dõi văn bản chính thức</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>Sinh viên chỉ mua sát ngày thi rồi rời đi</td>
+<td>High</td>
+<td>Med</td>
+<td>Gói "Đến ngày thi" đúng hành vi; referral; mở rộng B2/C1</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>Chi phí Speaking vượt ngân sách</td>
+<td>Med</td>
+<td>High</td>
+<td>Kiểm tra A1 tuần 1; giới hạn lượt; cache TTS</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>Đề AI soạn sai đáp án</td>
+<td>Med</td>
+<td>High</td>
+<td>Kiểm tra tự động + Founder duyệt + pilot + chấm lại một chiều</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>Founder quá tải (dev + soạn đề + seeding)</td>
+<td>High</td>
+<td>High</td>
+<td>L/R chỉ trắc nghiệm; template MIT; thứ tự cắt scope §18</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>Tiêu chí chấm chính thức khác nguồn thứ cấp</td>
+<td>Med</td>
+<td>Med</td>
+<td>Đối chiếu văn bản chính thức (<span class="tag tag-tbd">TBD-06</span>) trước tuần 3</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="15-kế-thừa-từ-prd-ielts-v2-1-và-từ-phân-tích-tham-khảo">15. Kế thừa từ PRD IELTS v2.1 và từ phân tích tham khảo</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Thành phần</th>
+<th>Nguồn</th>
+<th>Thay đổi cho VSTEP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI Gateway (phân loại dữ liệu, model cố định, caching, circuit breaker, trần chi phí)</td>
+<td>PRD v2.1 §8.9</td>
+<td>Giữ nguyên, rút gọn</td>
+</tr>
+<tr>
+<td>Dự đoán + hiệu chỉnh bằng kết quả thật</td>
+<td>PRD v2.1 F16–F18</td>
+<td>Dự đoán <strong>bậc</strong> thay cho band; ngưỡng công bố thấp hơn</td>
+</tr>
+<tr>
+<td>Cohort + nhắc học</td>
+<td>PRD v2.1 F19–F20</td>
+<td>Theo <strong>đợt thi của từng đơn vị</strong></td>
+</tr>
+<tr>
+<td>Kiểm tra đề, tự kiểm tra, chấm lại một chiều</td>
+<td><code>REFERENCE_ielts-cd_analysis.md</code> §3</td>
+<td>Đơn giản hơn nhiều vì Nghe/Đọc chỉ trắc nghiệm</td>
+</tr>
+<tr>
+<td>Full mock chỉ dùng đề đủ độ dài, ưu tiên đề chưa làm</td>
+<td>Như trên §3.4</td>
+<td>Áp dụng cho dự đoán bậc (FR-061)</td>
+</tr>
+<tr>
+<td>Hạ tầng auth/user/admin/Docker/CI</td>
+<td><code>fastapi/full-stack-fastapi-template</code> (MIT)</td>
+<td>Dùng làm nền</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="16-kiến-trúc-triển-khai-tóm-tắt">16. Kiến trúc &amp; triển khai (tóm tắt)</h2>
+<ul>
+<li><strong>Nền:</strong> <code>fastapi/full-stack-fastapi-template</code> (MIT) — FastAPI, PostgreSQL, SQLModel, Alembic, React + Vite + Tailwind + shadcn/ui, Docker Compose, Traefik, CI/CD.</li>
+<li><strong>Thêm:</strong> worker xử lý job chấm (hàng đợi + Redis), object storage cho audio, TTS cache.</li>
+<li><strong>Hạ tầng:</strong> 1 VPS 2 vCPU / 4 GB / 30 GB NVMe (~100.000đ/tháng); build image trên CI, không build trên VPS; audio phát từ object storage.</li>
+<li><strong>Mobile:</strong> PWA ở R1; Capacitor (MIT) + plugin ghi âm (MIT) ở R2.</li>
+</ul>
+<hr />
+<h2 id="17-glossary">17. Glossary</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Định nghĩa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VSTEP</td>
+<td>Bài thi đánh giá năng lực tiếng Anh bậc 3–5 theo Khung năng lực ngoại ngữ 6 bậc dùng cho Việt Nam</td>
+</tr>
+<tr>
+<td>Bậc 3 / 4 / 5</td>
+<td>Tương ứng B1 / B2 / C1</td>
+</tr>
+<tr>
+<td>Đợt thi</td>
+<td>Một ngày thi của một đơn vị được cấp phép tổ chức</td>
+</tr>
+<tr>
+<td>Lượt chấm</td>
+<td>Một lần chấm AI thành công (Writing hoặc Speaking)</td>
+</tr>
+<tr>
+<td>Bảng quy đổi</td>
+<td>Ánh xạ số câu đúng Nghe/Đọc sang điểm 0–10, riêng từng đề</td>
+</tr>
+<tr>
+<td>Hiệu chỉnh</td>
+<td>Điều chỉnh dự đoán bằng kết quả thi thật</td>
+</tr>
+<tr>
+<td>Seeding</td>
+<td>Chia sẻ sản phẩm vào cộng đồng có sẵn để thu hút người dùng</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="18-roadmap">18. Roadmap</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tuần</th>
+<th>Milestone</th>
+<th>Deliverables</th>
+<th>Pass criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1–2</strong></td>
+<td><strong>P0 — Kiểm chứng</strong></td>
+<td>Dùng thử VSTEPPRO, VSTEPUP, luyenthivstep (ghi điểm mạnh/yếu); phỏng vấn 10 sinh viên cần B1; bản thử công cụ "Chấm thử Writing" (đơn giản) đăng vào 3–5 nhóm; kiểm tra A1 (chi phí AI/speech); đối chiếu định dạng và tiêu chí chính thức (<span class="tag tag-tbd">TBD-06</span>)</td>
+<td><strong>O1 đạt</strong> → R1; không đạt → xem lại giá/định vị</td>
+</tr>
+<tr>
+<td>3–4</td>
+<td>M1 — Nền + Writing</td>
+<td>Dựng template; F1; F4 (Writing) + eval set Writing; F2 bản chính thức (FR-010)</td>
+<td>O2 đạt trên eval set Writing</td>
+</tr>
+<tr>
+<td>5–6</td>
+<td>M2 — Speaking</td>
+<td>F5; ghi âm mobile; eval set Speaking</td>
+<td>Report Speaking ≤ 120 giây (p95)</td>
+</tr>
+<tr>
+<td>7–8</td>
+<td>M3 — Nghe/Đọc + đề</td>
+<td>F3 (engine trắc nghiệm, giao diện thi); F10 (soạn đề, kiểm tra tự động); sản xuất ≥ 5 bộ đề</td>
+<td>5 bộ đề qua kiểm tra</td>
+</tr>
+<tr>
+<td>9</td>
+<td>M4 — Bậc, dự đoán, thanh toán</td>
+<td>F6, F7 (FR-060–063), F11 (xác nhận thủ công), F13, FR-011</td>
+<td>Thanh toán thử thành công</td>
+</tr>
+<tr>
+<td><strong>10</strong></td>
+<td><strong>M5 — Ra mắt</strong></td>
+<td>Landing page; seeding theo §13</td>
+<td>Người trả phí đầu tiên</td>
+</tr>
+<tr>
+<td>11–14</td>
+<td>R1.1 — Giữ chân</td>
+<td>F8, F9, FR-064–066, F14, thêm đề</td>
+<td>Đo O3–O5</td>
+</tr>
+<tr>
+<td>Tháng 4–9</td>
+<td>R2</td>
+<td>Công bố độ chính xác (khi đủ dữ liệu); Capacitor; B2/C1 chuyên sâu</td>
+<td>O6, O7</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Thứ tự cắt scope nếu trễ:</strong> FR-131 referral → FR-082 bảng tiến độ nhóm → F8 so sánh bài làm lại → Zalo (giữ email) → giảm số bộ đề trước ra mắt xuống 3 → FR-011 "Đủ B1 chưa?" rút gọn (giữ FR-010).</p>
+<p><strong>Không cắt:</strong> công cụ chấm thử Writing (kênh tăng trưởng duy nhất), AI chấm Writing/Speaking, engine thi 4 kỹ năng, quy đổi bậc, nhãn ước lượng, kiểm tra đề tự động, xác minh thanh toán, bảo mật &amp; dữ liệu.</p>
+<hr />
+<h2 id="19-open-issues-tbd">19. Open Issues (TBD)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nội dung</th>
+<th>Hạn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TBD-01</td>
+<td>Tên thương hiệu, domain</td>
+<td>Tuần 9</td>
+</tr>
+<tr>
+<td>TBD-02</td>
+<td>Duyệt các ngưỡng <span class="tag tag-prop">Đề xuất</span> (KPI, giá, lượt, số đề)</td>
+<td>Tuần 3</td>
+</tr>
+<tr>
+<td>TBD-03</td>
+<td>Danh sách nhóm cộng đồng mục tiêu và luật đăng bài</td>
+<td>Tuần 1</td>
+</tr>
+<tr>
+<td>TBD-04</td>
+<td>AI provider (Writing) và speech provider (STT, phát âm, TTS)</td>
+<td>Tuần 1</td>
+</tr>
+<tr>
+<td>TBD-05</td>
+<td>Payment (VietQR), hình thức pháp lý để thu tiền</td>
+<td>Tuần 2</td>
+</tr>
+<tr>
+<td>TBD-06</td>
+<td><strong>Tiêu chí chấm Writing/Speaking chính thức</strong>, quy tắc làm tròn và quy đổi bậc — đối chiếu Quyết định 729 và Thông tư 09/2026</td>
+<td>Tuần 2</td>
+</tr>
+<tr>
+<td>TBD-07</td>
+<td>TTS có quyền dùng thương mại</td>
+<td>Tuần 3</td>
+</tr>
+<tr>
+<td>TBD-08</td>
+<td>Kênh nhắc học Zalo OA (chính sách, chi phí)</td>
+<td>Tuần 11</td>
+</tr>
+<tr>
+<td>TBD-09</td>
+<td>Chính sách hoàn tiền</td>
+<td>Tuần 9</td>
+</tr>
+<tr>
+<td>TBD-10</td>
+<td>Rà soát pháp lý: dữ liệu cá nhân, ghi âm, chuyển dữ liệu ra nước ngoài, điều khoản, quảng cáo</td>
+<td>Tuần 9</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="20-traceability-matrix">20. Traceability Matrix</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>BR</th>
+<th>FR</th>
+<th>NFR</th>
+<th>Test Case</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-01</td>
+<td>FR-020–FR-029, FR-096</td>
+<td>NFR-P03, NFR-U02</td>
+<td>TC-001 – TC-015</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-02</td>
+<td>FR-030–FR-033, FR-035, FR-040–FR-045</td>
+<td>NFR-P01, NFR-P02, NFR-U03</td>
+<td>TC-020 – TC-035</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-03</td>
+<td>FR-030, FR-050–FR-052</td>
+<td>NFR-M01</td>
+<td>TC-040 – TC-046</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-04</td>
+<td>FR-011, FR-052, FR-060–FR-063, FR-066</td>
+<td>NFR-U03</td>
+<td>TC-050 – TC-058</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-05</td>
+<td>FR-010–FR-013, FR-122</td>
+<td>NFR-U01</td>
+<td>TC-060 – TC-065</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-06</td>
+<td>FR-100–FR-104</td>
+<td>—</td>
+<td>TC-070 – TC-075</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-07</td>
+<td>FR-012, FR-028, FR-045, FR-112–FR-114, FR-121</td>
+<td>NFR-C01, NFR-C02</td>
+<td>TC-080 – TC-085</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-08</td>
+<td>FR-004, FR-005, FR-110, FR-116</td>
+<td>NFR-S02, NFR-S03</td>
+<td>TC-090 – TC-094</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-09</td>
+<td>FR-031, FR-033, FR-034, FR-041, FR-042, FR-061, FR-063, FR-111, FR-115</td>
+<td>NFR-M01</td>
+<td>TC-100 – TC-108</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-10</td>
+<td>FR-001–FR-005, FR-027, FR-028, FR-045, FR-112, FR-124</td>
+<td>NFR-R01–NFR-R04, NFR-S01</td>
+<td>TC-110 – TC-120</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-11</td>
+<td>FR-090–FR-095</td>
+<td>NFR-M01</td>
+<td>TC-125 – TC-132</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-12</td>
+<td>FR-064, FR-065, FR-066, FR-084</td>
+<td>NFR-S02</td>
+<td>TC-135 – TC-140</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-13</td>
+<td>FR-070–FR-073</td>
+<td>—</td>
+<td>TC-145 – TC-149</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-14</td>
+<td>FR-080–FR-084</td>
+<td>—</td>
+<td>TC-150 – TC-155</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-15</td>
+<td>FR-013, FR-130</td>
+<td>—</td>
+<td>TC-160 – TC-161</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-16</td>
+<td>FR-034, FR-116, FR-120–FR-124</td>
+<td>—</td>
+<td>TC-165 – TC-170</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-17</td>
+<td>FR-131</td>
+<td>—</td>
+<td>TC-175</td>
+<td>Todo</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Kiểm tra orphan:</strong> mọi FR trace về ≥ 1 BR; mọi BR in-scope có ≥ 1 FR. BR-18, BR-19 là Won't.</p>
+<hr />
+<h2 id="21-approval">21. Approval</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Name</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sponsor / PO</td>
+<td>Founder</td>
+<td></td>
+</tr>
+<tr>
+<td>BA</td>
+<td>Claude (hỗ trợ soạn thảo)</td>
+<td>2026-09-27</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="nguồn">Nguồn</h2>
+<ul>
+<li><a href="https://vstep.ftu.edu.vn/ky-thi-vstep/cau-truc-de-thi-vstep/cau-truc-de-thi-bac-3-5-cua-bai-thi-danh-gia-nang-luc-ngoai-ngu-tieng-anh-tu-bac-3-den-bac-5-theo-khung-nlnn-6-bac-dung-cho-viet-nam/">Cấu trúc đề thi VSTEP bậc 3–5 — Đại học Ngoại thương</a> · <a href="https://vstep.vnu.edu.vn/dinh-dang-de-thi-vstep-3-5/">Định dạng đề thi VSTEP.3-5 — ULIS-VNU</a> · <a href="https://vstep.edu.vn/quyet-dinh-ap-dung-de-thi-danh-gia-nang-luc-tieng-anh-bac-3-5">Quyết định áp dụng đề thi bậc 3–5</a></li>
+<li><a href="https://zim.vn/thang-diem-vstep">Thang điểm VSTEP — ZIM</a> · <a href="https://luyenthivstep.vn/kien-thuc-vstep/thang-diem-vstep">Thang điểm VSTEP — luyenthivstep.vn</a></li>
+<li><a href="https://vn.elsaspeak.com/le-phi-thi-vstep/">Lệ phí thi VSTEP 2026 — ELSA</a> · <a href="https://zim.vn/vstep-la-gi">Kỳ thi VSTEP là gì — ZIM</a> · <a href="https://vstepeasy.edu.vn/thi-vstep">Danh sách 38 đơn vị tổ chức thi VSTEP</a></li>
+<li><a href="https://luyenthivstep.vn/cam-nang-vstep/thong-tu-09-2026-tt-bgddt-quy-dinh-to-chuc-thi-nang-luc-ngoai-ngu-vstep-va-tieng-viet">Phân tích Thông tư 09/2026/TT-BGDĐT — luyenthivstep.vn</a></li>
+<li><a href="https://luyenthivstep.vn/cam-nang-vstep/cau-truc-speaking-vstep-b1-b2-c1">Cấu trúc Speaking VSTEP — luyenthivstep.vn</a> · <a href="https://prepedu.com/vi/blog/bai-thi-vstep-speaking">VSTEP Speaking — Prep</a></li>
+<li><a href="https://vsteppro.vn/">VSTEPPRO</a> · <a href="https://luyenthivstep.vn/">luyenthivstep.vn</a> · <a href="https://www.vstepup.vn/">VSTEPUP</a></li>
+<li><a href="https://github.com/fastapi/full-stack-fastapi-template">fastapi/full-stack-fastapi-template</a> · <a href="https://github.com/ionic-team/capacitor">Capacitor</a></li>
+</ul>
+</main>
+</div>
+<button class="theme-btn" type="button" id="themeBtn">◐ Giao diện</button>
+<script>
+(function(){
+  if (!matchMedia('(min-width: 901px)').matches) document.getElementById('tocDetails').removeAttribute('open');
+  var root=document.documentElement, key='prd-theme';
+  try { var t=localStorage.getItem(key); if(t) root.setAttribute('data-theme',t); } catch(e) {}
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var next=cur==='dark'?'light':'dark'; root.setAttribute('data-theme',next);
+    try { localStorage.setItem(key,next); } catch(e) {}
+  });
+})();
+</script>
+</body>
+</html>
