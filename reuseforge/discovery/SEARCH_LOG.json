@@ -1,0 +1,22 @@
+{
+  "method": "WebSearch (US) theo capability + git clone --depth 1 để ghim commit và đọc LICENSE/pyproject; PyPI JSON API cho gói",
+  "date": "2026-09-27",
+  "queries": [
+    "open source pronunciation assessment github phoneme level GOP wav2vec2 MIT license",
+    "faster-whisper word timestamps CPU int8 benchmark RAM small.en",
+    "react audio recorder IndexedDB offline upload resumable MediaRecorder iOS Safari library",
+    "VietQR payment webhook open source SePay PayOS python github",
+    "open source online exam test player React timer multiple choice listening reading JSON schema QTI github",
+    "Piper TTS license commercial use Kokoro-82M Apache 2.0 CPU English voices",
+    "Microsoft Presidio custom recognizer Vietnamese names phone numbers CPU spaCy small",
+    "Label Studio vs Argilla license Apache self-hosted",
+    "speech fluency metrics open source python",
+    "docker postgres backup age encryption S3 rotation",
+    "ELLIPSE corpus license / Write and Improve license",
+    "Azure pronunciation assessment pricing",
+    "SurveyJS MIT quiz timer",
+    "scipy isotonic_regression",
+    "Zalo OA ZNS python SDK"
+  ],
+  "limits": "GitHub search API không khả dụng trong phiên (chỉ repo-scoped) → khám phá dựa vào web search; có thể bỏ sót repo ít SEO."
+}

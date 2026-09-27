@@ -1,0 +1,91 @@
+{
+  "protocol": "reuseforge/1.0",
+  "project_id": "VSTEP-LAB",
+  "workflow_state": "AUDIT_COMPLETE",
+  "domain_profile": "edtech-exam-prep-vn",
+  "current_phase": "audit",
+  "current_task": "done",
+  "execution_mode": "undecided",
+  "inputs": [
+    {
+      "path": "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-09-27-vstep-lab-architecture-design.md"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "framing/PROJECT_BRIEF.md",
+      "sha256": "70b32d0e55ac4ca0474b02182843bc9ba69a1347ffbf17fc07f719662b694e5f"
+    },
+    {
+      "path": "framing/REQUIREMENTS.json",
+      "sha256": "bc75d528938e2b0eb67e053c6b6475903ab1020ad7086af26202d35650bcc16e"
+    },
+    {
+      "path": "framing/CONSTRAINTS.json",
+      "sha256": "5ee2e82cbb98fef5ee0499a5e3bc241098624c8b1004e496315b30c82f203c7c"
+    },
+    {
+      "path": "framing/CAPABILITY_GRAPH.json",
+      "sha256": "15a36ae361b91a428de62addd03f7165f6799e9960ad61916161f641339db1e2"
+    },
+    {
+      "path": "discovery/CANDIDATES.json",
+      "sha256": "ba6498ed5a97bf7b9eabc52c4599a017157027caab55f3bf502b68234f1607b2"
+    },
+    {
+      "path": "discovery/SEARCH_LOG.json",
+      "sha256": "d9cc5b8503dcc75c2084f8a2292ba131b0af727584f0b76d90e9dd575d4bc0f0"
+    },
+    {
+      "path": "discovery/DISCOVERY_REPORT.md",
+      "sha256": "a820d43720dfa6b35b8c2c361c64f0ad4af988e3a312f99f13d827a52ddf897c"
+    },
+    {
+      "path": "audit/CANDIDATE_AUDITS.json",
+      "sha256": "c44ebc749ae0a57bd7b840790790a4b69e2d25f0ea6695045ce5fc9aebfe87a3"
+    },
+    {
+      "path": "audit/AUDIT_REPORT.md",
+      "sha256": "a820d43720dfa6b35b8c2c361c64f0ad4af988e3a312f99f13d827a52ddf897c"
+    }
+  ],
+  "locked_decisions": [],
+  "open_questions": [
+    "TBD-04 speech provider",
+    "TBD-05 payment legal form",
+    "TBD-07 TTS rights",
+    "GPL-3.0 transitive deps acceptable server-side?",
+    "Speaking: self-host on bigger box vs paid API?"
+  ],
+  "blockers": [],
+  "approval": {
+    "id": "reuseforge:approval:VSTEP-LAB:A:001",
+    "gate": "A",
+    "approved": true,
+    "artifacts": [
+      {
+        "path": "framing/PROJECT_BRIEF.md",
+        "sha256": "70b32d0e55ac4ca0474b02182843bc9ba69a1347ffbf17fc07f719662b694e5f"
+      },
+      {
+        "path": "framing/REQUIREMENTS.json",
+        "sha256": "bc75d528938e2b0eb67e053c6b6475903ab1020ad7086af26202d35650bcc16e"
+      },
+      {
+        "path": "framing/CONSTRAINTS.json",
+        "sha256": "5ee2e82cbb98fef5ee0499a5e3bc241098624c8b1004e496315b30c82f203c7c"
+      },
+      {
+        "path": "framing/CAPABILITY_GRAPH.json",
+        "sha256": "15a36ae361b91a428de62addd03f7165f6799e9960ad61916161f641339db1e2"
+      }
+    ],
+    "evidence": "User selected 'Duyệt cả 14 (Recommended)' in chat, 2026-09-27"
+  },
+  "evidence_status": "SOURCE_VERIFIED",
+  "next_actor": "reuseforge-solution-architect",
+  "next_action": "Run spikes for CAP-001/003/004 then propose reuse decisions for Gate B"
+}

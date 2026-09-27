@@ -1,0 +1,53 @@
+{
+  "hard": [
+    {
+      "id": "CON-H01",
+      "kind": "runtime",
+      "text": "Backend Python ≥3.14 FastAPI; frontend React+Vite+TS+Tailwind+shadcn (template)"
+    },
+    {
+      "id": "CON-H02",
+      "kind": "resource",
+      "text": "VPS 2 vCPU/4 GB/30 GB, không GPU; model tự host phải chạy CPU và vừa RAM cùng app"
+    },
+    {
+      "id": "CON-H03",
+      "kind": "license",
+      "text": "Chỉ giấy phép cho phép SaaS thương mại đóng mã (MIT/BSD/Apache-2.0/MPL…); GPL/AGPL/NC/không giấy phép → LICENSE_REVIEW_REQUIRED"
+    },
+    {
+      "id": "CON-H04",
+      "kind": "provenance",
+      "text": "Không sao chép mã không giấy phép; không đề thi có bản quyền; không dataset cấm dùng thương mại"
+    },
+    {
+      "id": "CON-H05",
+      "kind": "data",
+      "text": "Dữ liệu lớp A (bài làm, giọng nói) chỉ gửi provider cam kết không huấn luyện; tuân thủ Nghị định 13/2023 về dữ liệu cá nhân"
+    },
+    {
+      "id": "CON-H06",
+      "kind": "interface",
+      "text": "Chỉ module ai_gateway được gọi SDK LLM/speech; module khác gọi qua service.py"
+    },
+    {
+      "id": "CON-H07",
+      "kind": "cost",
+      "text": "Chi phí biến đổi ≤ mức trong PRD F11"
+    }
+  ],
+  "preferences": [
+    {
+      "id": "CON-P01",
+      "text": "Ưu tiên thư viện nhỏ, bảo trì đều (release ≤12 tháng), có test"
+    },
+    {
+      "id": "CON-P02",
+      "text": "Ưu tiên nhúng được vào stack hiện có hơn là thêm dịch vụ riêng"
+    },
+    {
+      "id": "CON-P03",
+      "text": "Ưu tiên dịch vụ có giá theo lượt, không phí cố định cao"
+    }
+  ]
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "capability_id": "CAP-001",
+    "candidate": "SurveyJS Form Library",
+    "source_ref": "surveyjs/survey-library",
+    "pinned": "0f3a8da2af7a",
+    "license": "MIT",
+    "status": "SPIKE_REQUIRED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "JSON-driven, React, có maxTimeToFinish/maxTimeToFinishPage + startTimer/stopTimer. Cần spike: giữ đồng hồ khi tải lại (lưu timeSpent), audio phát 1 lần, giao diện 'thi máy'. Survey Creator là bản thương mại — không dùng."
+  },
+  {
+    "capability_id": "CAP-001",
+    "candidate": "qti-3-player",
+    "source_ref": "agencyenterprise/qti-3-player",
+    "pinned": "07d9a570a395",
+    "license": "MIT",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Chuẩn QTI 3 XML — nặng hơn nhu cầu; chưa rõ timer/resume; soạn đề bằng XML tốn công."
+  },
+  {
+    "capability_id": "CAP-002",
+    "candidate": "audio-recorder-polyfill",
+    "source_ref": "ai/audio-recorder-polyfill",
+    "pinned": "21642da54db8",
+    "license": "MIT",
+    "status": "REJECTED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Commit cuối 2024-09; iOS ≥14.3 đã có MediaRecorder gốc → polyfill không cần."
+  },
+  {
+    "capability_id": "CAP-002",
+    "candidate": "idb-keyval",
+    "source_ref": "jakearchibald/idb-keyval",
+    "pinned": "17a69a1165be",
+    "license": "Apache-2.0",
+    "status": "VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Lưu Blob ghi âm vào IndexedDB tới khi server xác nhận; nhỏ (<1 KB), bảo trì 2026-07. Phần ghi âm dùng MediaRecorder gốc (m4a/AAC trên Safari, webm/opus trên Chrome) — tự viết hook ~100 dòng."
+  },
+  {
+    "capability_id": "CAP-003",
+    "candidate": "faster-whisper",
+    "source_ref": "SYSTRAN/faster-whisper",
+    "pinned": "ed9a06cd89a9",
+    "license": "MIT (code+model Whisper MIT)",
+    "status": "SPIKE_REQUIRED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Có word timestamps. small int8 ~1 GB RAM; benchmark nguồn: 13 phút audio ≈2,5 phút trên 8 luồng Xeon → trên 2 vCPU ước ~10 phút cho ~12 phút audio Speaking ⇒ khó đạt p95 ≤120 s trên VPS Gold. Chỉ hợp nếu chạy máy riêng/tăng CPU. Phương án thay thế: API STT trả phí có cam kết no-training."
+  },
+  {
+    "capability_id": "CAP-003",
+    "candidate": "CrisperWhisper",
+    "source_ref": "nyrahealth/CrisperWhisper",
+    "pinned": "5e5ce6452762",
+    "license": "code MIT, weights Non-Commercial",
+    "status": "LICENSE_REVIEW_REQUIRED",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "findings": "README: 'The model weights are not MIT' — Nyra Health Non-Commercial Research License; dùng thương mại phải mua license."
+  },
+  {
+    "capability_id": "CAP-004",
+    "candidate": "OpenPronounce",
+    "source_ref": "Halleck45/OpenPronounce",
+    "pinned": "74bc17ea406e",
+    "license": "MIT (code); deps phonemizer + espeak-ng = GPL-3.0",
+    "status": "SPIKE_REQUIRED",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "findings": "Wav2Vec2 (facebook/wav2vec2-lv-60-espeak-cv-ft + wav2vec2-large-960h) + DTW, CPU được, có benchmark speechocean762. Rủi ro: (1) torch + 2 model large → RAM ≫ phần còn lại của VPS 4 GB; (2) cần câu tham chiếu — Speaking VSTEP là nói tự do → phải dùng transcript ASR làm tham chiếu, cần kiểm chứng; (3) phụ thuộc GPL-3.0 (dùng phía server, không phân phối — vẫn cần xem xét). Đang có sẵn bản clone trong scratchpad."
+  },
+  {
+    "capability_id": "CAP-004",
+    "candidate": "GOPT",
+    "source_ref": "YuanGongND/gopt",
+    "pinned": "bed909daf8ec",
+    "license": "BSD-3-Clause",
+    "status": "INCOMPATIBLE",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "findings": "Code nghiên cứu 2022, cần đặc trưng GOP từ Kaldi; không bảo trì từ 2023-02; tích hợp quá nặng cho solo founder."
+  },
+  {
+    "capability_id": "CAP-004",
+    "candidate": "PronunciationCoach",
+    "source_ref": "audiophrases/PronunciationCoach",
+    "pinned": "a29fb6e69f0e",
+    "license": "không có file LICENSE",
+    "status": "LICENSE_REVIEW_REQUIRED",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "findings": "Không có giấy phép → mặc định không được dùng."
+  },
+  {
+    "capability_id": "CAP-004",
+    "candidate": "Azure Speech Pronunciation Assessment",
+    "source_ref": "azure.microsoft.com/pricing/details/speech",
+    "pinned": "n/a",
+    "license": "dịch vụ trả phí",
+    "status": "PARTIALLY_VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Giá ≈ STT chuẩn (~1–1,32 USD/giờ audio theo nguồn thứ cấp) → ~12 phút ≈ 0,26 USD ≈ 6.500đ/bài: VƯỢT mức 4.000đ/bài (F11) nếu chấm toàn bộ audio; cần chỉ chấm phát âm trên mẫu (VD 2–3 phút). Hỗ trợ unscripted assessment. Cần đọc điều khoản dữ liệu (no-training)."
+  },
+  {
+    "capability_id": "CAP-005",
+    "candidate": "(tự viết trên word timestamps)",
+    "source_ref": "—",
+    "pinned": "—",
+    "license": "—",
+    "status": "VERIFIED",
+    "evidence_status": "ASSUMPTION",
+    "findings": "Không cần repo: WPM, số/độ dài khoảng ngừng (khoảng cách giữa word timestamps > 0,25 s), từ đệm (um/uh/er) tính từ output CAP-003. ~50 dòng."
+  },
+  {
+    "capability_id": "CAP-006",
+    "candidate": "Kokoro-82M",
+    "source_ref": "hexgrad/kokoro",
+    "pinned": "dfb907a02bba",
+    "license": "Apache-2.0 (weights Apache-2.0); dep misaki[en] → phonemizer-fork/espeakng-loader (GPL-3.0)",
+    "status": "PARTIALLY_VERIFIED",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "findings": "Chất lượng giọng Anh tốt, chạy CPU. Dùng offline để sinh sẵn audio đề (không chạy trên VPS) → rủi ro GPL chỉ ở máy build. Giọng Piper tiếng Anh phần lớn CC BY-NC-SA → loại."
+  },
+  {
+    "capability_id": "CAP-007",
+    "candidate": "Label Studio",
+    "source_ref": "HumanSignal/label-studio",
+    "pinned": "e2b352861769",
+    "license": "Apache-2.0",
+    "status": "PARTIALLY_VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Có rating/choices/textarea cho chấm theo tiêu chí; nặng (Django+Postgres) → chạy trên laptop Founder, import/export JSON ↔ human_label. So với trang /labeling tự dựng trong Task 14: tiết kiệm UI nhưng thêm bước đồng bộ."
+  },
+  {
+    "capability_id": "CAP-007",
+    "candidate": "Argilla",
+    "source_ref": "argilla-io/argilla",
+    "pinned": "5338519accb1",
+    "license": "Apache-2.0",
+    "status": "REJECTED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Commit cuối 2025-08, nguồn nói đã ngừng thêm tính năng."
+  },
+  {
+    "capability_id": "CAP-008",
+    "candidate": "SciPy isotonic_regression",
+    "source_ref": "scipy.optimize.isotonic_regression (SciPy ≥1.12)",
+    "pinned": "n/a",
+    "license": "BSD-3-Clause",
+    "status": "VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "PAVA có sẵn, không cần scikit-learn (thỏa ràng buộc Task 15). QWK/MAE/5-fold tự viết ~40 dòng. Lưu ý: SciPy ~40 MB wheel — cân nhắc so với tự viết PAV ~20 dòng như plan."
+  },
+  {
+    "capability_id": "CAP-009",
+    "candidate": "Microsoft Presidio",
+    "source_ref": "microsoft/presidio",
+    "pinned": "4ef07bdbd9a4",
+    "license": "MIT",
+    "status": "PARTIALLY_VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Khung recognizer + anonymizer; NER mặc định cần spaCy (en_core_web_lg ~560 MB) — dùng spaCy nhỏ hoặc chỉ regex recognizer. Tên Việt trong bài tiếng Anh cần recognizer riêng. Hiện plan đã có: model LLM trả pii_spans + regex dự phòng → Presidio chỉ đáng dùng nếu eval recall thấp."
+  },
+  {
+    "capability_id": "CAP-009",
+    "candidate": "vipii",
+    "source_ref": "pypi.org/project/vipii (hmtrii/vipii)",
+    "pinned": "0.2.1",
+    "license": "MIT",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Recognizer Presidio cho PII tiếng Việt (CCCD, SĐT…); v0.2.1, rất mới — cần kiểm tra code/test trước khi dùng; bài của mình là tiếng Anh."
+  },
+  {
+    "capability_id": "CAP-010",
+    "candidate": "agentpay-vn",
+    "source_ref": "phuocdu/agentpay-vn",
+    "pinned": "83cc2f8058c8",
+    "license": "MIT",
+    "status": "PARTIALLY_VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Luồng VietQR + đối soát qua webhook SePay + idempotency + chữ ký HMAC. Trạng thái 'early access', thiết kế cho AI agent → dùng làm tham khảo luồng/ mã QR EMVCo, không phụ thuộc trực tiếp."
+  },
+  {
+    "capability_id": "CAP-010",
+    "candidate": "payment-modules",
+    "source_ref": "phanhaitrieu37/payment-modules",
+    "pinned": "0268af06d4f8",
+    "license": "không có file LICENSE",
+    "status": "LICENSE_REVIEW_REQUIRED",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "findings": "Kiến trúc ports&adapters + SePay khớp nhu cầu nhưng không có giấy phép."
+  },
+  {
+    "capability_id": "CAP-010",
+    "candidate": "SePay (dịch vụ)",
+    "source_ref": "sepay.vn",
+    "pinned": "n/a",
+    "license": "dịch vụ",
+    "status": "PARTIALLY_VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Đọc biến động số dư → webhook; phù hợp cá nhân/hộ KD (TBD-05 cần xác nhận pháp lý + phí)."
+  },
+  {
+    "capability_id": "CAP-011",
+    "candidate": "(tự viết — khái niệm từ phân tích ielts-cd)",
+    "source_ref": "docs/architecture/REFERENCE_ielts-cd_analysis.md",
+    "pinned": "—",
+    "license": "reference-only",
+    "status": "VERIFIED",
+    "evidence_status": "USER_PROVIDED",
+    "findings": "Không tìm thấy repo phù hợp; plan đã có ý tưởng validator self-test, answer-in-passage check (chỉ tham khảo khái niệm)."
+  },
+  {
+    "capability_id": "CAP-012",
+    "candidate": "zalo-python-sdk",
+    "source_ref": "pypi.org/project/zalo-python-sdk",
+    "pinned": "1.17",
+    "license": "không khai báo",
+    "status": "LICENSE_REVIEW_REQUIRED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Không rõ giấy phép; ZNS chỉ là REST + template duyệt trước → tự gọi bằng httpx đơn giản hơn. Email dùng tiện ích template sẵn có."
+  },
+  {
+    "capability_id": "CAP-013",
+    "candidate": "pg-s3-backup",
+    "source_ref": "konopi79/pg-s3-backup",
+    "pinned": "97031d04b13e",
+    "license": "MIT",
+    "status": "PARTIALLY_VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "pg_dump mã hóa bằng age public key, retention bằng lifecycle bucket — đúng thiết kế an toàn; repo rất mới (2026-09), ít người dùng → đọc code trước khi dùng."
+  },
+  {
+    "capability_id": "CAP-013",
+    "candidate": "postgres-backup-s3",
+    "source_ref": "eeshugerman/postgres-backup-s3",
+    "pinned": "ecb08ff41ca9",
+    "license": "MIT",
+    "status": "PARTIALLY_VERIFIED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Phổ biến, mã hóa bằng passphrase GPG (không phải age), commit cuối 2024-01."
+  },
+  {
+    "capability_id": "CAP-013",
+    "candidate": "docker-postgres-backup-age",
+    "source_ref": "vdo/docker-postgres-backup-age",
+    "pinned": "e04ee759fd2e",
+    "license": "không có file LICENSE",
+    "status": "LICENSE_REVIEW_REQUIRED",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "findings": "Không giấy phép, commit cuối 2020."
+  },
+  {
+    "capability_id": "CAP-014",
+    "candidate": "ELLIPSE Corpus",
+    "source_ref": "scrosseye/ELLIPSE-Corpus",
+    "pinned": "dc3b8f0b3b43",
+    "license": "CC BY-NC-SA 4.0",
+    "status": "LICENSE_REVIEW_REQUIRED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Cấm dùng thương mại. Chỉ có thể tham khảo phương pháp; không đưa vào hiệu chỉnh sản phẩm."
+  },
+  {
+    "capability_id": "CAP-014",
+    "candidate": "Write & Improve Corpus 2024",
+    "source_ref": "researchdatasets.cambridge.org/datasets/write-and-improve-corpus-2024",
+    "pinned": "n/a",
+    "license": "non-commercial research only",
+    "status": "REJECTED",
+    "evidence_status": "SOURCE_VERIFIED",
+    "findings": "Giấy phép loại trừ sản phẩm bán ra."
+  }
+]

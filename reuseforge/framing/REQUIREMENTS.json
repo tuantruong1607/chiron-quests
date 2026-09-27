@@ -1,0 +1,158 @@
+{
+  "functional": [
+    {
+      "id": "RQ-F01",
+      "text": "Làm bài Nghe/Đọc trắc nghiệm có giờ, cấu trúc đề lấy từ metadata có version, đồng hồ không reset khi tải lại, autosave ≤5 s",
+      "source": "FR-020,021,024,025,026,027",
+      "capabilities": [
+        "CAP-001"
+      ]
+    },
+    {
+      "id": "RQ-F02",
+      "text": "Ghi âm Speaking trên mobile theo từng phần, tự bắt đầu/dừng theo giờ, lưu local tới khi server xác nhận",
+      "source": "FR-023,027, AC-F3-2, AC-F3-4",
+      "capabilities": [
+        "CAP-002"
+      ]
+    },
+    {
+      "id": "RQ-F03",
+      "text": "Chuyển audio tiếng Anh (giọng người Việt) thành transcript có mốc thời gian từng từ",
+      "source": "FR-041,043",
+      "capabilities": [
+        "CAP-003"
+      ]
+    },
+    {
+      "id": "RQ-F04",
+      "text": "Đánh giá phát âm từ audio (mức từ/âm vị), không suy từ transcript",
+      "source": "FR-042,044",
+      "capabilities": [
+        "CAP-004"
+      ]
+    },
+    {
+      "id": "RQ-F05",
+      "text": "Số đo độ trôi chảy: tốc độ nói, khoảng ngừng, từ đệm",
+      "source": "FR-043",
+      "capabilities": [
+        "CAP-005"
+      ]
+    },
+    {
+      "id": "RQ-F06",
+      "text": "Giọng đọc câu hỏi và phát âm mẫu, được dùng thương mại",
+      "source": "FR-023,044, TBD-07",
+      "capabilities": [
+        "CAP-006"
+      ]
+    },
+    {
+      "id": "RQ-F07",
+      "text": "Quy trình chấm chuẩn của con người cho bài viết (điểm từng tiêu chí, đúng/sai từng nhận xét AI)",
+      "source": "spec §7, plan Task 14",
+      "capabilities": [
+        "CAP-007"
+      ]
+    },
+    {
+      "id": "RQ-F08",
+      "text": "Hiệu chỉnh điểm (isotonic/tuyến tính, 5-fold) và chỉ số đồng thuận (MAE, QWK)",
+      "source": "spec §7, plan Task 15",
+      "capabilities": [
+        "CAP-008"
+      ]
+    },
+    {
+      "id": "RQ-F09",
+      "text": "Phát hiện thông tin cá nhân trong bài tiếng Anh của người Việt (tên Việt, địa chỉ, SĐT, CCCD)",
+      "source": "spec §5.3",
+      "capabilities": [
+        "CAP-009"
+      ]
+    },
+    {
+      "id": "RQ-F10",
+      "text": "Thanh toán VietQR, mã đơn duy nhất, xác minh chuyển khoản/webhook idempotent, audit log",
+      "source": "FR-101,102, RULE-15",
+      "capabilities": [
+        "CAP-010"
+      ]
+    },
+    {
+      "id": "RQ-F11",
+      "text": "Soạn đề + kiểm tra tự động (đáp án có trong bài đọc/transcript, số câu, thời lượng)",
+      "source": "F10",
+      "capabilities": [
+        "CAP-011"
+      ]
+    },
+    {
+      "id": "RQ-F12",
+      "text": "Nhắc học qua email (Zalo OA sau)",
+      "source": "F9 (R1.1)",
+      "capabilities": [
+        "CAP-012"
+      ]
+    }
+  ],
+  "non_functional": [
+    {
+      "id": "RQ-N01",
+      "text": "Report Speaking ≤120 s p95",
+      "source": "AC-F5-1",
+      "capabilities": [
+        "CAP-003",
+        "CAP-004",
+        "CAP-005"
+      ]
+    },
+    {
+      "id": "RQ-N02",
+      "text": "Chi phí AI+speech ≤4.000đ/bài Speaking đủ 3 phần",
+      "source": "F11 cơ sở giá",
+      "capabilities": [
+        "CAP-003",
+        "CAP-004"
+      ]
+    },
+    {
+      "id": "RQ-N03",
+      "text": "Hoạt động trên trình duyệt mobile (iOS Safari, Android Chrome)",
+      "source": "PRD §7.2",
+      "capabilities": [
+        "CAP-001",
+        "CAP-002"
+      ]
+    }
+  ],
+  "operational": [
+    {
+      "id": "RQ-O01",
+      "text": "Backup Postgres mã hóa, giữ 7 ngày + 4 tuần; cảnh báo đĩa",
+      "source": "plan Task 11",
+      "capabilities": [
+        "CAP-013"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "id": "RQ-V01",
+      "text": "Mỗi ứng viên được kiểm toán giấy phép + runtime trước khi chọn",
+      "source": "reuseforge evidence policy",
+      "capabilities": []
+    }
+  ],
+  "domain_specific": [
+    {
+      "id": "RQ-D01",
+      "text": "Dữ liệu dùng hiệu chỉnh phải có quyền dùng thương mại",
+      "source": "spec §7",
+      "capabilities": [
+        "CAP-014"
+      ]
+    }
+  ]
+}

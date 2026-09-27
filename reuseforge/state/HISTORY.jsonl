@@ -1,0 +1,5 @@
+{"from": "FRAMING", "to": "FRAMED", "reason": "Gate A approved", "approval": "reuseforge:approval:VSTEP-LAB:A:001"}
+{"from": "FRAMED", "to": "DISCOVERY", "reason": "start discovery"}
+{"from": "DISCOVERY", "to": "DISCOVERY_COMPLETE"}
+{"from": "DISCOVERY_COMPLETE", "to": "AUDITING"}
+{"from": "AUDITING", "to": "AUDIT_COMPLETE"}

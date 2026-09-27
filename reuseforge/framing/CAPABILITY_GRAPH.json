@@ -1,0 +1,312 @@
+{
+  "protocol": "reuseforge/1.0",
+  "project_id": "VSTEP-LAB",
+  "capabilities": [
+    {
+      "capability_id": "CAP-001",
+      "name": "Timed MCQ exam player",
+      "purpose": "Làm bài Nghe/Đọc có giờ theo metadata đề",
+      "priority": "required",
+      "inputs": [
+        "exam JSON (phần, câu, audio, thời gian)"
+      ],
+      "outputs": [
+        "câu trả lời, thời gian còn lại"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "React/TS",
+        "audio phát 1 lần, tải trước",
+        "mobile"
+      ],
+      "acceptance_tests": [
+        "Tải lại trang ở phút 20 → đồng hồ tiếp tục phút 20",
+        "Mất mạng giữa bài Nghe → audio phát tiếp, đáp án lưu local",
+        "Đổi số câu trong JSON không cần sửa UI"
+      ],
+      "reuse_priority": "high"
+    },
+    {
+      "capability_id": "CAP-002",
+      "name": "Resilient browser audio recording",
+      "purpose": "Ghi âm từng phần Speaking, tự dừng theo giờ, upload lại khi có mạng",
+      "priority": "required",
+      "inputs": [
+        "micro trình duyệt",
+        "thời lượng phần"
+      ],
+      "outputs": [
+        "file audio (webm/opus hoặc m4a) đã upload"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "iOS Safari + Android Chrome",
+        "lưu IndexedDB tới khi server xác nhận"
+      ],
+      "acceptance_tests": [
+        "Ghi xong Part 1, tắt mạng, bật lại → tự upload, không ghi lại",
+        "Hết giờ Part 2 → ghi tự dừng"
+      ],
+      "reuse_priority": "high"
+    },
+    {
+      "capability_id": "CAP-003",
+      "name": "English ASR with word timestamps",
+      "purpose": "Transcript từng phần có mốc thời gian từng từ",
+      "priority": "required",
+      "inputs": [
+        "audio 1–5 phút"
+      ],
+      "outputs": [
+        "transcript + word timestamps + confidence"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "CON-H02 hoặc API trả phí",
+        "CON-H05"
+      ],
+      "acceptance_tests": [
+        "WER ≤15% trên 20 mẫu giọng người Việt do Founder ghi",
+        "≤30 s cho 3 phút audio"
+      ],
+      "reuse_priority": "high"
+    },
+    {
+      "capability_id": "CAP-004",
+      "name": "Pronunciation assessment",
+      "purpose": "Điểm phát âm mức từ/âm vị từ audio",
+      "priority": "required",
+      "inputs": [
+        "audio",
+        "transcript/đoạn tham chiếu"
+      ],
+      "outputs": [
+        "điểm từng từ, danh sách từ phát âm sai"
+      ],
+      "dependencies": [
+        "CAP-003"
+      ],
+      "hard_constraints": [
+        "không suy từ transcript (FR-042)",
+        "CON-H02 hoặc API"
+      ],
+      "acceptance_tests": [
+        "Từ đọc sai rõ ràng bị đánh dấu ở ≥80% trong 20 mẫu gán nhãn",
+        "Provider lỗi → 'chưa đánh giá được'"
+      ],
+      "reuse_priority": "high"
+    },
+    {
+      "capability_id": "CAP-005",
+      "name": "Fluency metrics",
+      "purpose": "Tốc độ nói, khoảng ngừng, từ đệm",
+      "priority": "preferred",
+      "inputs": [
+        "audio",
+        "word timestamps"
+      ],
+      "outputs": [
+        "WPM, số/độ dài khoảng ngừng, số từ đệm"
+      ],
+      "dependencies": [
+        "CAP-003"
+      ],
+      "hard_constraints": [
+        "CPU"
+      ],
+      "acceptance_tests": [
+        "Chênh ≤10% so với đo tay trên 10 mẫu"
+      ],
+      "reuse_priority": "medium"
+    },
+    {
+      "capability_id": "CAP-006",
+      "name": "Commercial-use TTS",
+      "purpose": "Đọc câu hỏi Speaking/Nghe và phát âm mẫu",
+      "priority": "preferred",
+      "inputs": [
+        "văn bản tiếng Anh"
+      ],
+      "outputs": [
+        "audio"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "quyền thương mại rõ (TBD-07)"
+      ],
+      "acceptance_tests": [
+        "Giấy phép/điều khoản cho phép dùng thương mại, có bằng chứng",
+        "Nghe tự nhiên theo đánh giá Founder trên 10 câu"
+      ],
+      "reuse_priority": "medium"
+    },
+    {
+      "capability_id": "CAP-007",
+      "name": "Essay annotation workflow",
+      "purpose": "Founder chấm chuẩn bài viết theo tiêu chí + đúng/sai từng nhận xét AI",
+      "priority": "preferred",
+      "inputs": [
+        "bài đã ẩn danh + kết quả AI"
+      ],
+      "outputs": [
+        "human_label"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "dữ liệu ở lại VPS",
+        "tích hợp Postgres hoặc import/export JSON"
+      ],
+      "acceptance_tests": [
+        "Chấm 1 bài ≤3 phút trên laptop",
+        "Xuất được sang bảng human_label"
+      ],
+      "reuse_priority": "medium"
+    },
+    {
+      "capability_id": "CAP-008",
+      "name": "Score calibration & agreement metrics",
+      "purpose": "Isotonic/tuyến tính + 5-fold CV, MAE/QWK",
+      "priority": "optional",
+      "inputs": [
+        "cặp (điểm AI thô, điểm người)"
+      ],
+      "outputs": [
+        "tham số hiệu chỉnh, chỉ số"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "không thêm scikit-learn vào image (plan Task 15)"
+      ],
+      "acceptance_tests": [
+        "Sửa được lệch hằng số (MAE <0,1 trên dữ liệu giả)"
+      ],
+      "reuse_priority": "low"
+    },
+    {
+      "capability_id": "CAP-009",
+      "name": "PII detection for learner English text",
+      "purpose": "Phát hiện tên Việt, địa chỉ, SĐT, CCCD trong bài tiếng Anh",
+      "priority": "preferred",
+      "inputs": [
+        "văn bản"
+      ],
+      "outputs": [
+        "danh sách span PII"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "CPU, ≤300 MB RAM",
+        "không gửi ra ngoài ngoài provider lớp A"
+      ],
+      "acceptance_tests": [
+        "Recall ≥90% trên 30 câu mẫu có tên Việt/SĐT/CCCD"
+      ],
+      "reuse_priority": "medium"
+    },
+    {
+      "capability_id": "CAP-010",
+      "name": "VietQR payment & transfer verification",
+      "purpose": "Tạo QR theo đơn, xác minh chuyển khoản, idempotent",
+      "priority": "required",
+      "inputs": [
+        "đơn hàng (mã, số tiền)"
+      ],
+      "outputs": [
+        "trạng thái đã thanh toán + audit log"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "cá nhân/hộ kinh doanh dùng được (TBD-05)",
+        "webhook có chữ ký"
+      ],
+      "acceptance_tests": [
+        "Webhook lặp không kích hoạt gói 2 lần",
+        "QR quét được bằng app ngân hàng VN"
+      ],
+      "reuse_priority": "high"
+    },
+    {
+      "capability_id": "CAP-011",
+      "name": "Exam content validation",
+      "purpose": "Kiểm tra đề tự động (đáp án có bằng chứng trong bài đọc/transcript, số câu, độ dài)",
+      "priority": "preferred",
+      "inputs": [
+        "đề JSON"
+      ],
+      "outputs": [
+        "báo cáo lỗi"
+      ],
+      "dependencies": [
+        "CAP-001"
+      ],
+      "hard_constraints": [
+        "không dùng đề có bản quyền"
+      ],
+      "acceptance_tests": [
+        "Đề thiếu bằng chứng đáp án bị báo lỗi"
+      ],
+      "reuse_priority": "low"
+    },
+    {
+      "capability_id": "CAP-012",
+      "name": "Study reminders",
+      "purpose": "Nhắc học email (Zalo OA sau)",
+      "priority": "optional",
+      "inputs": [
+        "lịch đợt thi, người dùng"
+      ],
+      "outputs": [
+        "email/Zalo"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "R1.1"
+      ],
+      "acceptance_tests": [
+        "Gửi đúng giờ VN, có hủy đăng ký"
+      ],
+      "reuse_priority": "low"
+    },
+    {
+      "capability_id": "CAP-013",
+      "name": "VPS backup & hardening",
+      "purpose": "pg_dump mã hóa + xoay vòng, harden SSH/ufw, cảnh báo đĩa",
+      "priority": "required",
+      "inputs": [
+        "Postgres, VPS"
+      ],
+      "outputs": [
+        "bản backup ở bucket ngoài, cảnh báo"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "docker compose",
+        "age/GPG"
+      ],
+      "acceptance_tests": [
+        "Khôi phục được vào DB tạm, số bảng khớp"
+      ],
+      "reuse_priority": "medium"
+    },
+    {
+      "capability_id": "CAP-014",
+      "name": "Scored learner-writing datasets",
+      "purpose": "Dữ liệu bài viết có điểm để thử hiệu chỉnh/eval",
+      "priority": "optional",
+      "inputs": [
+        "—"
+      ],
+      "outputs": [
+        "dataset + giấy phép"
+      ],
+      "dependencies": [],
+      "hard_constraints": [
+        "CON-H03, CON-H04"
+      ],
+      "acceptance_tests": [
+        "Giấy phép cho phép dùng thương mại hoặc eval nội bộ có bằng chứng"
+      ],
+      "reuse_priority": "medium"
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "CAP-001": [
+    {
+      "name": "SurveyJS Form Library",
+      "source_type": "github",
+      "source_ref": "surveyjs/survey-library",
+      "version": "0f3a8da2af7a",
+      "license_visible": "MIT"
+    },
+    {
+      "name": "qti-3-player",
+      "source_type": "github",
+      "source_ref": "agencyenterprise/qti-3-player",
+      "version": "07d9a570a395",
+      "license_visible": "MIT"
+    }
+  ],
+  "CAP-002": [
+    {
+      "name": "audio-recorder-polyfill",
+      "source_type": "github",
+      "source_ref": "ai/audio-recorder-polyfill",
+      "version": "21642da54db8",
+      "license_visible": "MIT"
+    },
+    {
+      "name": "idb-keyval",
+      "source_type": "github",
+      "source_ref": "jakearchibald/idb-keyval",
+      "version": "17a69a1165be",
+      "license_visible": "Apache-2.0"
+    }
+  ],
+  "CAP-003": [
+    {
+      "name": "faster-whisper",
+      "source_type": "github",
+      "source_ref": "SYSTRAN/faster-whisper",
+      "version": "ed9a06cd89a9",
+      "license_visible": "MIT (code+model Whisper MIT)"
+    },
+    {
+      "name": "CrisperWhisper",
+      "source_type": "github",
+      "source_ref": "nyrahealth/CrisperWhisper",
+      "version": "5e5ce6452762",
+      "license_visible": "code MIT, weights Non-Commercial"
+    }
+  ],
+  "CAP-004": [
+    {
+      "name": "OpenPronounce",
+      "source_type": "github",
+      "source_ref": "Halleck45/OpenPronounce",
+      "version": "74bc17ea406e",
+      "license_visible": "MIT (code); deps phonemizer + espeak-ng = GPL-3.0"
+    },
+    {
+      "name": "GOPT",
+      "source_type": "github",
+      "source_ref": "YuanGongND/gopt",
+      "version": "bed909daf8ec",
+      "license_visible": "BSD-3-Clause"
+    },
+    {
+      "name": "PronunciationCoach",
+      "source_type": "github",
+      "source_ref": "audiophrases/PronunciationCoach",
+      "version": "a29fb6e69f0e",
+      "license_visible": "không có file LICENSE"
+    },
+    {
+      "name": "Azure Speech Pronunciation Assessment",
+      "source_type": "service",
+      "source_ref": "azure.microsoft.com/pricing/details/speech",
+      "version": "n/a",
+      "license_visible": "dịch vụ trả phí"
+    }
+  ],
+  "CAP-005": [
+    {
+      "name": "(tự viết trên word timestamps)",
+      "source_type": "pattern",
+      "source_ref": "—",
+      "version": "—",
+      "license_visible": "—"
+    }
+  ],
+  "CAP-006": [
+    {
+      "name": "Kokoro-82M",
+      "source_type": "github",
+      "source_ref": "hexgrad/kokoro",
+      "version": "dfb907a02bba",
+      "license_visible": "Apache-2.0 (weights Apache-2.0); dep misaki[en] → phonemizer-fork/espeakng-loader (GPL-3.0)"
+    }
+  ],
+  "CAP-007": [
+    {
+      "name": "Label Studio",
+      "source_type": "github",
+      "source_ref": "HumanSignal/label-studio",
+      "version": "e2b352861769",
+      "license_visible": "Apache-2.0"
+    },
+    {
+      "name": "Argilla",
+      "source_type": "github",
+      "source_ref": "argilla-io/argilla",
+      "version": "5338519accb1",
+      "license_visible": "Apache-2.0"
+    }
+  ],
+  "CAP-008": [
+    {
+      "name": "SciPy isotonic_regression",
+      "source_type": "library",
+      "source_ref": "scipy.optimize.isotonic_regression (SciPy ≥1.12)",
+      "version": "n/a",
+      "license_visible": "BSD-3-Clause"
+    }
+  ],
+  "CAP-009": [
+    {
+      "name": "Microsoft Presidio",
+      "source_type": "github",
+      "source_ref": "microsoft/presidio",
+      "version": "4ef07bdbd9a4",
+      "license_visible": "MIT"
+    },
+    {
+      "name": "vipii",
+      "source_type": "pypi",
+      "source_ref": "pypi.org/project/vipii (hmtrii/vipii)",
+      "version": "0.2.1",
+      "license_visible": "MIT"
+    }
+  ],
+  "CAP-010": [
+    {
+      "name": "agentpay-vn",
+      "source_type": "github",
+      "source_ref": "phuocdu/agentpay-vn",
+      "version": "83cc2f8058c8",
+      "license_visible": "MIT"
+    },
+    {
+      "name": "payment-modules",
+      "source_type": "github",
+      "source_ref": "phanhaitrieu37/payment-modules",
+      "version": "0268af06d4f8",
+      "license_visible": "không có file LICENSE"
+    },
+    {
+      "name": "SePay (dịch vụ)",
+      "source_type": "service",
+      "source_ref": "sepay.vn",
+      "version": "n/a",
+      "license_visible": "dịch vụ"
+    }
+  ],
+  "CAP-011": [
+    {
+      "name": "(tự viết — khái niệm từ phân tích ielts-cd)",
+      "source_type": "pattern",
+      "source_ref": "docs/architecture/REFERENCE_ielts-cd_analysis.md",
+      "version": "—",
+      "license_visible": "reference-only"
+    }
+  ],
+  "CAP-012": [
+    {
+      "name": "zalo-python-sdk",
+      "source_type": "pypi",
+      "source_ref": "pypi.org/project/zalo-python-sdk",
+      "version": "1.17",
+      "license_visible": "không khai báo"
+    }
+  ],
+  "CAP-013": [
+    {
+      "name": "pg-s3-backup",
+      "source_type": "github",
+      "source_ref": "konopi79/pg-s3-backup",
+      "version": "97031d04b13e",
+      "license_visible": "MIT"
+    },
+    {
+      "name": "postgres-backup-s3",
+      "source_type": "github",
+      "source_ref": "eeshugerman/postgres-backup-s3",
+      "version": "ecb08ff41ca9",
+      "license_visible": "MIT"
+    },
+    {
+      "name": "docker-postgres-backup-age",
+      "source_type": "github",
+      "source_ref": "vdo/docker-postgres-backup-age",
+      "version": "e04ee759fd2e",
+      "license_visible": "không có file LICENSE"
+    }
+  ],
+  "CAP-014": [
+    {
+      "name": "ELLIPSE Corpus",
+      "source_type": "github",
+      "source_ref": "scrosseye/ELLIPSE-Corpus",
+      "version": "dc3b8f0b3b43",
+      "license_visible": "CC BY-NC-SA 4.0"
+    },
+    {
+      "name": "Write & Improve Corpus 2024",
+      "source_type": "dataset",
+      "source_ref": "researchdatasets.cambridge.org/datasets/write-and-improve-corpus-2024",
+      "version": "n/a",
+      "license_visible": "non-commercial research only"
+    }
+  ]
+}
