@@ -1,0 +1,4 @@
+# Default calibration for writing-v1: no correction applied yet (Task 15
+# will replace this with a fitted linear/isotonic curve once real grading
+# data is available).
+method: identity

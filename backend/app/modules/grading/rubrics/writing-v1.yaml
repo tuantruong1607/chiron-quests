@@ -1,0 +1,65 @@
+# VSTEP Writing rubric v1 - draft. Descriptors are written from secondary
+# sources (public VSTEP band descriptors / teaching materials), NOT the
+# official VSTEP examiner rubric, and must be checked against it later.
+version: writing-v1
+source_note: "cần đối chiếu tiêu chí chính thức (PRD TBD-06)"
+
+tasks:
+  task1:
+    description: "Task 1 - viết thư/email theo tình huống cho sẵn (khoảng 120 từ)."
+    criteria:
+      - key: task_fulfilment
+        levels:
+          "0-4": "Không đáp ứng yêu cầu đề bài, bỏ sót nhiều nội dung chính, độ dài quá ngắn so với ~120 từ."
+          "5-6": "Đáp ứng yêu cầu ở mức cơ bản, còn thiếu hoặc trình bày sơ sài một số nội dung."
+          "7-8": "Đáp ứng đầy đủ các yêu cầu của đề bài, ý rõ ràng, độ dài phù hợp (~120 từ)."
+          "9-10": "Đáp ứng xuất sắc yêu cầu đề bài, triển khai nội dung đầy đủ và thuyết phục."
+      - key: organization
+        levels:
+          "0-4": "Bố cục thư lộn xộn, thiếu phần chào hỏi/kết thúc, khó theo dõi."
+          "5-6": "Có cấu trúc thư cơ bản (chào hỏi - nội dung - kết thúc) nhưng liên kết ý còn yếu."
+          "7-8": "Bố cục thư rõ ràng, các đoạn liên kết mạch lạc, dùng từ nối hợp lý."
+          "9-10": "Bố cục chặt chẽ, văn phong phù hợp thể loại thư, liên kết ý tự nhiên."
+      - key: vocabulary
+        levels:
+          "0-4": "Từ vựng rất hạn chế, dùng sai nhiều khiến người đọc khó hiểu."
+          "5-6": "Từ vựng ở mức cơ bản, còn lặp từ hoặc dùng chưa thật chính xác."
+          "7-8": "Từ vựng đa dạng, phù hợp văn cảnh giao tiếp, ít lỗi dùng từ."
+          "9-10": "Từ vựng phong phú, chính xác, tự nhiên như người viết thành thạo."
+      - key: grammar
+        levels:
+          "0-4": "Lỗi ngữ pháp dày đặc, ảnh hưởng nghiêm trọng đến việc hiểu nội dung."
+          "5-6": "Còn nhiều lỗi ngữ pháp cơ bản nhưng không cản trở việc hiểu nghĩa."
+          "7-8": "Ít lỗi ngữ pháp, sử dụng đa dạng cấu trúc câu phù hợp."
+          "9-10": "Hầu như không có lỗi ngữ pháp, cấu trúc câu đa dạng và chính xác."
+
+  task2:
+    description: >-
+      Task 2 - viết bài luận trình bày quan điểm (khoảng 250 từ); theo PRD,
+      Task 2 chiếm 2/3 điểm phần Writing (thông tin để tham khảo, không xử
+      lý trong module này).
+    criteria:
+      - key: task_fulfilment
+        levels:
+          "0-4": "Không trả lời đúng chủ đề đề bài, lập luận thiếu hoặc lạc đề, độ dài quá ngắn so với ~250 từ."
+          "5-6": "Trả lời chủ đề ở mức cơ bản, lập luận còn sơ sài hoặc thiếu ví dụ minh chứng."
+          "7-8": "Trả lời đầy đủ chủ đề, có lập luận và ví dụ rõ ràng, độ dài phù hợp (~250 từ)."
+          "9-10": "Trả lời chủ đề xuất sắc, lập luận sâu sắc, ví dụ thuyết phục, thể hiện quan điểm rõ ràng."
+      - key: organization
+        levels:
+          "0-4": "Bố cục bài luận lộn xộn, không có mở-thân-kết bài rõ ràng."
+          "5-6": "Có bố cục mở-thân-kết cơ bản nhưng liên kết giữa các đoạn còn yếu."
+          "7-8": "Bố cục rõ ràng theo mở-thân-kết, các đoạn liên kết mạch lạc, dùng từ nối hợp lý."
+          "9-10": "Bố cục chặt chẽ, mạch lạc, mỗi đoạn có luận điểm rõ, liên kết ý tự nhiên."
+      - key: vocabulary
+        levels:
+          "0-4": "Từ vựng rất hạn chế, dùng sai nhiều, gây khó hiểu cho người đọc."
+          "5-6": "Từ vựng cơ bản, còn lặp từ hoặc dùng chưa chính xác trong một số chỗ."
+          "7-8": "Từ vựng đa dạng, phù hợp học thuật/nghị luận, ít lỗi dùng từ."
+          "9-10": "Từ vựng phong phú, chính xác, sử dụng linh hoạt các cách diễn đạt học thuật."
+      - key: grammar
+        levels:
+          "0-4": "Lỗi ngữ pháp dày đặc, ảnh hưởng nghiêm trọng đến việc hiểu lập luận."
+          "5-6": "Còn nhiều lỗi ngữ pháp cơ bản nhưng không cản trở việc hiểu nội dung chính."
+          "7-8": "Ít lỗi ngữ pháp, sử dụng đa dạng cấu trúc câu phức."
+          "9-10": "Hầu như không có lỗi ngữ pháp, cấu trúc câu đa dạng, chính xác và tự nhiên."

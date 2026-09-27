@@ -12,20 +12,46 @@ import anyio
 
 from app.modules.ai_gateway.types import AIError, ErrorKind, RawResponse
 
-#: Default response when `responses` is None. Shaped for the `writing_grade`
-#: task (Task 5 will align its Pydantic schema to this shape). Kept as one
-#: constant so the shape only needs updating in one place.
+#: Default response when `responses` is None. Shaped to validate against
+#: Task 5's `app.modules.grading.schema.WritingGradeOutput` (criteria as a
+#: list of {key, score, comment_vi}; issues as {quote, explanation_vi,
+#: suggestion}). Kept as one constant so the shape only needs updating in
+#: one place.
 DEFAULT_WRITING_GRADE_RESPONSE = json.dumps(
     {
-        "criteria": {
-            "task_fulfilment": 6.0,
-            "organization": 6.5,
-            "vocabulary": 6.0,
-            "grammar": 5.5,
-        },
+        "criteria": [
+            {
+                "key": "task_fulfilment",
+                "score": 6.0,
+                "comment_vi": "Đáp ứng yêu cầu đề bài ở mức trung bình.",
+            },
+            {
+                "key": "organization",
+                "score": 6.5,
+                "comment_vi": "Bố cục rõ ràng, có mở-thân-kết.",
+            },
+            {
+                "key": "vocabulary",
+                "score": 6.0,
+                "comment_vi": "Từ vựng phù hợp nhưng còn lặp từ.",
+            },
+            {
+                "key": "grammar",
+                "score": 5.5,
+                "comment_vi": "Còn một số lỗi ngữ pháp nhỏ.",
+            },
+        ],
         "issues": [
-            {"quote": "in my opinion i think that", "note": "redundant phrasing"},
-            {"quote": "peoples", "note": "should be 'people'"},
+            {
+                "quote": "in my opinion i think that",
+                "explanation_vi": "Diễn đạt dư thừa, lặp ý.",
+                "suggestion": "in my opinion",
+            },
+            {
+                "quote": "peoples",
+                "explanation_vi": "Sai dạng số nhiều của 'people'.",
+                "suggestion": "people",
+            },
         ],
         "pii_spans": [],
     }

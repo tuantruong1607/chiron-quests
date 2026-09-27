@@ -22,13 +22,24 @@ from app.modules.guard.service import budget_used
 pytestmark = pytest.mark.anyio
 
 
+class CriterionScore(BaseModel):
+    key: str
+    score: float
+    comment_vi: str
+
+
 class Issue(BaseModel):
     quote: str
-    note: str
+    explanation_vi: str
+    suggestion: str
 
 
 class GradeResult(BaseModel):
-    criteria: dict[str, float]
+    # Mirrors `app.modules.grading.schema.WritingGradeOutput`'s shape (this
+    # module can't import that module's schema directly - only via its
+    # `service` - so it's kept as an independent stand-in schema matching
+    # `FakeAdapter.DEFAULT_WRITING_GRADE_RESPONSE`).
+    criteria: list[CriterionScore]
     issues: list[Issue]
     pii_spans: list[str]
 
