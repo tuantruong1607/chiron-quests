@@ -49,3 +49,32 @@ def test_verify_quotes_empty_issues_returns_empty_lists() -> None:
     ok, bad = verify_quotes("Any essay text.", [])
     assert ok == []
     assert bad == []
+
+
+def test_empty_quote_is_dropped() -> None:
+    ok, bad = verify_quotes("Any essay text.", [issue(quote="")])
+    assert ok == []
+    assert len(bad) == 1
+
+
+def test_whitespace_only_quote_is_dropped() -> None:
+    ok, bad = verify_quotes("Any essay text.", [issue(quote="  \n\t  ")])
+    assert ok == []
+    assert len(bad) == 1
+
+
+def test_two_character_quote_is_dropped() -> None:
+    # "ca" is a real, verbatim substring of the essay (from "cat"), but at
+    # 2 normalized characters it's below the 3-character minimum and must
+    # still be dropped as too short to count as evidence.
+    essay = "The cat sat quietly on the mat."
+    ok, bad = verify_quotes(essay, [issue(quote="ca")])
+    assert ok == []
+    assert len(bad) == 1
+
+
+def test_three_character_quote_is_kept_when_present() -> None:
+    essay = "The cat sat quietly on the mat."
+    ok, bad = verify_quotes(essay, [issue(quote="cat")])
+    assert len(ok) == 1
+    assert bad == []

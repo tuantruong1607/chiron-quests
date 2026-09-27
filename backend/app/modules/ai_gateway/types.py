@@ -35,11 +35,25 @@ class AIError(Exception):
 
     Adapters must normalize every provider-specific failure into one of
     `ErrorKind` before raising this.
-    """
 
-    def __init__(self, kind: ErrorKind, message: str | None = None) -> None:
+    `cost_vnd`/`latency_ms` default to 0 (most kinds - budget, circuit_open,
+    no_route, invalid_request, and a retryable kind exhausted without ever
+    getting a response - never spent any tokens). `complete()` sets them on
+    the `"schema"` kind it raises after an adapter response fails
+    validation, since tokens were spent (and billed) on that call even
+    though it didn't validate."""
+
+    def __init__(
+        self,
+        kind: ErrorKind,
+        message: str | None = None,
+        cost_vnd: int = 0,
+        latency_ms: int = 0,
+    ) -> None:
         super().__init__(message or kind)
         self.kind: ErrorKind = kind
+        self.cost_vnd = cost_vnd
+        self.latency_ms = latency_ms
 
 
 @dataclass

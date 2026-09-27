@@ -419,8 +419,14 @@ async def complete(req: AIRequest) -> AIResult:
         try:
             data = req.response_schema.model_validate_json(raw.text)
         except ValidationError as exc:
+            # The error itself carries the cost/latency already incurred,
+            # so a caller catching it (not just reading the log row) can
+            # still account for tokens spent on this schema-invalid call.
             raise AIError(
-                "schema", "adapter response failed schema validation"
+                "schema",
+                "adapter response failed schema validation",
+                cost_vnd=actual_cost,
+                latency_ms=int((anyio.current_time() - started) * 1000),
             ) from exc
     except AIError as exc:
         error = exc

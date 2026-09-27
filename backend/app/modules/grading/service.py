@@ -97,11 +97,13 @@ async def grade_writing(
     raises `GradingFailed` immediately, with no content retry.
 
     `cost_vnd`/`latency_ms` on the returned outcome are the *sum* across
-    every AI call that returned an `AIResult` - including a call retried
-    for failing quote/criteria verification, since tokens were still spent
-    on it. A call that raised an `AIError` instead (e.g. a schema failure)
-    contributes nothing, since the gateway doesn't surface per-call cost on
-    its exceptions."""
+    every AI call, whether it returned an `AIResult` (including one later
+    retried for failing quote/criteria verification) or raised an
+    `AIError` that itself spent tokens (a `"schema"` failure - the gateway
+    attaches that call's cost/latency to the exception). A non-content
+    `AIError` that never reached a provider response (budget,
+    circuit_open, no_route, ...) carries `cost_vnd=latency_ms=0` and so
+    adds nothing."""
     route = ai.task_config("writing_grade")
     rubric = load_rubric(route.rubric_version)
     messages = build_writing_prompt(task_type, prompt, essay, rubric)
@@ -127,6 +129,11 @@ async def grade_writing(
         try:
             result = await ai.complete(request)
         except ai.AIError as exc:
+            # A schema failure still spent tokens on that call (the gateway
+            # attaches their cost/latency to the exception itself, since it
+            # never produced an `AIResult` to carry them on).
+            total_cost_vnd += exc.cost_vnd
+            total_latency_ms += exc.latency_ms
             if exc.kind == "schema" and attempt <= MAX_CONTENT_RETRIES:
                 continue
             raise GradingFailed(reason=exc.kind) from exc

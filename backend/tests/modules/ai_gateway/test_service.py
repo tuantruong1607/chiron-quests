@@ -165,6 +165,12 @@ async def test_invalid_json_raises_schema_without_retrying(
     assert row.retry_count == 0
     # Tokens were consumed even though validation failed, so cost is real.
     assert row.cost_vnd > 0
+    # The AIError itself must carry that same cost (and a latency), so a
+    # caller catching it directly (not just reading the log row) can still
+    # account for tokens spent on a schema-invalid response.
+    assert exc_info.value.cost_vnd == row.cost_vnd
+    assert exc_info.value.cost_vnd > 0
+    assert exc_info.value.latency_ms >= 0
 
 
 async def test_budget_refused_raises_budget_error(

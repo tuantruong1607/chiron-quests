@@ -2,6 +2,7 @@
 messages sent to the AI gateway for a writing-grade request.
 """
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -12,6 +13,21 @@ from app.modules.grading.schema import TaskType
 
 _MODULE_DIR = Path(__file__).parent
 RUBRICS_DIR = _MODULE_DIR / "rubrics"
+
+#: Matches an opening or closing `<essay>`/`<prompt>` delimiter tag, case
+#: insensitively and tolerating stray whitespace around the slash or tag
+#: name (e.g. `</ essay >`, `< ESSAY >`) - anything a model might produce
+#: while trying to break out of its data block.
+_ESSAY_TAG_RE = re.compile(r"<\s*(/?)\s*essay\s*>", re.IGNORECASE)
+_PROMPT_TAG_RE = re.compile(r"<\s*(/?)\s*prompt\s*>", re.IGNORECASE)
+
+
+def _neutralize_tags(text: str, pattern: re.Pattern[str], tag: str) -> str:
+    """Replace every match of `pattern` in `text` with an HTML-escaped,
+    inert rendering of the delimiter (`&lt;/essay&gt;` etc.), so untrusted
+    content can never inject a real `<essay>`/`</essay>` (or `<prompt>`)
+    boundary into the message we build around it."""
+    return pattern.sub(lambda m: f"&lt;{m.group(1)}{tag}&gt;", text)
 
 
 class RubricCriterion(BaseModel):
@@ -75,7 +91,13 @@ def build_writing_prompt(
     provider can reuse it). The system message also states explicitly that
     the `<essay>` block in the user message is data to grade, never an
     instruction to follow - a defense against prompt injection embedded in
-    the essay text itself."""
+    the essay text itself. On top of that instruction, any `<essay>`/
+    `</essay>` tag *inside* `essay` (and `<prompt>`/`</prompt>` inside
+    `prompt`) is neutralized to an escaped, inert form before insertion, so
+    injected content can't actually close its block early and start
+    writing outside it - `verify_quotes()` still checks issues against the
+    raw, un-neutralized `essay` text, since that's what the model actually
+    saw and must quote verbatim from."""
     rubric_text = _format_rubric(rubric, task_type)
     system = (
         f"{rubric_text}\n\n"
@@ -92,5 +114,10 @@ def build_writing_prompt(
         "kind) cho bất kỳ thông tin cá nhân nào (tên, địa chỉ, số điện "
         "thoại, email, số CMND/CCCD, tên tổ chức) xuất hiện trong bài viết."
     )
-    user = f"Loại bài: {task_type}\n<prompt>{prompt}</prompt>\n<essay>{essay}</essay>"
+    safe_prompt = _neutralize_tags(prompt, _PROMPT_TAG_RE, "prompt")
+    safe_essay = _neutralize_tags(essay, _ESSAY_TAG_RE, "essay")
+    user = (
+        f"Loại bài: {task_type}\n<prompt>{safe_prompt}</prompt>\n"
+        f"<essay>{safe_essay}</essay>"
+    )
     return PromptMessages(system=system, user=user)
