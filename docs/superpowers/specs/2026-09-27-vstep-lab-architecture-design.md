@@ -79,7 +79,13 @@ Mỗi module là một package Python; **`service.py` là cửa ngõ duy nhất*
 3. API và worker dùng chung service; chỉ khác điểm khởi chạy.
 
 ### 2.3 Frontend
-React + Vite + Tailwind + shadcn/ui (từ template). Lát cắt 1 gồm: trang công cụ `/cham-thu-writing` (không đăng nhập) và trang admin tối giản.
+React + Vite + Tailwind + shadcn/ui (từ template), trong thư mục `frontend/` của cùng repo; backend phục vụ bản build. Lát cắt 1 gồm: trang công cụ `/cham-thu-writing` (không đăng nhập) và các trang admin tối giản.
+
+**Phân công:** Founder dựng UI bằng **Google Antigravity**; phần backend, hợp đồng API và test nghiệm thu do kế hoạch triển khai đảm nhận. Ranh giới giữa hai bên là **gói bàn giao UI**:
+- Hợp đồng API: OpenAPI sinh từ backend + client TypeScript sinh bằng `npm run generate-client`.
+- Brief từng màn hình trong `docs/ui/`: trạng thái, copy nguyên văn, quy tắc kiểm tra, nhịp hỏi trạng thái, key localStorage, sự kiện analytics, yêu cầu mobile-first.
+- **Test nghiệm thu Playwright** trong `frontend/tests/acceptance/`, viết theo vai trò/nhãn truy cập (không phụ thuộc cấu trúc HTML); UI được coi là xong khi toàn bộ test này pass.
+- `compose.ui-dev.yml`: backend chạy trên máy Founder với provider AI giả (1–2 giây) và khóa Turnstile dùng cho test.
 
 ---
 
@@ -300,6 +306,7 @@ Tỉ lệ 👎, tỉ lệ "Báo chấm sai", tỉ lệ nhận xét bị loại d
 - [ ] CAPTCHA, giới hạn lượt, trần chi phí, chống trùng hoạt động (có test).
 - [ ] Ô đồng ý đóng góp bài + ẩn thông tin cá nhân + mã yêu cầu xóa hoạt động.
 - [ ] Funnel đo được theo `src`; trang admin xem chi phí và funnel.
+- [ ] Toàn bộ test nghiệm thu UI (`frontend/tests/acceptance/`) pass trên UI do Founder dựng.
 - [ ] Backup hằng ngày chạy và đã khôi phục thử một lần.
 - [ ] Đã đăng vào 3–5 nhóm cộng đồng.
 - [ ] Nút 👍/👎 và "Báo chấm sai" hoạt động (vòng dữ liệu §7 chạy đầy đủ từ tuần 3).

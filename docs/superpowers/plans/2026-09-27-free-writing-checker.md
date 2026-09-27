@@ -29,6 +29,7 @@
 - Không gọi API LLM thật trong CI.
 - Vòng dữ liệu (spec §7): hàng đợi chấm chuẩn tối đa **30** bài/tuần, dựng **thứ Hai 06:00** giờ VN; chấm lại tối đa **50** bài có đồng ý/tuần để tìm bài "không chắc" (lệch **> 0,5**); **10%** ngẫu nhiên; chia **70% dev / 30% test**, item đã vào test không bao giờ chuyển sang dev hay làm ví dụ mẫu; ví dụ mẫu tối đa **3** bài/task; hiệu chỉnh chọn giữa tuyến tính và isotonic bằng **5-fold**; bản hiệu chỉnh khởi đầu `writing-c0` = giữ nguyên; cảnh báo khi tỉ lệ 👎 tuần **> 20%**.
 - Không tự huấn luyện model.
+- **UI do Founder dựng bằng Google Antigravity** trong `frontend/` (React + Vite + Tailwind + shadcn/ui từ template). Agent thực thi kế hoạch **không viết UI sản phẩm**; chỉ viết hợp đồng API, brief trong `docs/ui/` và test nghiệm thu trong `frontend/tests/acceptance/`.
 
 ## Review Focus
 
@@ -60,10 +61,10 @@ backend/app/
     admin_dash/{service.py, routes.py}
 backend/tests/modules/<tên>/...   # test theo module
 backend/tests/test_module_boundaries.py
-frontend/src/routes/cham-thu-writing.tsx
-frontend/src/features/writing-checker/{api.ts, useCheckPolling.ts, ResultView.tsx, samplePrompts.ts, visitor.ts}
-frontend/src/routes/_layout/ai-usage.tsx, funnel.tsx, corpus.tsx
-frontend/tests/writing-checker.spec.ts
+compose.ui-dev.yml
+docs/ui/{README.md, writing-checker.md, admin.md}
+frontend/tests/acceptance/{writing-checker.spec.ts, admin.spec.ts, helpers.ts}
+# (UI sản phẩm trong frontend/src/ do Founder dựng bằng Antigravity)
 deploy/{compose.prod.yml, backup.sh, harden.sh, disk-alert.sh}
 .github/workflows/deploy-vps.yml
 loadtest/writing_check.js
@@ -71,7 +72,6 @@ docs/runbook.md
 docs/eval/writing-bakeoff-<ngày>.md
 docs/eval/huong-dan-cham.md
 docs/eval/CHANGELOG-grader.md
-frontend/src/routes/_layout/labeling.tsx, grader-health.tsx
 ```
 
 ---
@@ -448,7 +448,7 @@ async def test_spike_sends_one_alert_per_hour(redis, outbox, spike): ...
 ### Task 9: Admin — chi phí AI, funnel, gắn điểm chuẩn corpus
 
 **Files:**
-- Create: `admin_dash/service.py`, `admin_dash/routes.py`; `frontend/src/routes/_layout/ai-usage.tsx`, `funnel.tsx`
+- Create: `admin_dash/service.py`, `admin_dash/routes.py` (UI trang `/ai-usage`, `/funnel` do Founder dựng theo `docs/ui/admin.md`, Task 10)
 - Test: `backend/tests/modules/admin_dash/test_routes.py`
 
 **Interfaces:**
@@ -456,42 +456,53 @@ async def test_spike_sends_one_alert_per_hour(redis, outbox, spike): ...
 - Produces: `GET /api/v1/admin/ai-usage`, `GET /api/v1/admin/funnel`, `POST /api/v1/admin/blocks {ip_hash}` (chặn trong ngày, lấy `ip_hash` từ danh sách check gần đây) — chỉ superuser (dùng dependency có sẵn của template).
 
 - [ ] **Step 1: Test (failing)** — `test_non_admin_forbidden` (403), `test_usage_summary_aggregates_cost_by_day`, `test_admin_block_makes_submission_return_429_blocked`.
-- [ ] **Step 2–4:** FAIL → cài API + 2 trang admin (bảng đơn giản bằng shadcn `Table`) → PASS.
+- [ ] **Step 2–4:** FAIL → cài API (bảng đơn giản bằng shadcn `Table`) → PASS.
 - [ ] **Step 5: Commit** — `feat(admin): ai usage, funnel and blocking`
 
 ---
 
-### Task 10: Frontend — trang "Chấm thử Writing" + E2E
+### Task 10: Gói bàn giao UI và test nghiệm thu (cho Founder dựng UI bằng Antigravity)
 
 **Files:**
-- Create: `frontend/src/routes/cham-thu-writing.tsx`, `frontend/src/features/writing-checker/{api.ts, useCheckPolling.ts, ResultView.tsx, samplePrompts.ts, visitor.ts}`
-- Test: `frontend/tests/writing-checker.spec.ts`
+- Create: `compose.ui-dev.yml` (backend, worker, db, redis; `AI_FAKE_PROVIDER=1` latency `(1, 2)`; khóa Turnstile dùng cho test của Cloudflare — site key/secret "luôn thành công" và "luôn thất bại"), `docs/ui/README.md`, `docs/ui/writing-checker.md`, `docs/ui/admin.md`, `frontend/tests/acceptance/writing-checker.spec.ts`, `frontend/tests/acceptance/admin.spec.ts`, `frontend/tests/acceptance/helpers.ts`
+- Modify: `frontend/src/client/` (sinh lại từ OpenAPI)
 
 **Interfaces:**
-- Consumes: API Task 7, Task 8 (client sinh bằng `npm run generate-client`).
-- Produces: route public `/cham-thu-writing` (ngoài `_layout`, không cần đăng nhập); `getVisitorId(): string` (localStorage `vl_visitor`); `useCheckPolling(checkId, pollToken)` — 2 s trong 90 s, sau đó 5 s tới 5 phút; lưu `{checkId, pollToken}` gần nhất vào localStorage `vl_last_check` và tự khôi phục khi mở lại trang.
-- Nội dung: `samplePrompts.ts` có 10 đề (5 Task 1, 5 Task 2) do Founder soạn — task này tạo file với 2 đề (1 mỗi loại) và cấu trúc; Founder bổ sung 8 đề trước khi đăng vào nhóm.
-- Copy cố định: nhãn và ô đồng ý như Global Constraints; dòng thông báo cạnh nút gửi (nguyên văn): `Bài viết được gửi tới dịch vụ AI để chấm và tự xóa sau 24 giờ, trừ khi bạn đồng ý đóng góp bài (đã ẩn thông tin cá nhân).`; khi 429 hiện giờ reset theo giờ Việt Nam; khi 503 budget hiện "Công cụ tạm nghỉ hôm nay"; nút chia sẻ dùng Web Share API (fallback: copy link) với nội dung `Mình vừa được AI chấm Writing VSTEP: {score}/10 — thử miễn phí: {url}?src=share`.
+- Consumes: API Task 7, 8, 9 (và endpoint Task 14, 16 khi các task đó xong — mỗi task tự cập nhật brief + test nghiệm thu của mình).
+- Produces (hợp đồng Founder/Antigravity phải tuân theo):
+  - Route public `/cham-thu-writing` (ngoài `_layout`); route admin trong `_layout`: `/ai-usage`, `/funnel`, `/labeling`, `/grader-health`.
+  - localStorage: `vl_visitor` (visitor id), `vl_last_check` (`{checkId, pollToken}` gần nhất, tự khôi phục khi mở lại trang).
+  - Nhịp hỏi trạng thái: 2 s trong 90 s, sau đó 5 s tới 5 phút.
+  - Copy nguyên văn: nhãn và ô đồng ý (Global Constraints); thông báo dữ liệu `Bài viết được gửi tới dịch vụ AI để chấm và tự xóa sau 24 giờ, trừ khi bạn đồng ý đóng góp bài (đã ẩn thông tin cá nhân).`; 503 budget: `Công cụ tạm nghỉ hôm nay`; nội dung chia sẻ `Mình vừa được AI chấm Writing VSTEP: {score}/10 — thử miễn phí: {url}?src=share` (Web Share API, fallback copy link).
+  - Tên truy cập (accessible name) mà test dùng: nút `Chấm bài`, nhóm lựa chọn `Task 1` / `Task 2`, ô `Đề bài`, ô `Bài viết`, checkbox bắt đầu bằng `Cho phép dùng bài viết`, nút `Thử lại`, nút `Chia sẻ`, nút `Đăng ký để lưu`; vùng kết quả có `role="region"` tên `Kết quả chấm`.
+  - Sự kiện analytics: `tool_view` khi mở trang (kèm `src` từ query), `share_click`, `signup_click`.
+  - Turnstile: widget invisible, site key từ `VITE_TURNSTILE_SITE_KEY`.
+  - `samplePrompts`: 10 đề (5 Task 1, 5 Task 2) — Founder soạn.
 
-- [ ] **Step 1: E2E (failing)** với backend `AI_FAKE_PROVIDER=1` latency `(1, 2)`, viewport iPhone 12:
+- [ ] **Step 1: Xuất OpenAPI và sinh client** — `docker compose -f compose.ui-dev.yml up -d`, `cd frontend && npm run generate-client`. Expected: `frontend/src/client/` có các hàm cho `/api/v1/free/writing-checks` và `/api/v1/events`.
+- [ ] **Step 2: Viết brief** `docs/ui/writing-checker.md` (mọi trạng thái: nhập, đang chấm, xong, lỗi provider, 422 theo `code`, 429 kèm giờ reset theo giờ Việt Nam, 503 budget/maintenance) và `docs/ui/admin.md`; `docs/ui/README.md` hướng dẫn chạy `compose.ui-dev.yml`, sinh client, chạy test nghiệm thu, và prompt mẫu để giao cho Antigravity.
+- [ ] **Step 3: Viết test nghiệm thu** (viewport iPhone 12, backend `compose.ui-dev.yml`):
 
 ```ts
 test("submit and see result with label and at most 3 issues", ...)
 test("consent checkbox is unchecked by default", async ({ page }) => {
   await expect(page.getByRole("checkbox", { name: /Cho phép dùng bài viết/ })).not.toBeChecked()
 })
-test("shows reset time when rate limited", ...)
+test("shows reset time in Vietnam time when rate limited", ...)
 test("reopening the page restores the last result", async ({ page }) => {  // Review Focus #5
   await submitAndWait(page); await page.reload()
-  await expect(page.getByText("Điểm ước lượng bởi AI — không phải kết quả chính thức")).toBeVisible()
+  await expect(page.getByRole("region", { name: "Kết quả chấm" })
+    .getByText("Điểm ước lượng bởi AI — không phải kết quả chính thức")).toBeVisible()
 })
 test("provider failure shows retry without losing quota", ...)
+test("sends tool_view with src from query", ...)
+test("admin pages require login", ...)  // admin.spec.ts
 ```
 
-- [ ] **Step 2: Chạy `npx playwright test writing-checker` → FAIL.**
-- [ ] **Step 3: Cài trang, tích hợp Turnstile (widget chế độ invisible, site key từ env `VITE_TURNSTILE_SITE_KEY`), gửi `tool_view` khi mở trang với `src` từ query.**
-- [ ] **Step 4: Chạy → PASS.**
-- [ ] **Step 5: Commit** — `feat(frontend): free Writing checker page`
+- [ ] **Step 4: Chạy `npx playwright test tests/acceptance` → FAIL vì chưa có UI** (lỗi phải là "không tìm thấy phần tử/route", không phải lỗi backend). Ghi kết quả vào `docs/ui/README.md` mục "Trạng thái nghiệm thu".
+- [ ] **Step 5: Commit** — `docs(ui): UI handoff briefs, dev compose and acceptance tests`
+
+**Founder (ngoài kế hoạch agent):** dựng UI bằng Antigravity cho tới khi `npx playwright test tests/acceptance` pass; soạn đủ 10 đề mẫu. Task 11 (deploy) cần bản UI này.
 
 ---
 
@@ -550,9 +561,9 @@ test("provider failure shows retry without losing quota", ...)
 ### Task 14: Phản hồi người dùng, hàng đợi chấm chuẩn, trang chấm chuẩn
 
 **Files:**
-- Create: `corpus/queue.py`; route feedback trong `free_tools/routes.py`; migration `grading_feedback`; `frontend/src/routes/_layout/labeling.tsx`; `docs/eval/huong-dan-cham.md`
-- Modify: `frontend/src/features/writing-checker/ResultView.tsx` (nút 👍/👎, "Báo chấm sai"), `backend/app/worker.py` (cron)
-- Test: `backend/tests/modules/corpus/test_queue.py`, `backend/tests/modules/free_tools/test_feedback.py`, `frontend/tests/writing-checker.spec.ts`
+- Create: `corpus/queue.py`; route feedback trong `free_tools/routes.py`; migration `grading_feedback`; `docs/eval/huong-dan-cham.md`
+- Modify: `backend/app/worker.py` (cron); `docs/ui/writing-checker.md` (nút `Hữu ích`/`Chưa đúng` dạng 👍/👎 và nút `Báo chấm sai`), `docs/ui/admin.md` (trang `/labeling`)
+- Test: `backend/tests/modules/corpus/test_queue.py`, `backend/tests/modules/free_tools/test_feedback.py`, `frontend/tests/acceptance/writing-checker.spec.ts`, `frontend/tests/acceptance/admin.spec.ts`
 
 **Interfaces:**
 - Consumes: `add_label`, `mark_thumbs_down` (Task 6); `grade_writing` (Task 5); `reserve_budget` (Task 3).
@@ -560,7 +571,7 @@ test("provider failure shows retry without losing quota", ...)
   - `POST /api/v1/free/writing-checks/{check_id}/feedback?t=<poll_token>` body `{kind: "up"|"down"|"report", comment?: str (≤ 500 ký tự)}` → `204`; `down`/`report` gọi `mark_thumbs_down`; mỗi check tối đa 1 feedback cho mỗi `kind`.
   - Cron thứ Hai 06:00 giờ VN: `async build_label_queue(week_start: date) -> list[UUID]` — tối đa 30 item chưa có nhãn theo thứ tự spec §7.2; `async find_uncertain_items(limit: int = 50) -> list[UUID]` — chấm lại bằng route đang chạy (dừng khi `reserve_budget` từ chối), đánh dấu item lệch > 0,5.
   - `GET /api/v1/admin/labeling/queue`, `POST /api/v1/admin/labeling/{item_id}` (gọi `add_label`) — chỉ superuser.
-  - Trang `labeling.tsx`: hiện đề + bài đã ẩn danh + kết quả AI; nhập điểm từng tiêu chí, điểm tổng, đúng/sai cho từng nhận xét AI, lỗi bỏ sót, ghi chú.
+  - Brief trang `/labeling` (Founder dựng): hiện đề + bài đã ẩn danh + kết quả AI; nhập điểm từng tiêu chí, điểm tổng, đúng/sai cho từng nhận xét AI, lỗi bỏ sót, ghi chú.
   - `huong-dan-cham.md`: thang điểm từng tiêu chí theo `writing-v1.yaml`, 1 ví dụ cho mỗi mức 3, 5, 7, 9; cách chấm bài lạc đề, quá ngắn, sai dạng bài.
 
 - [ ] **Step 1: Test (failing)**
@@ -574,13 +585,14 @@ def test_feedback_requires_poll_token(client, check): ...  # sai token → 404
 ```
 
 ```ts
-test("thumbs down sends feedback once", ...)
+test("thumbs down sends feedback once", ...)          // acceptance/writing-checker.spec.ts
+test("labeling page saves a label for the first queued item", ...)  // acceptance/admin.spec.ts
 ```
 
 - [ ] **Step 2: Chạy → FAIL.**
-- [ ] **Step 3: Cài theo Interfaces; viết `huong-dan-cham.md`.**
-- [ ] **Step 4: Chạy → PASS.**
-- [ ] **Step 5: Commit** — `feat(data-loop): user feedback, weekly labeling queue and labeling page`
+- [ ] **Step 3: Cài backend theo Interfaces; viết `huong-dan-cham.md`; cập nhật brief UI.**
+- [ ] **Step 4: Chạy test backend → PASS; test nghiệm thu mới → FAIL cho tới khi Founder dựng UI tương ứng.**
+- [ ] **Step 5: Commit** — `feat(data-loop): user feedback, weekly labeling queue and labeling API`
 
 ---
 
@@ -622,7 +634,7 @@ def test_calibration_identity_when_no_gain(): ...
 ### Task 16: Cổng phát hành bộ chấm và theo dõi sức khỏe
 
 **Files:**
-- Create: `corpus/release_cli.py`, `docs/eval/CHANGELOG-grader.md`, `frontend/src/routes/_layout/grader-health.tsx`; route `grader-health` trong `admin_dash/routes.py`
+- Create: `corpus/release_cli.py`, `docs/eval/CHANGELOG-grader.md`; route `GET /api/v1/admin/grader-health` trong `admin_dash/routes.py`; cập nhật `docs/ui/admin.md` (trang `/grader-health`, Founder dựng)
 - Modify: `ai_gateway/routing.yaml` (trường `prompt_version`, `active_calibration`, `few_shot_ids` cho `writing_grade`); `grading/prompts.py` (chèn ví dụ mẫu); `corpus/service.py` (thêm `get_few_shot_examples`)
 - Test: `backend/tests/modules/corpus/test_release.py`, `backend/tests/modules/admin_dash/test_grader_health.py`
 
@@ -655,8 +667,9 @@ async def test_alert_when_thumbs_down_over_20_percent(db, outbox): ...
 ## Thứ tự & phụ thuộc
 
 ```
-1 → 2 → 3 → 4 → 5 → 6 → 8 → 7 → 9 → 10 → 11 → 12
+1 → 2 → 3 → 4 → 5 → 6 → 8 → 7 → 9 → 10 ─→ [Founder: UI bằng Antigravity] → 11 → 12
                   4 ────────────────────────→ 13 (sau 6)
                                   7, 10 ────→ 14 → 15 → 16
 ```
+Task 10 giao hợp đồng + test nghiệm thu; trong lúc Founder dựng UI, agent tiếp tục Task 13, 14 (backend).
 Task 12 (tải) và 13 (thi đấu thử) phải xong trước khi đăng công cụ vào nhóm cộng đồng (cuối tuần 2). Nếu Task 12 không đạt → dừng, quyết định lại stack. Task 14 (nút 👍/👎) nên kịp trước khi đăng để thu phản hồi ngay; Task 15–16 làm ở tuần 3, khi đã có dữ liệu.
