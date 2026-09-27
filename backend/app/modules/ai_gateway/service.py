@@ -54,6 +54,8 @@ __all__ = [
     "usage_summary",
 ]
 
+#: Per-call adapter timeout (spec §4.2). A module-level global (not a
+#: default argument) so tests can monkeypatch it.
 TIMEOUT_S = 60.0
 MAX_RETRIES = 2
 _BACKOFFS_S = [2.0, 4.0]
@@ -129,18 +131,19 @@ def _actual_cost(model: str, raw: RawResponse) -> int:
     return _cost_vnd(pricing, raw.input_tokens, raw.output_tokens, raw.cached_tokens)
 
 
-async def _attempt(
-    provider: str, model: str, req: AIRequest, schema_dict: dict[str, object]
-) -> tuple[RawResponse | None, AIError | None, int]:
-    """Call `provider`/`model` with up to `MAX_RETRIES` retries on a
-    retryable error kind. Every attempt's outcome feeds that provider's
-    breaker. Returns (response, error, retries_used) - exactly one of
-    response/error is set."""
-    adapter = _get_adapter(provider)
-    attempt = 0
-    while True:
-        try:
-            raw = await adapter.generate_json(
+async def _call_adapter_with_timeout(
+    adapter: ProviderAdapter,
+    model: str,
+    req: AIRequest,
+    schema_dict: dict[str, object],
+) -> RawResponse:
+    """Enforce the gateway-side timeout (spec §4.2: 60s per call) around an
+    adapter call, on top of whatever `timeout_s` the adapter itself does
+    with the provider SDK - a slow/hanging adapter can't block `complete()`
+    past `TIMEOUT_S`."""
+    try:
+        with anyio.fail_after(TIMEOUT_S):
+            return await adapter.generate_json(
                 model=model,
                 system=req.system,
                 user=req.user,
@@ -148,15 +151,43 @@ async def _attempt(
                 max_output_tokens=req.max_output_tokens,
                 timeout_s=TIMEOUT_S,
             )
+    except TimeoutError:
+        raise AIError("timeout", f"gateway timeout after {TIMEOUT_S}s") from None
+
+
+async def _attempt(
+    provider: str, model: str, req: AIRequest, schema_dict: dict[str, object]
+) -> tuple[RawResponse | None, AIError | None, int]:
+    """Call `provider`/`model` with up to `MAX_RETRIES` retries on a
+    retryable error kind. Every attempt's outcome feeds that provider's
+    breaker, and retrying stops as soon as the breaker opens (no point
+    hammering a provider we've just tripped). Returns (response, error,
+    retries_used) - exactly one of response/error is set.
+
+    `_get_adapter` is called once, outside the retry loop and its own try -
+    a config error there (e.g. an unregistered provider) propagates
+    straight out of this function to `complete()`'s single settle/log path,
+    rather than being retried."""
+    adapter = _get_adapter(provider)
+    attempt = 0
+    while True:
+        try:
+            raw = await _call_adapter_with_timeout(adapter, model, req, schema_dict)
         except AIError as exc:
-            await breaker.record_result(provider, success=False)
-            if exc.kind not in RETRYABLE_KINDS or attempt >= MAX_RETRIES:
-                return None, exc, attempt
-            await _sleep(_BACKOFFS_S[attempt])
-            attempt += 1
-            continue
-        await breaker.record_result(provider, success=True)
-        return raw, None, attempt
+            normalized = exc
+        except Exception as exc:  # normalize any adapter bug to a server error
+            normalized = AIError("server", str(exc))
+        else:
+            await breaker.record_result(provider, success=True)
+            return raw, None, attempt
+
+        await breaker.record_result(provider, success=False)
+        if normalized.kind not in RETRYABLE_KINDS or attempt >= MAX_RETRIES:
+            return None, normalized, attempt
+        if await breaker.is_open(provider):
+            return None, normalized, attempt
+        await _sleep(_BACKOFFS_S[attempt])
+        attempt += 1
 
 
 @dataclass
@@ -246,6 +277,48 @@ async def _write_log(
     await run_sync(lambda: _insert_log_row(row))
 
 
+async def _settle_and_log(
+    *,
+    req: AIRequest,
+    route: TaskRoute,
+    estimated_cost: int,
+    actual_cost: int,
+    day: date,
+    provider: str,
+    model: str,
+    input_tokens: int,
+    output_tokens: int,
+    cached_tokens: int,
+    latency_ms: int,
+    status: str,
+    error_type: str | None,
+    retry_count: int,
+    fallback: bool,
+) -> None:
+    """Always-run tail of a reserved `complete()` call: settle the budget
+    reservation against the real cost (0 if nothing was actually spent),
+    send a threshold alert if crossed, and write exactly one log row."""
+    await settle_budget(estimated_cost, actual_cost, day)
+    await maybe_send_budget_alert(day)
+    await _write_log(
+        task_key=req.task_key,
+        data_class=req.data_class,
+        provider=provider,
+        model=model,
+        prompt_version=route.prompt_version,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        cached_tokens=cached_tokens,
+        cost_vnd=actual_cost,
+        latency_ms=latency_ms,
+        status=status,
+        error_type=error_type,
+        retry_count=retry_count,
+        fallback=fallback,
+        correlation_id=req.correlation_id,
+    )
+
+
 async def complete(req: AIRequest) -> AIResult:
     routing = load_routing()
     route = routing.tasks.get(req.task_key)
@@ -258,24 +331,43 @@ async def complete(req: AIRequest) -> AIResult:
     use_fallback_initial = False
     if await breaker.is_open(route.provider):
         if route.fallback is None:
+            # Nothing was reserved yet, so there's nothing to settle - just
+            # record the refusal.
+            await _write_log(
+                task_key=req.task_key,
+                data_class=req.data_class,
+                provider=route.provider,
+                model=route.model,
+                prompt_version=route.prompt_version,
+                input_tokens=0,
+                output_tokens=0,
+                cached_tokens=0,
+                cost_vnd=0,
+                latency_ms=0,
+                status="error",
+                error_type="circuit_open",
+                retry_count=0,
+                fallback=False,
+                correlation_id=req.correlation_id,
+            )
             raise AIError(
                 "circuit_open", f"circuit open for provider '{route.provider}'"
             )
         use_fallback_initial = True
 
-    est_provider, est_model = (
+    provider, model = (
         (route.fallback.provider, route.fallback.model)
         if use_fallback_initial and route.fallback is not None
         else (route.provider, route.model)
     )
-    estimated_cost = _estimate_cost(est_model, req)
+    estimated_cost = _estimate_cost(model, req)
 
     if not await reserve_budget(estimated_cost, day):
         await _write_log(
             task_key=req.task_key,
             data_class=req.data_class,
-            provider=est_provider,
-            model=est_model,
+            provider=provider,
+            model=model,
             prompt_version=route.prompt_version,
             input_tokens=0,
             output_tokens=0,
@@ -290,84 +382,113 @@ async def complete(req: AIRequest) -> AIResult:
         )
         raise AIError("budget", "daily AI budget exhausted")
 
+    # From here on the budget has been reserved: every exit path below -
+    # success, a classified AIError, an unexpected exception, or a
+    # cancellation - must settle it and write exactly one log row.
+    fallback_flag = use_fallback_initial
+    retries = 0
+    input_tokens = output_tokens = cached_tokens = 0
+    actual_cost = 0
+    data = None
+    error: AIError | None = None
     started = anyio.current_time()
-    outcome = await _run_route(route, use_fallback_initial, req, schema_dict)
+
+    try:
+        outcome = await _run_route(route, use_fallback_initial, req, schema_dict)
+        provider, model, fallback_flag, retries = (
+            outcome.provider,
+            outcome.model,
+            outcome.fallback,
+            outcome.retries,
+        )
+        if outcome.error is not None:
+            raise outcome.error
+        raw = outcome.raw
+        assert raw is not None
+        input_tokens, output_tokens, cached_tokens = (
+            raw.input_tokens,
+            raw.output_tokens,
+            raw.cached_tokens,
+        )
+        # Tokens were spent (and billable) whether or not the response
+        # turns out to validate, so price it before validating.
+        actual_cost = _actual_cost(model, raw)
+        try:
+            data = req.response_schema.model_validate_json(raw.text)
+        except ValidationError as exc:
+            raise AIError(
+                "schema", "adapter response failed schema validation"
+            ) from exc
+    except AIError as exc:
+        error = exc
+    except anyio.get_cancelled_exc_class():
+        latency_ms = int((anyio.current_time() - started) * 1000)
+        await _settle_and_log(
+            req=req,
+            route=route,
+            estimated_cost=estimated_cost,
+            actual_cost=actual_cost,
+            day=day,
+            provider=provider,
+            model=model,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            cached_tokens=cached_tokens,
+            latency_ms=latency_ms,
+            status="error",
+            error_type="cancelled",
+            retry_count=retries,
+            fallback=fallback_flag,
+        )
+        raise
+    except Exception as exc:  # normalize any unexpected bug
+        error = AIError("server", str(exc))
+
     latency_ms = int((anyio.current_time() - started) * 1000)
 
-    if outcome.error is not None:
-        await settle_budget(estimated_cost, 0, day)
-        await maybe_send_budget_alert(day)
-        await _write_log(
-            task_key=req.task_key,
-            data_class=req.data_class,
-            provider=outcome.provider,
-            model=outcome.model,
-            prompt_version=route.prompt_version,
-            input_tokens=0,
-            output_tokens=0,
-            cached_tokens=0,
-            cost_vnd=0,
+    if error is not None:
+        await _settle_and_log(
+            req=req,
+            route=route,
+            estimated_cost=estimated_cost,
+            actual_cost=actual_cost,
+            day=day,
+            provider=provider,
+            model=model,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            cached_tokens=cached_tokens,
             latency_ms=latency_ms,
             status="error",
-            error_type=outcome.error.kind,
-            retry_count=outcome.retries,
-            fallback=outcome.fallback,
-            correlation_id=req.correlation_id,
+            error_type=error.kind,
+            retry_count=retries,
+            fallback=fallback_flag,
         )
-        raise outcome.error
+        raise error
 
-    assert outcome.raw is not None
-    raw = outcome.raw
-    try:
-        data = req.response_schema.model_validate_json(raw.text)
-    except ValidationError as exc:
-        actual_cost = _actual_cost(outcome.model, raw)
-        await settle_budget(estimated_cost, actual_cost, day)
-        await maybe_send_budget_alert(day)
-        await _write_log(
-            task_key=req.task_key,
-            data_class=req.data_class,
-            provider=outcome.provider,
-            model=outcome.model,
-            prompt_version=route.prompt_version,
-            input_tokens=raw.input_tokens,
-            output_tokens=raw.output_tokens,
-            cached_tokens=raw.cached_tokens,
-            cost_vnd=actual_cost,
-            latency_ms=latency_ms,
-            status="error",
-            error_type="schema",
-            retry_count=outcome.retries,
-            fallback=outcome.fallback,
-            correlation_id=req.correlation_id,
-        )
-        raise AIError("schema", "adapter response failed schema validation") from exc
-
-    actual_cost = _actual_cost(outcome.model, raw)
-    await settle_budget(estimated_cost, actual_cost, day)
-    await maybe_send_budget_alert(day)
-    await _write_log(
-        task_key=req.task_key,
-        data_class=req.data_class,
-        provider=outcome.provider,
-        model=outcome.model,
-        prompt_version=route.prompt_version,
-        input_tokens=raw.input_tokens,
-        output_tokens=raw.output_tokens,
-        cached_tokens=raw.cached_tokens,
-        cost_vnd=actual_cost,
+    await _settle_and_log(
+        req=req,
+        route=route,
+        estimated_cost=estimated_cost,
+        actual_cost=actual_cost,
+        day=day,
+        provider=provider,
+        model=model,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        cached_tokens=cached_tokens,
         latency_ms=latency_ms,
         status="ok",
         error_type=None,
-        retry_count=outcome.retries,
-        fallback=outcome.fallback,
-        correlation_id=req.correlation_id,
+        retry_count=retries,
+        fallback=fallback_flag,
     )
+    assert data is not None
     return AIResult(
         data=data,
-        provider=outcome.provider,
-        model=outcome.model,
-        fallback=outcome.fallback,
+        provider=provider,
+        model=model,
+        fallback=fallback_flag,
         cost_vnd=actual_cost,
         latency_ms=latency_ms,
     )

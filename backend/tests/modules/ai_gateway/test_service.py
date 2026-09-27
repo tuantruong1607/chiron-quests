@@ -253,9 +253,120 @@ async def test_unregistered_provider_raises_invalid_request(
         providers={"unregistered": ProviderConfig(no_training=True)},
     )
     monkeypatch.setattr(service, "load_routing", lambda *a, **k: routing)
+    day = vn_today()
     with pytest.raises(AIError) as exc_info:
         await service.complete(req(correlation_id="unregistered-1"))
     assert exc_info.value.kind == "invalid_request"
+
+    # The reservation must not leak just because `_get_adapter` failed
+    # before any adapter call was made.
+    assert await budget_used(day) == 0
+    assert _count_logs("unregistered-1") == 1
+    row = _last_log("unregistered-1")
+    assert row.status == "error"
+    assert row.error_type == "invalid_request"
+    assert row.cost_vnd == 0
+
+
+async def test_non_aierror_adapter_exception_settles_and_logs(
+    redis, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """An adapter bug that raises a plain exception (not an `AIError`) must
+    still refund the reservation and write exactly one log row, not leak
+    the budget or vanish silently."""
+
+    class _BuggyAdapter:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        async def generate_json(self, **_kwargs: object) -> None:
+            self.calls += 1
+            raise RuntimeError("adapter bug")
+
+    adapter = _BuggyAdapter()
+    monkeypatch.setitem(service.ADAPTER_REGISTRY, "fake", lambda: adapter)
+    day = vn_today()
+    with pytest.raises(AIError) as exc_info:
+        await service.complete(req(correlation_id="runtime-err-1"))
+    assert exc_info.value.kind == "server"
+    # Normalized like any other "server" kind failure, so it's retried too.
+    assert adapter.calls == 3
+
+    assert await budget_used(day) == 0
+    assert _count_logs("runtime-err-1") == 1
+    row = _last_log("runtime-err-1")
+    assert row.status == "error"
+    assert row.error_type == "server"
+    assert row.cost_vnd == 0
+
+
+async def test_missing_pricing_entry_after_tokens_spent_settles_and_logs(
+    redis, install_fake_adapter, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """If pricing lookup fails only at call time (defense in depth on top of
+    the routing-load validation), tokens already consumed must still be
+    reflected in the log, the reservation refunded, and exactly one row
+    written. Simulates pricing.yaml losing the model's entry *between* the
+    pre-call cost estimate and the post-call actual-cost lookup (both go
+    through `_pricing_for`/`load_pricing`, so the entry has to still be
+    there for the first call and gone by the second to isolate the
+    after-tokens-spent path the coordinator flagged)."""
+    from app.modules.ai_gateway.routing import PricingConfig, load_pricing
+
+    install_fake_adapter()
+    real_pricing = load_pricing()
+    calls = {"n": 0}
+
+    def _flaky_load_pricing(*_a: object, **_k: object) -> PricingConfig:
+        calls["n"] += 1
+        return real_pricing if calls["n"] == 1 else PricingConfig(models={})
+
+    monkeypatch.setattr(service, "load_pricing", _flaky_load_pricing)
+    day = vn_today()
+    with pytest.raises(AIError) as exc_info:
+        await service.complete(req(correlation_id="no-pricing-1"))
+    assert exc_info.value.kind == "invalid_request"
+
+    assert await budget_used(day) == 0
+    row = _last_log("no-pricing-1")
+    assert row.status == "error"
+    assert row.error_type == "invalid_request"
+    assert row.cost_vnd == 0
+    assert row.input_tokens > 0  # tokens were spent even though pricing failed
+
+
+async def test_attempt_stops_retrying_once_breaker_opens_mid_retry(
+    redis, install_fake_adapter
+) -> None:
+    # Pre-seed 2 failures so the 3rd (from this call's first attempt) opens
+    # the breaker mid-retry-loop; no further attempts should be made.
+    await breaker.record_result("fake", success=False)
+    await breaker.record_result("fake", success=False)
+    fake = install_fake_adapter(fail_with=["server", "server", "server"])
+
+    with pytest.raises(AIError) as exc_info:
+        await service.complete(req(correlation_id="mid-retry-open-1"))
+    assert exc_info.value.kind == "server"
+    # Only 1 call happened before the breaker opened and retrying stopped;
+    # exhausting retries would have made 3.
+    assert fake.calls == 1
+
+    row = _last_log("mid-retry-open-1")
+    assert row.retry_count == 0
+
+
+async def test_gateway_enforces_timeout(
+    redis, install_fake_adapter, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    install_fake_adapter(latency_s=(1.0, 1.0))
+    monkeypatch.setattr(service, "TIMEOUT_S", 0.05)
+    with pytest.raises(AIError) as exc_info:
+        await service.complete(req(correlation_id="timeout-1"))
+    assert exc_info.value.kind == "timeout"
+
+    row = _last_log("timeout-1")
+    assert row.status == "error"
+    assert row.error_type == "timeout"
 
 
 async def test_no_fallback_configured_and_breaker_open_raises_circuit_open(
@@ -269,6 +380,15 @@ async def test_no_fallback_configured_and_breaker_open_raises_circuit_open(
     with pytest.raises(AIError) as exc_info:
         await service.complete(req(correlation_id="circuit-open-1"))
     assert exc_info.value.kind == "circuit_open"
+
+    assert _count_logs("circuit-open-1") == 1
+    row = _last_log("circuit-open-1")
+    assert row.provider == "fake"
+    assert row.status == "error"
+    assert row.error_type == "circuit_open"
+    assert row.retry_count == 0
+    assert row.fallback is False
+    assert row.cost_vnd == 0
 
 
 async def test_ai_fake_provider_setting_forces_fake_adapter_for_any_provider(
