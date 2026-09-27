@@ -3,3 +3,5 @@
 {"from": "DISCOVERY", "to": "DISCOVERY_COMPLETE"}
 {"from": "DISCOVERY_COMPLETE", "to": "AUDITING"}
 {"from": "AUDITING", "to": "AUDIT_COMPLETE"}
+{"from": "AUDIT_COMPLETE", "to": "ARCHITECTURE_PROPOSED", "reason": "solution architect"}
+{"from": "ARCHITECTURE_PROPOSED", "to": "ARCHITECTURE_APPROVED", "approval": "reuseforge:approval:VSTEP-LAB:B:001", "scope": "excl. RF-D-004"}

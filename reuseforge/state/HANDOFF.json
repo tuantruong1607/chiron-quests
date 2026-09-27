@@ -1,10 +1,10 @@
 {
   "protocol": "reuseforge/1.0",
   "project_id": "VSTEP-LAB",
-  "workflow_state": "AUDIT_COMPLETE",
+  "workflow_state": "ARCHITECTURE_APPROVED",
   "domain_profile": "edtech-exam-prep-vn",
-  "current_phase": "audit",
-  "current_task": "done",
+  "current_phase": "planning",
+  "current_task": "",
   "execution_mode": "undecided",
   "inputs": [
     {
@@ -50,9 +50,69 @@
     {
       "path": "audit/AUDIT_REPORT.md",
       "sha256": "a820d43720dfa6b35b8c2c361c64f0ad4af988e3a312f99f13d827a52ddf897c"
+    },
+    {
+      "path": "architecture/COMPATIBILITY_GRAPH.json",
+      "sha256": "5a49ef0dec83cc4a8235f2661855de3fa1def38b4a55b5caaadd085931c5b535"
+    },
+    {
+      "path": "architecture/REUSE_DECISIONS.json",
+      "sha256": "47bbe4686417848b21f0eaa62602eb81bf70d11e4e3c7288df10002d545fd885"
+    },
+    {
+      "path": "architecture/SYSTEM_ARCHITECTURE.md",
+      "sha256": "5cd8857037e2a31f9e244bad85857cec6cdca67fc182effbaf1371df4f92c99f"
+    },
+    {
+      "path": "architecture/DECISION_REPORT.md",
+      "sha256": "6e4d2e004f7c04c33a583114aae86d6700558d3e43d329d7c488a3e902ee08d7"
+    },
+    {
+      "path": "spikes/SPIKE-CAP-003.md",
+      "sha256": "3268aeee131c964e87ca9658eef03b64907329958940c22b38b5a9cd262748da"
     }
   ],
-  "locked_decisions": [],
+  "locked_decisions": [
+    {
+      "id": "RF-D-001"
+    },
+    {
+      "id": "RF-D-002"
+    },
+    {
+      "id": "RF-D-003"
+    },
+    {
+      "id": "RF-D-005"
+    },
+    {
+      "id": "RF-D-006"
+    },
+    {
+      "id": "RF-D-007"
+    },
+    {
+      "id": "RF-D-008"
+    },
+    {
+      "id": "RF-D-009"
+    },
+    {
+      "id": "RF-D-010"
+    },
+    {
+      "id": "RF-D-011"
+    },
+    {
+      "id": "RF-D-012"
+    },
+    {
+      "id": "RF-D-013"
+    },
+    {
+      "id": "RF-D-014"
+    }
+  ],
   "open_questions": [
     "TBD-04 speech provider",
     "TBD-05 payment legal form",
@@ -62,30 +122,35 @@
   ],
   "blockers": [],
   "approval": {
-    "id": "reuseforge:approval:VSTEP-LAB:A:001",
-    "gate": "A",
+    "id": "reuseforge:approval:VSTEP-LAB:B:001",
+    "gate": "B",
     "approved": true,
     "artifacts": [
       {
-        "path": "framing/PROJECT_BRIEF.md",
-        "sha256": "70b32d0e55ac4ca0474b02182843bc9ba69a1347ffbf17fc07f719662b694e5f"
+        "path": "architecture/COMPATIBILITY_GRAPH.json",
+        "sha256": "5a49ef0dec83cc4a8235f2661855de3fa1def38b4a55b5caaadd085931c5b535"
       },
       {
-        "path": "framing/REQUIREMENTS.json",
-        "sha256": "bc75d528938e2b0eb67e053c6b6475903ab1020ad7086af26202d35650bcc16e"
+        "path": "architecture/REUSE_DECISIONS.json",
+        "sha256": "47bbe4686417848b21f0eaa62602eb81bf70d11e4e3c7288df10002d545fd885"
       },
       {
-        "path": "framing/CONSTRAINTS.json",
-        "sha256": "5ee2e82cbb98fef5ee0499a5e3bc241098624c8b1004e496315b30c82f203c7c"
+        "path": "architecture/SYSTEM_ARCHITECTURE.md",
+        "sha256": "5cd8857037e2a31f9e244bad85857cec6cdca67fc182effbaf1371df4f92c99f"
       },
       {
-        "path": "framing/CAPABILITY_GRAPH.json",
-        "sha256": "15a36ae361b91a428de62addd03f7165f6799e9960ad61916161f641339db1e2"
+        "path": "architecture/DECISION_REPORT.md",
+        "sha256": "6e4d2e004f7c04c33a583114aae86d6700558d3e43d329d7c488a3e902ee08d7"
+      },
+      {
+        "path": "spikes/SPIKE-CAP-003.md",
+        "sha256": "3268aeee131c964e87ca9658eef03b64907329958940c22b38b5a9cd262748da"
       }
     ],
-    "evidence": "User selected 'Duyệt cả 14 (Recommended)' in chat, 2026-09-27"
+    "scope": "RF-D-001..003, RF-D-005..014; RF-D-004 (CAP-004 pronunciation) EXCLUDED — spike before M2",
+    "evidence": "User selected 'Duyệt, loại CAP-004 (Recommended)' in chat, 2026-09-27"
   },
   "evidence_status": "SOURCE_VERIFIED",
-  "next_actor": "reuseforge-solution-architect",
-  "next_action": "Run spikes for CAP-001/003/004 then propose reuse decisions for Gate B"
+  "next_actor": "reuseforge-project-planner",
+  "next_action": "Fold approved decisions into implementation plan (Speaking/M2, player/M3, payment/M4); CAP-004 spike pending"
 }

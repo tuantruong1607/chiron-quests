@@ -1,0 +1,267 @@
+[
+  {
+    "decision_id": "RF-D-001",
+    "capability_id": "CAP-001",
+    "candidate_ids": [
+      "CAND-surveyjs"
+    ],
+    "action": "REIMPLEMENT",
+    "rationale": "Player trắc nghiệm tự viết bằng React+shadcn (Founder dựng qua Antigravity). SurveyJS: survey.timeSpent chỉ có getter (survey.ts:8403) nên khôi phục đồng hồ phải tự làm; theme riêng lệch shadcn; cần custom question cho audio phát 1 lần → lợi ích thấp. Mẫu thiết kế: hạn nộp do server giữ (started_at + duration), client chỉ hiển thị → tải lại trang không reset.",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "evidence_refs": [
+      "audit/CANDIDATE_AUDITS.json#CAP-001",
+      "surveyjs/survey-library@0f3a8da2af7a packages/survey-core/src/survey.ts:8403"
+    ],
+    "integration_cost": "medium",
+    "risks": [
+      "UI thi tốn công Founder"
+    ],
+    "open_questions": []
+  },
+  {
+    "decision_id": "RF-D-002",
+    "capability_id": "CAP-002",
+    "candidate_ids": [
+      "CAND-idb-keyval"
+    ],
+    "action": "USE_AS_IS",
+    "rationale": "idb-keyval (Apache-2.0) lưu Blob ghi âm tới khi server xác nhận; hook ghi âm tự viết trên MediaRecorder gốc (Safari: audio/mp4, Chrome: audio/webm;codecs=opus). Polyfill bị loại.",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "jakearchibald/idb-keyval@17a69a1165be"
+    ],
+    "integration_cost": "low",
+    "risks": [
+      "Khác biệt codec giữa trình duyệt → backend phải nhận cả m4a và webm"
+    ],
+    "open_questions": [
+      "Kiểm tra trên iPhone thật (Safari) trước M2"
+    ]
+  },
+  {
+    "decision_id": "RF-D-003",
+    "capability_id": "CAP-003",
+    "candidate_ids": [
+      "CAND-faster-whisper"
+    ],
+    "action": "WRAP",
+    "rationale": "faster-whisper base.en int8 bọc thành adapter ASR cục bộ trong ai_gateway, chạy ở hàng đợi arq riêng 'speech' (concurrency 1); chép từng phần ngay khi upload. Spike: base.en RTF 0,098 trên 2 nhân, 711 MB RSS → ~25 s cho phần 4 phút. small.en (RTF 0,24) để dự phòng nếu base.en sai nhiều. Fallback: adapter STT trả phí có cam kết no-training qua ai_gateway.",
+    "evidence_status": "SPIKE_VERIFIED",
+    "evidence_refs": [
+      "spikes/SPIKE-CAP-003.md",
+      "SYSTRAN/faster-whisper@ed9a06cd89a9"
+    ],
+    "integration_cost": "medium",
+    "risks": [
+      "WER với giọng người Việt nói tự do chưa đo",
+      "vCPU VPS có thể chậm hơn container",
+      "nhiều bài cùng lúc xếp hàng"
+    ],
+    "open_questions": [
+      "Founder ghi 20 mẫu giọng Việt để đo WER (ngưỡng ≤15%)",
+      "Chạy lại spike trên VPS Gold"
+    ]
+  },
+  {
+    "decision_id": "RF-D-004",
+    "capability_id": "CAP-004",
+    "candidate_ids": [
+      "CAND-azure-pa",
+      "CAND-openpronounce"
+    ],
+    "action": "RUN_SPIKE",
+    "rationale": "Hướng đề xuất: WRAP Azure Pronunciation Assessment (unscripted) qua ai_gateway, chỉ chấm phát âm trên đoạn mẫu 2–3 phút để ≤4.000đ/bài. OpenPronounce REJECT trên VPS (torch + 2 model Wav2Vec2 large vượt ngân sách RAM 4 GB, cần câu tham chiếu, phụ thuộc GPL). Chưa chốt vì chưa có bằng chứng chất lượng trên giọng Việt và điều khoản dữ liệu.",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "audit/CANDIDATE_AUDITS.json#CAP-004"
+    ],
+    "integration_cost": "medium",
+    "risks": [
+      "Chi phí vượt trần nếu chấm toàn bộ audio",
+      "Điều khoản dữ liệu Azure (lớp A) chưa đọc"
+    ],
+    "open_questions": [
+      "Điều khoản no-training của Azure Speech?",
+      "So sánh điểm Azure với nhận định của Founder trên 10 bài"
+    ]
+  },
+  {
+    "decision_id": "RF-D-005",
+    "capability_id": "CAP-005",
+    "candidate_ids": [],
+    "action": "REIMPLEMENT",
+    "rationale": "WPM, khoảng ngừng >0,25 s, từ đệm (um/uh/er) tính từ word timestamps của RF-D-003; ~50 dòng, test thuần.",
+    "evidence_status": "ASSUMPTION",
+    "evidence_refs": [
+      "spikes/SPIKE-CAP-003.md"
+    ],
+    "integration_cost": "low",
+    "risks": [
+      "vad_filter có thể nuốt khoảng ngừng ngắn"
+    ],
+    "open_questions": [
+      "Đặt vad_filter tắt cho số đo trôi chảy?"
+    ]
+  },
+  {
+    "decision_id": "RF-D-006",
+    "capability_id": "CAP-006",
+    "candidate_ids": [
+      "CAND-kokoro"
+    ],
+    "action": "USE_AS_IS",
+    "rationale": "Kokoro-82M (Apache-2.0) chạy trên máy Founder lúc soạn đề để sinh sẵn audio câu hỏi và phát âm mẫu; chỉ file audio được triển khai. Phụ thuộc GPL (phonemizer-fork/espeak) chỉ ở máy build, không phân phối. Giọng Piper REJECT (CC BY-NC-SA).",
+    "evidence_status": "IMPLEMENTATION_VERIFIED",
+    "evidence_refs": [
+      "hexgrad/kokoro@dfb907a02bba pyproject",
+      "misaki 0.9.4 requires_dist"
+    ],
+    "integration_cost": "low",
+    "risks": [
+      "Phát âm mẫu theo từ (FR-044) cần sinh theo yêu cầu → nếu cần runtime, xem lại"
+    ],
+    "open_questions": [
+      "Phát âm mẫu từng từ: sinh sẵn danh sách từ thường gặp hay gọi runtime?"
+    ]
+  },
+  {
+    "decision_id": "RF-D-007",
+    "capability_id": "CAP-007",
+    "candidate_ids": [
+      "CAND-label-studio"
+    ],
+    "action": "REIMPLEMENT",
+    "rationale": "Giữ trang /labeling trong Task 14 (Founder dựng UI, API sẵn). Label Studio (Apache-2.0) để dự phòng: 30 bài/tuần không bù được chi phí đồng bộ JSON ↔ human_label và thêm dịch vụ.",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "HumanSignal/label-studio@e2b352861769"
+    ],
+    "integration_cost": "low",
+    "risks": [],
+    "open_questions": []
+  },
+  {
+    "decision_id": "RF-D-008",
+    "capability_id": "CAP-008",
+    "candidate_ids": [
+      "CAND-scipy"
+    ],
+    "action": "REIMPLEMENT",
+    "rationale": "Giữ PAV ~20 dòng theo plan Task 15 (không thêm SciPy ~40 MB vào image chỉ cho một hàm); SciPy dùng trong test để đối chiếu kết quả.",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "SciPy 1.12 release notes"
+    ],
+    "integration_cost": "low",
+    "risks": [],
+    "open_questions": []
+  },
+  {
+    "decision_id": "RF-D-009",
+    "capability_id": "CAP-009",
+    "candidate_ids": [
+      "CAND-presidio",
+      "CAND-vipii"
+    ],
+    "action": "REIMPLEMENT",
+    "rationale": "Giữ pii_spans từ LLM + regex (đã có). Presidio chỉ bật nếu eval recall <90% trên 30 câu mẫu; vipii INSUFFICIENT_EVIDENCE.",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "microsoft/presidio@4ef07bdbd9a4"
+    ],
+    "integration_cost": "low",
+    "risks": [
+      "Tên Việt không viết hoa có thể lọt"
+    ],
+    "open_questions": [
+      "Soạn 30 câu mẫu PII để đo recall"
+    ]
+  },
+  {
+    "decision_id": "RF-D-010",
+    "capability_id": "CAP-010",
+    "candidate_ids": [
+      "CAND-sepay",
+      "CAND-agentpay-vn"
+    ],
+    "action": "WRAP",
+    "rationale": "SePay (dịch vụ) cho QR + webhook biến động số dư, bọc bằng payment adapter có HMAC/API-key verify + khóa idempotent theo mã giao dịch; học luồng đối soát từ agentpay-vn (MIT, EXTRACT_CONCEPT kèm ghi nguồn). payment-modules REJECT (không giấy phép). Giai đoạn đầu vẫn có xác nhận tay (FR-102).",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "phuocdu/agentpay-vn@83cc2f8058c8",
+      "sepay.vn"
+    ],
+    "integration_cost": "medium",
+    "risks": [
+      "Pháp lý thu tiền cá nhân (TBD-05)",
+      "Phí SePay"
+    ],
+    "open_questions": [
+      "Hình thức pháp lý nhận tiền?"
+    ]
+  },
+  {
+    "decision_id": "RF-D-011",
+    "capability_id": "CAP-011",
+    "candidate_ids": [],
+    "action": "REIMPLEMENT",
+    "rationale": "Validator đề tự viết theo khái niệm trong REFERENCE_ielts-cd_analysis.md (chỉ khái niệm, không sao chép mã).",
+    "evidence_status": "USER_PROVIDED",
+    "evidence_refs": [
+      "docs/architecture/REFERENCE_ielts-cd_analysis.md"
+    ],
+    "integration_cost": "low",
+    "risks": [],
+    "open_questions": []
+  },
+  {
+    "decision_id": "RF-D-012",
+    "capability_id": "CAP-012",
+    "candidate_ids": [
+      "CAND-zalo-python-sdk"
+    ],
+    "action": "REIMPLEMENT",
+    "rationale": "Email qua tiện ích gửi mail của template; Zalo ZNS gọi REST bằng httpx ở R1.1. zalo-python-sdk REJECT (giấy phép không rõ).",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "pypi zalo-python-sdk 1.17"
+    ],
+    "integration_cost": "low",
+    "risks": [],
+    "open_questions": []
+  },
+  {
+    "decision_id": "RF-D-013",
+    "capability_id": "CAP-013",
+    "candidate_ids": [
+      "CAND-pg-s3-backup"
+    ],
+    "action": "EXTRACT_CONCEPT",
+    "rationale": "backup.sh tự viết (Task 11) theo mẫu của pg-s3-backup (MIT): mã hóa bằng age public key, retention do lifecycle của bucket. Repo quá mới để phụ thuộc trực tiếp.",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "konopi79/pg-s3-backup@97031d04b13e"
+    ],
+    "integration_cost": "low",
+    "risks": [],
+    "open_questions": []
+  },
+  {
+    "decision_id": "RF-D-014",
+    "capability_id": "CAP-014",
+    "candidate_ids": [
+      "CAND-ellipse",
+      "CAND-wi2024"
+    ],
+    "action": "REJECT",
+    "rationale": "Cả hai cấm dùng thương mại; giữ corpus tự thu thập có đồng ý + Founder chấm (spec §7).",
+    "evidence_status": "SOURCE_VERIFIED",
+    "evidence_refs": [
+      "ELLIPSE README",
+      "W&I 2024 licence"
+    ],
+    "integration_cost": "low",
+    "risks": [],
+    "open_questions": []
+  }
+]

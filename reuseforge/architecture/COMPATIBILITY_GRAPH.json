@@ -1,0 +1,76 @@
+{
+  "components": [
+    "web SPA (React/shadcn, Founder)",
+    "backend FastAPI",
+    "worker arq (default queue)",
+    "worker arq 'speech' queue",
+    "Postgres",
+    "Redis",
+    "ai_gateway adapters: LLM, local-whisper, azure-pa",
+    "SePay",
+    "object storage (backup, audio)"
+  ],
+  "edges": [
+    {
+      "from": "web SPA",
+      "to": "backend",
+      "interface": "REST /api/v1 (OpenAPI client)",
+      "license": "—"
+    },
+    {
+      "from": "web SPA",
+      "to": "idb-keyval",
+      "interface": "npm lib",
+      "license": "Apache-2.0"
+    },
+    {
+      "from": "backend",
+      "to": "worker 'speech'",
+      "interface": "arq job per uploaded part",
+      "license": "—"
+    },
+    {
+      "from": "worker 'speech'",
+      "to": "faster-whisper base.en int8",
+      "interface": "ai_gateway local adapter",
+      "runtime": "CPU, ~711 MB RSS, RTF≈0,1 (2 nhân)",
+      "license": "MIT"
+    },
+    {
+      "from": "worker",
+      "to": "Azure Speech PA",
+      "interface": "ai_gateway adapter (HTTP)",
+      "license": "service terms",
+      "status": "UNRESOLVED (RF-D-004)"
+    },
+    {
+      "from": "backend",
+      "to": "SePay",
+      "interface": "webhook in + QR URL",
+      "license": "service terms"
+    },
+    {
+      "from": "Founder machine",
+      "to": "Kokoro-82M",
+      "interface": "offline build step → static audio",
+      "license": "Apache-2.0 (+GPL build-time deps, not distributed)"
+    }
+  ],
+  "ram_budget_mb": {
+    "postgres": 600,
+    "redis": 80,
+    "backend": 350,
+    "worker": 300,
+    "speech_worker": 800,
+    "traefik": 60,
+    "os_headroom": 800,
+    "total": 2990,
+    "vps": 4096
+  },
+  "conflicts": [],
+  "unresolved": [
+    "RF-D-004 pronunciation provider",
+    "RF-D-003 accent WER",
+    "RF-D-003 VPS re-run"
+  ]
+}
