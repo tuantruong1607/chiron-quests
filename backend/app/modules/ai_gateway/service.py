@@ -7,7 +7,9 @@ The only module allowed to call an LLM provider SDK directly (enforced by
 
 import math
 from collections import defaultdict
-from collections.abc import Awaitable, Callable
+from collections.abc import Awaitable, Callable, Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 
@@ -52,6 +54,7 @@ __all__ = [
     "complete",
     "task_config",
     "usage_summary",
+    "override_route",
 ]
 
 #: Per-call adapter timeout (spec §4.2). A module-level global (not a
@@ -70,15 +73,49 @@ ADAPTER_REGISTRY: dict[str, Callable[[], ProviderAdapter]] = {
 }
 
 
+#: In-process, per-context (contextvar) override of `task_config()`'s
+#: routing.yaml lookup, set by `override_route()`. Never persisted to
+#: routing.yaml itself - it exists so Task 6's `eval_cli` can run
+#: `grade_writing()` against a chosen provider/model/prompt_version/
+#: calibration without touching the versioned routing file.
+_route_overrides: ContextVar[dict[str, TaskRoute] | None] = ContextVar(
+    "_route_overrides", default=None
+)
+
+
 def task_config(task_key: str) -> TaskRoute:
-    """Return `routing.yaml`'s route for `task_key` (rubric/prompt version,
-    active calibration, few-shot ids, provider/model, params, data_class).
-    Raises `AIError("no_route")` if the task isn't configured."""
+    """Return `task_key`'s route: an active `override_route()` override in
+    this context if one is set, otherwise `routing.yaml`'s entry (rubric/
+    prompt version, active calibration, few-shot ids, provider/model,
+    params, data_class). Raises `AIError("no_route")` if the task isn't
+    configured and has no override."""
+    overrides = _route_overrides.get()
+    if overrides is not None and task_key in overrides:
+        return overrides[task_key]
     routing = load_routing()
     route = routing.tasks.get(task_key)
     if route is None:
         raise AIError("no_route", f"no routing.yaml entry for task '{task_key}'")
     return route
+
+
+@contextmanager
+def override_route(task_key: str, **fields: object) -> Iterator[None]:
+    """Override `task_config(task_key)` (and so `complete()`'s routing for
+    that task) for the duration of this context, in this process/task only
+    - a contextvar, not a routing.yaml edit. `fields` are applied on top of
+    the task's current route (from an existing override, if one is already
+    active, otherwise from `routing.yaml`) via `TaskRoute.model_copy`, e.g.
+    `override_route("writing_grade", provider="openai", model="gpt-x")`.
+    Restores the previous override (or its absence) on exit."""
+    base = task_config(task_key)
+    new_overrides = dict(_route_overrides.get() or {})
+    new_overrides[task_key] = base.model_copy(update=fields)
+    token = _route_overrides.set(new_overrides)
+    try:
+        yield
+    finally:
+        _route_overrides.reset(token)
 
 
 def _get_adapter(provider: str) -> ProviderAdapter:
@@ -320,10 +357,7 @@ async def _settle_and_log(
 
 
 async def complete(req: AIRequest) -> AIResult:
-    routing = load_routing()
-    route = routing.tasks.get(req.task_key)
-    if route is None:
-        raise AIError("no_route", f"no routing.yaml entry for task '{req.task_key}'")
+    route = task_config(req.task_key)
 
     day = vn_today()
     schema_dict = req.response_schema.model_json_schema()

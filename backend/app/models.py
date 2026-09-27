@@ -8,6 +8,11 @@ from sqlmodel import Field, Relationship, SQLModel
 # Register each module's own SQLModel tables here so `SQLModel.metadata`
 # (used by Alembic autogenerate, see app/alembic/env.py) picks them up.
 from app.modules.ai_gateway.models import AIRequestLog  # noqa: E402, F401
+from app.modules.corpus.models import (  # noqa: E402, F401
+    EvalRun,
+    HumanLabel,
+    TrainingCorpusItem,
+)
 
 
 def get_datetime_utc() -> datetime:
