@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IELTS Writing Lab PRD</title>
-<meta name="description" content="PRD v1.1 — IELTS Writing Lab, chuẩn BABOK v3 / SRS">
+<title>IELTS Speaking Writing PRD</title>
+<meta name="description" content="PRD v1.2 — IELTS Speaking & Writing Lab, chuẩn BABOK v3 / SRS">
 <style>
 :root {
   --bg:#f7f7f5; --surface:#ffffff; --text:#1d1d1b; --muted:#5f5f5a; --border:#e3e2dd;
@@ -52,7 +52,7 @@ blockquote.note p { margin:4px 0; }
 .table-wrap { overflow-x:auto; margin:14px 0; border:1px solid var(--border); border-radius:8px; }
 table { border-collapse:collapse; width:100%; font-size:14px; }
 th, td { text-align:left; vertical-align:top; padding:8px 12px; border-bottom:1px solid var(--border); }
-th { background:var(--code-bg); font-weight:600; white-space:nowrap; }
+th { background:var(--code-bg); font-weight:600; }
 tr:last-child td { border-bottom:none; }
 td:first-child { white-space:nowrap; font-weight:500; }
 .tag { display:inline-block; font-size:11.5px; font-weight:600; padding:1px 7px; border-radius:999px; white-space:nowrap; vertical-align:1px; }
@@ -95,7 +95,7 @@ strong.ac { color:var(--accent); }
 <li><a href="#11-data-requirements">11. Data Requirements</a></li>
 <li><a href="#12-compliance-legal">12. Compliance &amp; Legal</a></li>
 <li><a href="#13-monetization-unit-economics">13. Monetization &amp; Unit Economics</a></li>
-<li><a href="#14-dành-chỗ-speaking-r2">14. (Dành chỗ) Speaking — R2</a></li>
+<li><a href="#14-lỗi-đặc-trưng-của-người-việt-danh-sách-khởi-đầu">14. Lỗi đặc trưng của người Việt — danh sách khởi đầu</a></li>
 <li><a href="#15-chiến-lược-đa-kỳ-thi">15. Chiến lược đa kỳ thi</a></li>
 <li><a href="#16-risks-mitigations">16. Risks &amp; Mitigations</a></li>
 <li><a href="#17-roadmap-12-tuần">17. Roadmap 12 tuần</a></li>
@@ -107,11 +107,11 @@ strong.ac { color:var(--accent); }
 </div>
 </details></nav>
 <main>
-<h1 id="ielts-writing-lab-product-requirements-document-prd-srs">IELTS Writing Lab — Product Requirements Document (PRD / SRS)</h1><div class="legend"><span><span class="pri pri-M">M</span> Must</span><span><span class="pri pri-S">S</span> Should</span><span><span class="pri pri-C">C</span> Could</span><span><span class="pri pri-W">W</span> Won&#39;t</span><span><span class="tag tag-prop">Đề xuất</span> chờ duyệt</span><span><span class="tag tag-tbd">TBD-xx</span> quyết định mở</span></div>
+<h1 id="ielts-speaking-writing-lab-product-requirements-document-prd-srs">IELTS Speaking &amp; Writing Lab — Product Requirements Document (PRD / SRS)</h1><div class="legend"><span><span class="pri pri-M">M</span> Must</span><span><span class="pri pri-S">S</span> Should</span><span><span class="pri pri-C">C</span> Could</span><span><span class="pri pri-W">W</span> Won&#39;t</span><span><span class="tag tag-prop">Đề xuất</span> chờ duyệt</span><span><span class="tag tag-tbd">TBD-xx</span> quyết định mở</span></div>
 <blockquote class="note">
 <p>Chuẩn IIBA BABOK v3 (Agile Perspective) + cấu trúc SRS (BRD + FRD + NFR).
-Thay thế <strong>IELTS Exam Lab PRD v1.0</strong>. Phạm vi Release 1 được thu hẹp theo nguyên tắc
-<strong>"sản phẩm đầu tiên phải dễ làm, dễ bán"</strong>.</p>
+Thay thế <strong>IELTS Exam Lab PRD v1.0</strong> và <strong>PRD v1.1</strong>. Release 1 tập trung vào hai kỹ năng
+<strong>Speaking và Writing</strong>, nơi AI tạo khác biệt thật sự so với ChatGPT; <strong>Speaking là tính năng chính</strong>.</p>
 </blockquote>
 <hr />
 <h2 id="document-control">Document Control</h2>
@@ -129,7 +129,7 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong>. Phạm vi Release 1 đượ
 </tr>
 <tr>
 <td>Version</td>
-<td>1.1</td>
+<td>1.2</td>
 </tr>
 <tr>
 <td>Status</td>
@@ -153,7 +153,7 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong>. Phạm vi Release 1 đượ
 </tr>
 <tr>
 <td>Tên sản phẩm Release 1</td>
-<td>IELTS Writing Lab (tên làm việc)</td>
+<td>IELTS Speaking &amp; Writing Lab (tên làm việc)</td>
 </tr>
 </tbody>
 </table></div>
@@ -187,9 +187,71 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong>. Phạm vi Release 1 đượ
 <td>BA (Claude) + Founder</td>
 <td>Xem bảng "Thay đổi so với v1.0" bên dưới</td>
 </tr>
+<tr>
+<td>1.2</td>
+<td>2026-09-27</td>
+<td>BA (Claude) + Founder</td>
+<td>Release 1 = Speaking + Writing; định vị cạnh tranh với ChatGPT; xem bảng "Thay đổi so với v1.1"</td>
+</tr>
 </tbody>
 </table></div>
-<h3 id="thay-đổi-so-với-v1-0-tóm-tắt-quyết-định-đã-chốt">Thay đổi so với v1.0 (tóm tắt quyết định đã chốt)</h3>
+<h3 id="thay-đổi-so-với-v1-1-founder-duyệt-2026-09-27">Thay đổi so với v1.1 (Founder duyệt 2026-09-27)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Hạng mục</th>
+<th>v1.1</th>
+<th>v1.2</th>
+<th>Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Phạm vi Release 1</td>
+<td>Chỉ Writing</td>
+<td><strong>Speaking (Part 1–3) + Writing (Task 1, Task 2)</strong>; Listening/Reading vẫn để sau</td>
+<td>Chỉ có Writing thì cạnh tranh trực diện với ChatGPT miễn phí ở đúng phần ChatGPT mạnh nhất</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Định vị</td>
+<td>"Biết lỗi gì, sửa được chưa"</td>
+<td><strong>"Phòng luyện nói và viết IELTS dành riêng cho người Việt"</strong>, Speaking là tính năng chính (§2.7)</td>
+<td>Speaking là nơi ChatGPT yếu nhất: không mô phỏng phòng thi, không có điểm phát âm định lượng</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Tính năng mới</td>
+<td>—</td>
+<td>Mô phỏng phòng thi Speaking, chấm phát âm dựa trên audio, <strong>lỗi đặc trưng của người Việt</strong>, <strong>insight xuyên kỹ năng</strong> Writing ↔ Speaking</td>
+<td>Những điều ChatGPT không làm được</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Thu tiền</td>
+<td>Tuần 6</td>
+<td><strong>Beta kín miễn phí tuần 8, bắt đầu bán tuần 9</strong></td>
+<td>Chỉ bán khi đã có Speaking, tức lý do để không dùng ChatGPT</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Credit</td>
+<td>Writing 1 credit</td>
+<td>Writing 1 credit; Speaking <strong>1 credit/Part, 3 credit/bài thi đủ 3 Part</strong></td>
+<td>Chi phí Speaking cao hơn</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Multimodal</td>
+<td>—</td>
+<td>Hiểu là <strong>Speaking + Writing</strong> (kỹ năng sản sinh), <strong>không</strong> phải đủ 4 kỹ năng</td>
+<td>Listening/Reading cạnh tranh bằng số lượng đề, AI ít tạo khác biệt</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="thay-đổi-so-với-v1-0-tóm-tắt-quyết-định-đã-chốt-ở-v1-1">Thay đổi so với v1.0 (tóm tắt quyết định đã chốt ở v1.1)</h3>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -205,8 +267,8 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong>. Phạm vi Release 1 đượ
 <td>1</td>
 <td>Phạm vi Release 1</td>
 <td>4 kỹ năng + full mock</td>
-<td><strong>Chỉ Writing</strong> (Academic Task 1 + Task 2)</td>
-<td>Dễ làm: không cần audio/STT/sản xuất đề nghe-đọc. Dễ bán: Writing là phần khó tự đánh giá nhất, sẵn sàng trả tiền cao nhất</td>
+<td>Chỉ Writing — <strong>đã thay bởi v1.2</strong> (Speaking + Writing)</td>
+<td>Dễ làm: không cần sản xuất đề nghe-đọc</td>
 </tr>
 <tr>
 <td>2</td>
@@ -254,8 +316,8 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong>. Phạm vi Release 1 đượ
 <td>8</td>
 <td>Thu tiền</td>
 <td>Tuần 10</td>
-<td><strong>Từ tuần 6</strong>, cho phép xác nhận chuyển khoản thủ công</td>
-<td>Kiểm chứng sẵn sàng trả tiền sớm nhất</td>
+<td>Từ tuần 6 — <strong>v1.2 đổi thành tuần 9</strong>; vẫn cho phép xác nhận chuyển khoản thủ công</td>
+<td>Kiểm chứng sẵn sàng trả tiền</td>
 </tr>
 <tr>
 <td>9</td>
@@ -269,26 +331,27 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong>. Phạm vi Release 1 đượ
 <hr />
 <h2 id="1-introduction">1. Introduction</h2>
 <h3 id="1-1-purpose">1.1 Purpose</h3>
-<p>Tài liệu đặc tả yêu cầu business, chức năng và phi chức năng cho <strong>Release 1 — IELTS Writing Lab</strong>,
-đồng thời xác định lộ trình và các ràng buộc kiến trúc để mở rộng sang IELTS 4 kỹ năng, TOEIC và SAT.</p>
+<p>Tài liệu đặc tả yêu cầu business, chức năng và phi chức năng cho <strong>Release 1 — IELTS Speaking &amp; Writing Lab</strong>,
+đồng thời xác định lộ trình và các ràng buộc kiến trúc để mở rộng sang Listening/Reading, TOEIC và SAT.</p>
 <h3 id="1-2-intended-audience">1.2 Intended Audience</h3>
 <p>Founder (Sponsor/PO/Dev), cộng tác viên nội dung/QA tương lai, cố vấn pháp lý, chuyên gia IELTS (khi có).</p>
 <h3 id="1-3-product-scope">1.3 Product Scope</h3>
-<p>Nền tảng web (responsive + PWA) giúp người học IELTS Academic tại Việt Nam:
-nộp bài Writing → nhận <strong>report AI theo 4 tiêu chí, gắn bằng chứng trong bài</strong> → hệ thống
-<strong>ghi nhớ lỗi lặp lại</strong> → người học <strong>viết lại / làm đề tương đương</strong> → <strong>kiểm chứng lỗi đã được sửa hay chưa</strong>.</p>
-<p><strong>Định vị:</strong> <em>"Biết chính xác bạn đang mắc lỗi gì — và đã sửa được chưa."</em>
-Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). Band do AI tạo ra là <strong>ước lượng phục vụ luyện tập</strong>, không phải điểm chính thức.</p>
+<p>Nền tảng web (responsive + PWA) giúp người học IELTS Academic tại Việt Nam luyện hai kỹ năng sản sinh:
+- <strong>Speaking:</strong> thi thử Part 1 → 2 → 3 với giám khảo AI, đúng thời gian như phòng thi → report theo 4 tiêu chí, <strong>phát âm được chấm bằng phân tích audio</strong>, chỉ ra <strong>lỗi đặc trưng của người Việt</strong>.
+- <strong>Writing:</strong> nộp Task 1/Task 2 → report theo 4 tiêu chí, gắn bằng chứng trong bài.</p>
+<p>Cả hai kỹ năng dùng chung <strong>Error Memory</strong>: hệ thống ghi nhớ lỗi lặp lại, kể cả lỗi xuất hiện ở cả nói và viết → người học <strong>làm lại / làm đề tương đương</strong> → <strong>kiểm chứng lỗi đã được sửa hay chưa</strong>.</p>
+<p><strong>Định vị:</strong> <em>"Phòng luyện nói và viết IELTS dành riêng cho người Việt — biết bạn sai gì, sửa được chưa."</em>
+Speaking là tính năng chính trong thông điệp bán hàng. Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). Band do AI tạo ra là <strong>ước lượng phục vụ luyện tập</strong>, không phải điểm chính thức.</p>
 <h3 id="1-4-references">1.4 References</h3>
 <ul>
 <li>IELTS Exam Lab PRD v1.0 (2026-09-27)</li>
 <li>Biên bản đánh giá business (phiên làm việc 2026-09-27)</li>
-<li>IELTS Writing Band Descriptors (public version) — dùng làm cơ sở rubric; không sao chép đề thi có bản quyền</li>
+<li>IELTS Writing và Speaking Band Descriptors (public version) — dùng làm cơ sở rubric; không sao chép đề thi có bản quyền</li>
 </ul>
 <hr />
 <h2 id="2-business-context-baccm">2. Business Context (BACCM)</h2>
 <h3 id="2-1-change">2.1 Change</h3>
-<p>Xây mới một sản phẩm luyện thi dựa trên AI, bắt đầu bằng <strong>một kỹ năng duy nhất (Writing)</strong> để ra thị trường và bắt đầu thu tiền từ tuần 6, sau đó mở rộng theo từng release có điều kiện.</p>
+<p>Xây mới một sản phẩm luyện thi dựa trên AI, bắt đầu bằng <strong>hai kỹ năng sản sinh (Speaking + Writing)</strong>, là nơi AI tạo khác biệt rõ nhất so với ChatGPT. Beta kín từ tuần 8, bắt đầu thu tiền từ tuần 9, sau đó mở rộng theo từng release có điều kiện.</p>
 <h3 id="2-2-need-giả-thuyết-cần-kiểm-chứng-trong-beta">2.2 Need (giả thuyết cần kiểm chứng trong beta)</h3>
 <div class="table-wrap"><table>
 <thead>
@@ -319,10 +382,20 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>Chatbot AI thông thường không lưu lịch sử lỗi, không có quy trình thi và không đo tiến bộ</td>
 <td>Giả thuyết</td>
 </tr>
+<tr>
+<td>N5</td>
+<td>Người tự học không có môi trường luyện nói giống phòng thi (thời gian, cue card, câu hỏi nối tiếp) và không biết chính xác mình phát âm sai âm nào</td>
+<td>Giả thuyết — cần xác nhận qua phỏng vấn beta</td>
+</tr>
+<tr>
+<td>N6</td>
+<td>Gia sư Speaking 1-1 có chi phí cao và khó sắp lịch luyện thường xuyên</td>
+<td>Giả thuyết</td>
+</tr>
 </tbody>
 </table></div>
 <h3 id="2-3-solution-high-level">2.3 Solution (high-level)</h3>
-<p>Writing Lab gồm: (1) nộp bài Task 1/Task 2 trong Exam Mode hoặc Practice Mode; (2) AI report theo tiêu chí có bằng chứng; (3) Error Memory; (4) Rewrite &amp; Retest; (5) Drill mục tiêu; (6) Credit/Premium; (7) Admin theo dõi chi phí và chất lượng.</p>
+<p>Speaking &amp; Writing Lab gồm: (1) thi thử Speaking Part 1–3 với giám khảo AI; (2) chấm phát âm dựa trên audio và phát hiện lỗi đặc trưng của người Việt; (3) nộp bài Writing Task 1/Task 2 trong Exam Mode hoặc Practice Mode; (4) AI report theo tiêu chí có bằng chứng cho cả hai kỹ năng; (5) Error Memory và insight xuyên kỹ năng; (6) Redo/Rewrite &amp; Retest; (7) Drill mục tiêu; (8) Credit/Premium; (9) Admin theo dõi chi phí và chất lượng.</p>
 <h3 id="2-4-stakeholders-xem-4">2.4 Stakeholders — xem §4.</h3>
 <h3 id="2-5-value-xem-3-business-objectives">2.5 Value — xem §3 (Business Objectives).</h3>
 <h3 id="2-6-context">2.6 Context</h3>
@@ -344,7 +417,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>Thời gian</td>
-<td>Paid beta từ tuần 6; đánh giá gate Release 2 ở tuần 12</td>
+<td>Beta kín từ tuần 8, bắt đầu bán từ tuần 9; đánh giá gate Release 2 ở tuần 12</td>
 </tr>
 <tr>
 <td>Tech stack</td>
@@ -362,8 +435,55 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>Chuyên môn</td>
 <td>Chưa có chuyên gia IELTS hoặc dataset tham chiếu được cấp phép</td>
 </tr>
+<tr>
+<td>Cạnh tranh</td>
+<td>ChatGPT/AI tổng quát miễn phí; các nền tảng luyện thi IELTS trong nước</td>
+</tr>
 </tbody>
 </table></div>
+<h3 id="2-7-định-vị-cạnh-tranh">2.7 Định vị cạnh tranh</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kỹ năng</th>
+<th>Đối thủ thật</th>
+<th>ChatGPT thay thế được?</th>
+<th>AI của sản phẩm tạo khác biệt?</th>
+<th>Quyết định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Speaking</strong></td>
+<td>Gia sư 1-1</td>
+<td>Một phần: hội thoại được, nhưng không mô phỏng phòng thi, không đo thời gian, không có điểm phát âm định lượng</td>
+<td><strong>Nhiều nhất</strong></td>
+<td>R1, tính năng chính</td>
+</tr>
+<tr>
+<td><strong>Writing</strong></td>
+<td>ChatGPT miễn phí</td>
+<td>Gần như hoàn toàn nếu chỉ chấm một bài</td>
+<td>Chỉ khi có Error Memory, điểm nhất quán và Retest</td>
+<td>R1, kỹ năng thứ hai</td>
+</tr>
+<tr>
+<td>Listening/Reading</td>
+<td>Kho đề miễn phí/giá rẻ</td>
+<td>Không liên quan (chấm theo đáp án)</td>
+<td>Gần như không</td>
+<td>R2</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>5 điều sản phẩm làm được mà ChatGPT không làm được (phải hiện rõ trên landing page):</strong></p>
+<ol>
+<li>Mô phỏng phòng thi Speaking: Part 1 → 2 → 3, 1 phút chuẩn bị, 2 phút nói, câu hỏi nối tiếp (F13).</li>
+<li>Phát âm được chấm bằng phân tích audio ở mức âm/từ, không suy ra từ transcript (F14).</li>
+<li>Nhận diện <strong>lỗi đặc trưng của người Việt</strong>: mất âm cuối, bỏ -s/-ed, /θ/ /ð/, trọng âm từ, thiếu mạo từ… (F15, §14).</li>
+<li><strong>Insight xuyên kỹ năng:</strong> "bạn bỏ -s ở động từ khi viết và cũng nuốt âm /s/ khi nói" (F15).</li>
+<li>Điểm nhất quán theo thời gian nhờ model và rubric cố định, nên so sánh được để chứng minh tiến bộ (FR-076).</li>
+</ol>
 <hr />
 <h2 id="3-business-objectives-kpi">3. Business Objectives &amp; KPI</h2>
 <blockquote class="note">
@@ -382,13 +502,13 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tr>
 <td>O1</td>
 <td>Chứng minh chất lượng feedback đủ dùng</td>
-<td>(a) Tỉ lệ đánh giá 👍 trên report ≥ 70%; (b) chấm lại cùng một bài trong eval set: chênh lệch overall band ≤ 0,5 ở ≥ 90% bài; (c) 0 trường hợp trích dẫn bằng chứng không có trong bài</td>
-<td>Tuần 6 (trước paid beta)</td>
+<td>(a) Tỉ lệ đánh giá 👍 trên report ≥ 70% (đo riêng Speaking và Writing); (b) chấm lại cùng một bài trong eval set: chênh lệch overall band ≤ 0,5 ở ≥ 90% bài; (c) 0 trường hợp trích dẫn bằng chứng không có trong bài/transcript</td>
+<td>Tuần 8 (trước khi bán)</td>
 </tr>
 <tr>
 <td>O2</td>
 <td>Chứng minh learning loop</td>
-<td>≥ 30% người đã nhận report có thực hiện Rewrite hoặc Retest trong 14 ngày</td>
+<td>≥ 30% người đã nhận report có thực hiện Redo/Rewrite hoặc Retest trong 14 ngày</td>
 <td>Tuần 12</td>
 </tr>
 <tr>
@@ -400,13 +520,19 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tr>
 <td>O4</td>
 <td>Unit economics dương</td>
-<td>Chi phí AI ≤ 30% doanh thu thuần/người trả phí; chi phí trung bình ≤ 1.500đ/lượt chấm</td>
+<td>Chi phí AI ≤ 30% doanh thu thuần/người trả phí; chi phí trung bình ≤ 1.500đ/lượt Writing và ≤ 5.000đ/bài thi Speaking đủ 3 Part</td>
 <td>Tuần 12</td>
 </tr>
 <tr>
 <td>O5</td>
 <td>Activation &amp; retention</td>
 <td>≥ 60% người đăng ký nộp bài đầu tiên trong 7 ngày; ≥ 20% người dùng hoạt động quay lại ở tuần thứ 4</td>
+<td>Tuần 12</td>
+</tr>
+<tr>
+<td>O6</td>
+<td>Chứng minh Speaking là lý do mua</td>
+<td>≥ 50% người trả phí đã dùng Speaking trước khi thanh toán; ≥ 60% người trả lời khảo sát chọn Speaking là lý do chính</td>
 <td>Tuần 12</td>
 </tr>
 </tbody>
@@ -454,6 +580,13 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>Low</td>
 </tr>
 <tr>
+<td>Speech provider</td>
+<td>Nhà cung cấp STT và chấm phát âm (<span class="tag tag-tbd">TBD-04</span>)</td>
+<td>Chuyển giọng nói thành văn bản, phân tích phát âm</td>
+<td>Med</td>
+<td>Low</td>
+</tr>
+<tr>
 <td>Payment provider</td>
 <td><span class="tag tag-tbd">TBD-07</span> (ưu tiên hỗ trợ VietQR / ví điện tử)</td>
 <td>Thu tiền, webhook</td>
@@ -497,46 +630,42 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </thead>
 <tbody>
 <tr>
-<td><strong>R1 — IELTS Writing Lab</strong></td>
-<td>Academic Task 1 + Task 2, AI report, Error Memory, Rewrite/Retest, credit &amp; thanh toán</td>
+<td><strong>R1 — IELTS Speaking &amp; Writing Lab</strong></td>
+<td>Speaking Part 1–3 (mô phỏng phòng thi, chấm phát âm, lỗi của người Việt), Writing Academic Task 1 + Task 2, Error Memory xuyên kỹ năng, Redo/Rewrite/Retest, credit &amp; thanh toán</td>
 <td>—</td>
 <td>Tuần 1–12</td>
 </tr>
 <tr>
-<td>R2 — Speaking</td>
-<td>Part 1–3, STT + LLM, chấm phát âm khi có phân tích audio</td>
-<td>O1, O3, O4 đạt</td>
+<td>R2 — Listening/Reading + Full mock Academic</td>
+<td>Chấm khách quan theo answer key, full mock 4 kỹ năng</td>
+<td>O1, O3, O4, O6 đạt; có nguồn nội dung hợp pháp</td>
 <td>Sau tuần 12</td>
 </tr>
 <tr>
-<td>R3 — Listening/Reading + Full mock Academic</td>
-<td>Chấm khách quan theo answer key, full mock 4 kỹ năng</td>
-<td>R2 ổn định; có nguồn nội dung hợp pháp</td>
+<td>R3 — TOEIC Listening &amp; Reading</td>
+<td>7 Part, bảng quy đổi điểm, drill từ vựng</td>
+<td>IELTS: conversion ≥ 3%, AI cost ≤ 30% doanh thu, W4 retention đạt O5 <span class="tag tag-prop">Đề xuất</span></td>
 <td>Sau R2</td>
 </tr>
 <tr>
-<td>R4 — TOEIC Listening &amp; Reading</td>
-<td>7 Part, bảng quy đổi điểm, drill từ vựng</td>
-<td>IELTS: conversion ≥ 3%, AI cost ≤ 30% doanh thu, W4 retention đạt O5 <span class="tag tag-prop">Đề xuất</span></td>
-<td>Sau R3</td>
-</tr>
-<tr>
-<td>R5 — SAT (Digital)</td>
+<td>R4 — SAT (Digital)</td>
 <td>Adaptive theo module, Math (LaTeX, máy tính), luồng đồng ý của phụ huynh</td>
-<td>R4 đạt gate tương đương; rà soát pháp lý cho người chưa thành niên</td>
-<td>Sau R4</td>
+<td>R3 đạt gate tương đương; rà soát pháp lý cho người chưa thành niên</td>
+<td>Sau R3</td>
 </tr>
 </tbody>
 </table></div>
 <h3 id="5-2-in-scope-r1">5.2 In-Scope (R1)</h3>
 <ul>
 <li>✅ Đăng ký/đăng nhập, quản lý tài khoản, xóa dữ liệu</li>
-<li>✅ Writing diagnostic khi onboarding (1 bài Task 2)</li>
-<li>✅ Nộp bài Academic Task 1 và Task 2 (Exam Mode + Practice Mode, autosave)</li>
+<li>✅ Diagnostic khi onboarding: 1 lượt Speaking Part 1 (mặc định) + 1 bài Writing Task 2 (tùy chọn)</li>
+<li>✅ <strong>Speaking Part 1–3</strong>: mô phỏng phòng thi với giám khảo AI, ghi âm, transcript, report 4 tiêu chí</li>
+<li>✅ <strong>Chấm phát âm dựa trên audio</strong> và <strong>lỗi đặc trưng của người Việt</strong></li>
+<li>✅ Nộp bài Writing Academic Task 1 và Task 2 (Exam Mode + Practice Mode, autosave)</li>
 <li>✅ AI report theo 4 tiêu chí, bằng chứng, inline highlight, nhãn "ước lượng — không chính thức"</li>
-<li>✅ Error Memory, Rewrite (so sánh bản sửa), Retest bằng đề tương đương</li>
+<li>✅ Error Memory <strong>xuyên kỹ năng</strong>, Redo (Speaking) / Rewrite (Writing), Retest bằng đề tương đương</li>
 <li>✅ Drill mục tiêu (nội dung tạo sẵn và cache)</li>
-<li>✅ Lịch sử &amp; tiến bộ Writing</li>
+<li>✅ Lịch sử &amp; tiến bộ Speaking và Writing</li>
 <li>✅ Free / Premium tháng / gói 3 tháng, hệ thống credit, thanh toán</li>
 <li>✅ AI Gateway: phân loại dữ liệu, model chấm cố định, caching, circuit breaker, trần chi phí</li>
 <li>✅ Admin: user, usage/cost, feedback, import nội dung</li>
@@ -544,9 +673,10 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </ul>
 <h3 id="5-3-out-of-scope-r1">5.3 Out-of-Scope (R1)</h3>
 <ul>
-<li>❌ Speaking, Listening, Reading, full mock — R2/R3</li>
+<li>❌ Listening, Reading, full mock — R2</li>
 <li>❌ General Training Task 1 (letter) — có thể thêm sau vì dùng chung engine</li>
-<li>❌ TOEIC, SAT — R4/R5</li>
+<li>❌ TOEIC, SAT — R3/R4</li>
+<li>❌ Hội thoại Speaking tự do ngoài cấu trúc bài thi, luyện giọng bản ngữ theo vùng miền</li>
 <li>❌ Upload tài liệu để chuyển thành bài luyện — rủi ro bản quyền</li>
 <li>❌ AI Companion, Skill Garden 4 kỹ năng, streak/reward nâng cao</li>
 <li>❌ App native iOS/Android, push notification</li>
@@ -557,7 +687,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <h3 id="5-4-boundaries-interfaces">5.4 Boundaries / Interfaces</h3>
 <ul>
 <li>Browser/PWA ↔ Next.js ↔ FastAPI (HTTPS)</li>
-<li>FastAPI ↔ AI Gateway ↔ các AI provider bên ngoài</li>
+<li>FastAPI ↔ AI Gateway ↔ các AI provider và speech provider bên ngoài (STT, chấm phát âm, TTS giọng giám khảo)</li>
 <li>FastAPI ↔ Payment adapter ↔ Payment provider (webhook)</li>
 <li>FastAPI ↔ Email provider; FastAPI ↔ Google OAuth</li>
 </ul>
@@ -578,12 +708,12 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>BR-001</td>
 <td>Người học PHẢI nộp được bài IELTS Academic Writing Task 1 và Task 2 và nhận report AI theo 4 tiêu chí, có bằng chứng trong bài</td>
 <td><span class="pri pri-M" title="Must">M</span></td>
-<td>Giá trị cốt lõi, lý do trả tiền</td>
+<td>Kỹ năng thứ hai của R1</td>
 <td>O1, N1</td>
 </tr>
 <tr>
 <td>BR-002</td>
-<td>Hệ thống PHẢI ghi nhớ lỗi lặp lại và cho phép Rewrite/Retest để kiểm chứng lỗi đã sửa</td>
+<td>Hệ thống PHẢI ghi nhớ lỗi lặp lại ở cả Speaking và Writing và cho phép Redo/Rewrite/Retest để kiểm chứng lỗi đã sửa</td>
 <td><span class="pri pri-M" title="Must">M</span></td>
 <td>Điểm khác biệt so với chatbot/đối thủ</td>
 <td>O2, N3, N4</td>
@@ -625,7 +755,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>BR-008</td>
-<td>Bài đang viết KHÔNG được mất khi reload hoặc mất mạng tạm thời</td>
+<td>Bài đang viết và bản ghi âm đã thu KHÔNG được mất khi reload hoặc mất mạng tạm thời</td>
 <td><span class="pri pri-M" title="Must">M</span></td>
 <td>Mất bài = mất niềm tin</td>
 <td>O5</td>
@@ -653,7 +783,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>BR-012</td>
-<td>Hệ thống NÊN hiển thị tiến bộ Writing theo thời gian</td>
+<td>Hệ thống NÊN hiển thị tiến bộ Speaking và Writing theo thời gian</td>
 <td><span class="pri pri-S" title="Should">S</span></td>
 <td>Retention</td>
 <td>O5</td>
@@ -681,23 +811,23 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>BR-016</td>
-<td>Speaking AI grading</td>
-<td><span class="pri pri-W" title="Won't">W</span></td>
-<td>Chuyển sang R2</td>
-<td>—</td>
+<td>Người học PHẢI luyện được Speaking Part 1–3 trong môi trường mô phỏng phòng thi và nhận report theo 4 tiêu chí, trong đó phát âm được đánh giá bằng phân tích audio</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td><strong>Tính năng chính</strong>, lý do không dùng ChatGPT</td>
+<td>O1, O6, N5, N6</td>
 </tr>
 <tr>
 <td>BR-017</td>
 <td>Listening/Reading + full mock</td>
 <td><span class="pri pri-W" title="Won't">W</span></td>
-<td>Chuyển sang R3</td>
+<td>Chuyển sang R2</td>
 <td>—</td>
 </tr>
 <tr>
 <td>BR-018</td>
 <td>TOEIC, SAT</td>
 <td><span class="pri pri-W" title="Won't">W</span></td>
-<td>R4/R5</td>
+<td>R3/R4</td>
 <td>—</td>
 </tr>
 <tr>
@@ -706,6 +836,20 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td><span class="pri pri-W" title="Won't">W</span></td>
 <td>Rủi ro bản quyền / không phải cốt lõi</td>
 <td>—</td>
+</tr>
+<tr>
+<td>BR-020</td>
+<td>Hệ thống PHẢI nhận diện và giải thích các lỗi đặc trưng của người Việt trong phát âm và ngữ pháp</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Khác biệt so với feedback chung chung của AI tổng quát</td>
+<td>O6, N5</td>
+</tr>
+<tr>
+<td>BR-021</td>
+<td>Hệ thống NÊN chỉ ra lỗi xuất hiện ở cả Speaking và Writing (insight xuyên kỹ năng)</td>
+<td><span class="pri pri-S" title="Should">S</span></td>
+<td>Chỉ có được khi một hệ thống thấy cả hai kỹ năng</td>
+<td>O2, O6</td>
 </tr>
 </tbody>
 </table></div>
@@ -721,33 +865,33 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tbody>
 <tr>
 <td>Must</td>
-<td>10</td>
+<td>12</td>
 <td>67%</td>
 </tr>
 <tr>
 <td>Should</td>
-<td>4</td>
-<td>27%</td>
+<td>5</td>
+<td>28%</td>
 </tr>
 <tr>
 <td>Could</td>
 <td>1</td>
-<td>6%</td>
+<td>5%</td>
 </tr>
 <tr>
 <td><strong>Total in-scope</strong></td>
-<td><strong>15</strong></td>
+<td><strong>18</strong></td>
 <td><strong>100%</strong></td>
 </tr>
 <tr>
 <td>Won't (R1)</td>
-<td>4</td>
+<td>3</td>
 <td>—</td>
 </tr>
 </tbody>
 </table></div>
 <blockquote class="note">
-<p>⚠️ Must chiếm 67% số BR. Theo quy tắc 60/40, <strong>effort</strong> của nhóm Must nên ≤ 60% capacity; §17 đã sắp xếp để các BR Should nằm ở tuần 7–10 và có thể cắt.</p>
+<p>⚠️ Must chiếm 67% số BR, và Speaking làm tăng effort đáng kể. Theo quy tắc 60/40, <strong>effort</strong> của nhóm Must nên ≤ 60% capacity; §17 đưa các BR Should về cuối timeline và liệt kê thứ tự cắt scope.</p>
 </blockquote>
 <hr />
 <h2 id="7-overall-description">7. Overall Description</h2>
@@ -806,7 +950,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tr>
 <td>P2 — Học sinh xét tuyển / du học</td>
 <td>16–18 tuổi (<strong>có thể chưa thành niên</strong>), mục tiêu 6.5–7.5</td>
-<td>Luyện Writing đều đặn, thấy tiến bộ</td>
+<td>Luyện nói và viết đều đặn, thấy tiến bộ</td>
 </tr>
 <tr>
 <td>P3 — Người đi làm tự học</td>
@@ -819,6 +963,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <ul>
 <li>Trình duyệt: Chrome, Edge, Safari, Firefox — 2 phiên bản mới nhất; iOS Safari ≥ 16; Android Chrome ≥ 2 phiên bản mới nhất.</li>
 <li>Thiết bị: desktop, tablet, mobile; chiều rộng tối thiểu 360px. Writing Exam Mode khuyến nghị bàn phím vật lý (hiển thị cảnh báo trên mobile).</li>
+<li>Speaking cần micro và quyền ghi âm của trình duyệt; khuyến nghị tai nghe có micro, phòng yên tĩnh. Danh sách trình duyệt/thiết bị ghi âm được hỗ trợ: <span class="tag tag-tbd">TBD-14</span>.</li>
 </ul>
 <h3 id="7-4-design-implementation-constraints">7.4 Design &amp; Implementation Constraints</h3>
 <ul>
@@ -850,6 +995,14 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tr>
 <td>A4</td>
 <td>Người học chấp nhận band là ước lượng nếu feedback cụ thể và có bằng chứng</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>Có speech provider (STT + chấm phát âm ở mức âm/từ) có cam kết không huấn luyện trên dữ liệu, chi phí ≤ 5.000đ/bài thi Speaking đủ 3 Part <span class="tag tag-prop">Đề xuất</span> — <strong>phải xác minh ở tuần 1</strong>; nếu vượt thì xem lại giá/credit</td>
+</tr>
+<tr>
+<td>A6</td>
+<td>STT đủ chính xác với giọng tiếng Anh của người Việt để transcript dùng làm bằng chứng — kiểm chứng bằng eval set Speaking ở tuần 5</td>
 </tr>
 <tr>
 <td>D1</td>
@@ -905,7 +1058,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>FR-006</td>
-<td>Hệ thống PHẢI hiển thị điều khoản và thông báo quyền riêng tư (gồm việc xử lý bài làm qua AI provider) và ghi nhận chấp thuận trước lần nộp bài đầu tiên</td>
+<td>Hệ thống PHẢI hiển thị điều khoản và thông báo quyền riêng tư (gồm việc xử lý bài làm và <strong>ghi âm giọng nói</strong> qua AI/speech provider, thời hạn lưu audio 30 ngày) và ghi nhận chấp thuận trước lần nộp bài hoặc ghi âm đầu tiên</td>
 <td>BR-005</td>
 <td>AC-F1-6</td>
 </tr>
@@ -920,7 +1073,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <li><strong>AC-F1-5</strong> — Given người dùng xác nhận xóa tài khoản, When quá trình xóa hoàn tất, Then bài làm/report/Error Memory không còn truy cập được và người dùng nhận email xác nhận.</li>
 <li><strong>AC-F1-6</strong> — Given người dùng chưa chấp thuận thông báo xử lý dữ liệu, When bấm nộp bài lần đầu, Then hệ thống hiển thị thông báo và chỉ gửi bài đi chấm sau khi người dùng chấp thuận.</li>
 </ul>
-<h3 id="8-2-feature-f2-onboarding-writing-diagnostic-priority-m">8.2 Feature F2 — Onboarding &amp; Writing Diagnostic (Priority: M)</h3>
+<h3 id="8-2-feature-f2-onboarding-diagnostic-priority-m">8.2 Feature F2 — Onboarding &amp; Diagnostic (Priority: M)</h3>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -939,8 +1092,8 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>FR-011</td>
-<td>Hệ thống PHẢI cung cấp bài diagnostic gồm 1 đề Task 2; lượt chấm diagnostic đầu tiên không trừ credit</td>
-<td>BR-001, BR-003</td>
+<td>Hệ thống PHẢI cung cấp diagnostic gồm 1 lượt <strong>Speaking Part 1</strong> (4–5 câu, mặc định) và 1 bài <strong>Writing Task 2</strong> (tùy chọn); các lượt chấm diagnostic không trừ credit</td>
+<td>BR-016, BR-001, BR-003</td>
 <td>AC-F2-1</td>
 </tr>
 <tr>
@@ -958,7 +1111,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tbody>
 </table></div>
 <ul>
-<li><strong>AC-F2-1</strong> — Given người dùng mới hoàn tất đăng ký, When nộp bài diagnostic hợp lệ (≥ 150 từ), Then nhận report và số credit không thay đổi.</li>
+<li><strong>AC-F2-1</strong> — Given người dùng mới hoàn tất đăng ký, When hoàn thành Speaking Part 1 diagnostic (và nộp Writing Task 2 nếu chọn), Then nhận report cho từng phần đã làm và số credit không thay đổi.</li>
 <li><strong>AC-F2-2</strong> — Given report diagnostic có ≥ 3 lỗi được phân loại, When hiển thị kết quả, Then có đúng 3 điểm yếu ưu tiên, mỗi điểm có ≥ 1 trích dẫn từ bài và 1 nút "Luyện điểm này".</li>
 </ul>
 <h3 id="8-3-feature-f3-làm-bài-writing-priority-m">8.3 Feature F3 — Làm bài Writing (Priority: M)</h3>
@@ -1123,7 +1276,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tbody>
 <tr>
 <td>FR-040</td>
-<td>Hệ thống PHẢI gắn mỗi lỗi với một error tag trong taxonomy chung (domain → subskill → error tag) và lưu bài nguồn</td>
+<td>Hệ thống PHẢI gắn mỗi lỗi (Speaking hoặc Writing) với một error tag trong taxonomy chung (domain → subskill → error tag) và lưu bài/bản ghi nguồn</td>
 <td>BR-002, BR-010</td>
 <td>AC-F5-1</td>
 </tr>
@@ -1135,20 +1288,20 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>FR-042</td>
-<td>Rewrite: người học PHẢI viết lại được bài đã chấm; hệ thống PHẢI so sánh bản gốc và bản sửa, chỉ rõ lỗi nào đã sửa/chưa sửa</td>
+<td>Rewrite (Writing) / Redo (Speaking): người học PHẢI làm lại được bài/câu trả lời đã chấm; hệ thống PHẢI so sánh bản gốc và bản làm lại, chỉ rõ lỗi nào đã sửa/chưa sửa</td>
 <td>BR-002</td>
 <td>AC-F5-2</td>
 </tr>
 <tr>
 <td>FR-043</td>
-<td>Retest: hệ thống PHẢI gợi ý đề tương đương (cùng task type, cùng chủ đề/dạng) nhắm vào lỗi lặp lại</td>
+<td>Retest: hệ thống PHẢI gợi ý đề tương đương (cùng kỹ năng, cùng task type/Part, cùng chủ đề/dạng) nhắm vào lỗi lặp lại</td>
 <td>BR-002</td>
 <td>AC-F5-3</td>
 </tr>
 <tr>
 <td>FR-044</td>
-<td>Ngân hàng đề R1 PHẢI đủ để Retest: ≥ 30 đề Task 2 và ≥ 15 đề Task 1 <span class="tag tag-prop">Đề xuất</span>, đã qua quality gate §11.3</td>
-<td>BR-002</td>
+<td>Ngân hàng đề R1 PHẢI đủ để Retest: ≥ 30 đề Writing Task 2, ≥ 15 đề Task 1, ≥ 20 chủ đề Speaking Part 1 (mỗi chủ đề 4–5 câu), ≥ 30 cue card Part 2 kèm câu hỏi Part 3 <span class="tag tag-prop">Đề xuất</span>, đã qua quality gate §11.3</td>
+<td>BR-002, BR-016</td>
 <td>Đếm trong admin</td>
 </tr>
 <tr>
@@ -1209,13 +1362,13 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tbody>
 <tr>
 <td>FR-055</td>
-<td>Dashboard NÊN hiển thị: CTA "Viết bài mới", report gần nhất, top 3 lỗi lặp lại, số credit còn lại</td>
-<td>BR-012</td>
-<td>4 khối hiển thị</td>
+<td>Dashboard NÊN hiển thị: CTA "Thi thử Speaking" (nổi bật nhất) và "Viết bài mới", report gần nhất, top 3 lỗi lặp lại (đánh dấu lỗi xuyên kỹ năng), số credit còn lại</td>
+<td>BR-012, BR-021</td>
+<td>5 khối hiển thị</td>
 </tr>
 <tr>
 <td>FR-056</td>
-<td>Lịch sử PHẢI liệt kê mọi bài đã nộp, lọc theo Task 1/Task 2</td>
+<td>Lịch sử PHẢI liệt kê mọi bài đã nộp, lọc theo kỹ năng (Speaking/Writing) và Part/Task</td>
 <td>BR-012</td>
 <td>Lọc hoạt động</td>
 </tr>
@@ -1239,7 +1392,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tbody>
 <tr>
 <td>RULE-01</td>
-<td>1 credit = 1 lượt chấm Writing (Task 1 hoặc Task 2 hoặc bản Rewrite) được xử lý thành công</td>
+<td>1 credit = 1 lượt chấm Writing (Task 1 hoặc Task 2 hoặc bản Rewrite) <strong>hoặc</strong> 1 Part Speaking (Part 1, 2 hoặc 3, kể cả Redo) được xử lý thành công</td>
 </tr>
 <tr>
 <td>RULE-02</td>
@@ -1255,7 +1408,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>RULE-05</td>
-<td>Speaking (R2) sẽ tiêu tốn nhiều credit hơn Writing (VD: 2–3 credit/lượt) — chốt ở R2</td>
+<td>Bài thi Speaking đủ 3 Part = 3 credit <span class="tag tag-prop">Đề xuất</span></td>
 </tr>
 <tr>
 <td>RULE-06</td>
@@ -1275,7 +1428,11 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 </tbody>
 </table></div>
-<p><strong>Cơ sở con số (RULE-03):</strong> doanh thu thuần ≈ 67.000đ/tháng. Nếu dùng hết 30 credit × 1.500đ = 45.000đ, vẫn dưới doanh thu. Nếu mức dùng trung bình ~30% → ~13.500đ ≈ 20% doanh thu, đạt O4.</p>
+<p><strong>Cơ sở con số (RULE-03, RULE-05):</strong> doanh thu thuần ≈ 67.000đ/tháng.
+- Trường hợp xấu nhất, dùng hết 30 credit cho Speaking: 10 bài thi × 5.000đ = 50.000đ, vẫn dưới doanh thu (≈ 75%).
+- Dùng hết 30 credit cho Writing: 30 × 1.500đ = 45.000đ (≈ 67%).
+- Mức dùng trung bình ~30–40% → chi phí ≈ 15.000–20.000đ ≈ 22–30% doanh thu, đạt O4.
+- Nếu A5 cho thấy chi phí Speaking &gt; 5.000đ/bài thi, phải tăng credit/Part hoặc giảm credit/tháng trước khi bán (tuần 9).</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1347,7 +1504,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tbody>
 <tr>
 <td><strong>A — Dữ liệu người dùng</strong></td>
-<td>Bài làm, (R2) ghi âm, thông tin cá nhân</td>
+<td>Bài làm, <strong>ghi âm giọng nói</strong>, transcript, thông tin cá nhân</td>
 <td><strong>Chỉ gói trả phí</strong> có cam kết bằng văn bản không dùng dữ liệu để huấn luyện; ưu tiên có tùy chọn không lưu trữ</td>
 </tr>
 <tr>
@@ -1510,8 +1667,8 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>FR-091</td>
-<td>Hệ thống PHẢI có eval set nội bộ tự biên soạn (≥ 40 bài Task 2, ≥ 20 bài Task 1 <span class="tag tag-prop">Đề xuất</span>) và chạy lại trước mọi thay đổi prompt/model</td>
-<td>BR-006</td>
+<td>Hệ thống PHẢI có eval set nội bộ tự biên soạn (≥ 40 bài Task 2, ≥ 20 bài Task 1, ≥ 30 bản ghi Speaking có người nói giọng Việt đã đồng ý cho dùng nội bộ <span class="tag tag-prop">Đề xuất</span>) và chạy lại trước mọi thay đổi prompt/model/speech provider</td>
+<td>BR-006, BR-016</td>
 <td>Báo cáo eval lưu theo version</td>
 </tr>
 <tr>
@@ -1541,8 +1698,8 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>FR-096</td>
-<td>Landing page NÊN có công cụ miễn phí "chấm thử 1 đoạn mở bài" (giới hạn theo IP/thiết bị)</td>
-<td>BR-013</td>
+<td>Landing page NÊN có công cụ miễn phí <strong>"đọc thử 3 câu, xem bạn sai âm nào"</strong> (giới hạn theo IP/thiết bị) để trình diễn chấm phát âm</td>
+<td>BR-013, BR-020</td>
 <td><span class="pri pri-S" title="Should">S</span></td>
 </tr>
 <tr>
@@ -1559,11 +1716,201 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 </tbody>
 </table></div>
-<p><strong>Kênh tăng trưởng chính:</strong> chọn <strong>một</strong> kênh ở <span class="tag tag-tbd">TBD-03</span>. Ứng viên: nhóm Facebook/cộng đồng IELTS (tặng chấm thử để đổi lấy feedback), TikTok/Shorts ("band 5.5 → sửa lên 6.5"), hoặc B2B2C qua giáo viên/trung tâm nhỏ.</p>
+<p><strong>Kênh tăng trưởng chính:</strong> chọn <strong>một</strong> kênh ở <span class="tag tag-tbd">TBD-03</span>. Ứng viên: nhóm Facebook/cộng đồng IELTS (tặng chấm thử để đổi lấy feedback), TikTok/Shorts ("người Việt hay sai 5 âm này", "Speaking 5.5 → 6.5"), hoặc B2B2C qua giáo viên/trung tâm nhỏ.</p>
+<h3 id="8-13-feature-f13-speaking-mô-phỏng-phòng-thi-priority-m-tính-năng-chính">8.13 Feature F13 — Speaking: mô phỏng phòng thi (Priority: M) — <em>tính năng chính</em></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-100</td>
+<td>Hệ thống PHẢI cho phép thi thử Speaking đủ 3 Part liên tiếp hoặc luyện từng Part riêng</td>
+<td>BR-016</td>
+<td>AC-F13-1</td>
+</tr>
+<tr>
+<td>FR-101</td>
+<td>Giám khảo AI PHẢI đọc câu hỏi bằng giọng nói (TTS) và hiển thị câu hỏi dạng chữ (có thể ẩn trong Exam Mode)</td>
+<td>BR-016</td>
+<td>Câu hỏi phát bằng âm thanh; nút hiện/ẩn chữ</td>
+</tr>
+<tr>
+<td>FR-102</td>
+<td>Part 1 PHẢI gồm 4–5 câu hỏi theo 1–2 chủ đề quen thuộc; mỗi câu trả lời được ghi âm riêng, tối đa 60 giây/câu <span class="tag tag-prop">Đề xuất</span></td>
+<td>BR-016</td>
+<td>Ghi âm dừng ở 60 giây</td>
+</tr>
+<tr>
+<td>FR-103</td>
+<td>Part 2 PHẢI hiển thị cue card, cho 1 phút chuẩn bị (có ô ghi chú), sau đó ghi âm tối đa 2 phút và tự dừng</td>
+<td>BR-016</td>
+<td>AC-F13-2</td>
+</tr>
+<tr>
+<td>FR-104</td>
+<td>Part 3 PHẢI gồm 4–5 câu hỏi thảo luận liên quan chủ đề Part 2; <strong>ít nhất 1 câu hỏi nối tiếp được tạo từ nội dung câu trả lời trước</strong> (dựa trên transcript)</td>
+<td>BR-016</td>
+<td>AC-F13-3</td>
+</tr>
+<tr>
+<td>FR-105</td>
+<td>Exam Mode Speaking KHÔNG cho nghe lại hay ghi âm lại trong lúc thi và không hiển thị feedback trước khi kết thúc; Practice Mode cho phép ghi âm lại từng câu</td>
+<td>BR-016</td>
+<td>Nút ghi lại chỉ có ở Practice Mode</td>
+</tr>
+<tr>
+<td>FR-106</td>
+<td>Trước bài thi, hệ thống PHẢI kiểm tra micro (quyền truy cập, mức âm, tạp âm) và hướng dẫn khắc phục khi không đạt</td>
+<td>BR-016, BR-008</td>
+<td>AC-F13-4</td>
+</tr>
+<tr>
+<td>FR-107</td>
+<td>Mỗi bản ghi PHẢI được lưu local cho đến khi server xác nhận nhận đủ; mất mạng không làm mất bản ghi đã thu, và upload tự thử lại khi có mạng</td>
+<td>BR-008</td>
+<td>AC-F13-5</td>
+</tr>
+<tr>
+<td>FR-108</td>
+<td>Bài thi bị gián đoạn (đóng tab, mất mạng) PHẢI tiếp tục được từ câu chưa hoàn thành; các câu đã ghi được giữ nguyên</td>
+<td>BR-008</td>
+<td>AC-F13-6</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F13-1</strong> — Given người học chọn "Thi thử đủ 3 Part", When hoàn thành Part 3, Then hệ thống nộp cả bài một lần, trừ 3 credit sau khi chấm thành công và hiển thị một report chung có phần riêng cho từng Part.</li>
+<li><strong>AC-F13-2</strong> — Given Part 2 đang ở giai đoạn chuẩn bị, When hết 60 giây, Then ghi âm tự bắt đầu và tự dừng sau 2 phút; ghi chú của người học vẫn hiển thị trong lúc nói.</li>
+<li><strong>AC-F13-3</strong> — Given ở Part 2 người học nói về "một chuyến đi đáng nhớ", When sang Part 3, Then có ≥ 1 câu hỏi nhắc tới nội dung người học vừa nói.</li>
+<li><strong>AC-F13-4</strong> — Given trình duyệt bị từ chối quyền micro, When người học bấm "Bắt đầu thi", Then hệ thống không bắt đầu tính giờ và hiển thị hướng dẫn cấp quyền cho trình duyệt đang dùng.</li>
+<li><strong>AC-F13-5</strong> — Given người học mất mạng sau khi ghi xong câu 3, When có mạng trở lại, Then bản ghi câu 3 được upload tự động và không phải ghi lại.</li>
+<li><strong>AC-F13-6</strong> — Given người học đóng tab ở câu 2 của Part 3, When mở lại bài trong 24 giờ, Then bài tiếp tục từ câu 2 của Part 3.</li>
+</ul>
+<h3 id="8-14-feature-f14-speaking-report-chấm-phát-âm-priority-m">8.14 Feature F14 — Speaking report &amp; chấm phát âm (Priority: M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-110</td>
+<td>Report Speaking PHẢI có band ước lượng cho 4 tiêu chí (Fluency &amp; Coherence, Lexical Resource, Grammatical Range &amp; Accuracy, Pronunciation) và overall, kèm nhãn không chính thức</td>
+<td>BR-016</td>
+<td>AC-F14-1</td>
+</tr>
+<tr>
+<td>FR-111</td>
+<td>Hệ thống PHẢI hiển thị transcript từng câu trả lời; nhận xét về từ vựng/ngữ pháp PHẢI trỏ tới đoạn trong transcript và trích đoạn PHẢI khớp nguyên văn transcript</td>
+<td>BR-016, BR-006</td>
+<td>Validate như AC-F4-2</td>
+</tr>
+<tr>
+<td>FR-112</td>
+<td>Tiêu chí Pronunciation CHỈ được chấm khi có kết quả phân tích audio từ speech provider; KHÔNG suy ra phát âm từ transcript</td>
+<td>BR-016</td>
+<td>AC-F14-2</td>
+</tr>
+<tr>
+<td>FR-113</td>
+<td>Report PHẢI đánh dấu từ/âm phát âm sai trên transcript; bấm vào từ PHẢI nghe lại được đoạn audio của chính người học và nghe mẫu phát âm chuẩn (TTS)</td>
+<td>BR-016, BR-020</td>
+<td>AC-F14-3</td>
+</tr>
+<tr>
+<td>FR-114</td>
+<td>Fluency PHẢI dựa trên số liệu đo từ audio: tốc độ nói (từ/phút), số và độ dài khoảng ngừng, từ đệm (uh, um…)</td>
+<td>BR-016</td>
+<td>Các số liệu hiển thị trong report</td>
+</tr>
+<tr>
+<td>FR-115</td>
+<td>Khi audio kém (tạp âm, quá nhỏ) hoặc câu trả lời quá ngắn (&lt; 10 giây/câu Part 1, &lt; 45 giây Part 2 <span class="tag tag-prop">Đề xuất</span>), report PHẢI nêu giới hạn và không đưa band cho tiêu chí thiếu bằng chứng</td>
+<td>BR-006, BR-016</td>
+<td>AC-F14-4</td>
+</tr>
+<tr>
+<td>FR-116</td>
+<td>Hệ thống PHẢI hiển thị trạng thái xử lý (đang upload / đang chấm / hoàn tất / lỗi); lỗi cho phép thử lại mà không trừ credit và không phải ghi âm lại</td>
+<td>BR-003, BR-008</td>
+<td>Như AC-F4-5</td>
+</tr>
+<tr>
+<td>FR-117</td>
+<td>Người học PHẢI xem được transcript để phát hiện chỗ STT nghe sai và báo lỗi transcript; lỗi chấm do STT sai (được xác nhận) được hoàn credit</td>
+<td>BR-006, BR-009</td>
+<td>Nút "Transcript sai" trên từng câu</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F14-1</strong> — Given bài thi Speaking đủ 3 Part hợp lệ, When chấm hoàn tất, Then report có 4 band tiêu chí + overall, mỗi band là bội số của 0,5 trong khoảng 0–9, trong ≤ 120 giây (p95, NFR-P05).</li>
+<li><strong>AC-F14-2</strong> — Given speech provider không trả được kết quả phân tích phát âm (lỗi hoặc không hỗ trợ), When tạo report, Then tiêu chí Pronunciation hiển thị "Chưa đánh giá được", không có band, và overall ghi rõ chỉ dựa trên 3 tiêu chí.</li>
+<li><strong>AC-F14-3</strong> — Given từ "think" bị phát âm thành /tɪŋk/, When người học bấm vào từ đó trong report, Then nghe được đoạn audio của mình, nghe mẫu /θɪŋk/ và đọc giải thích lỗi /θ/.</li>
+<li><strong>AC-F14-4</strong> — Given câu trả lời Part 2 chỉ dài 25 giây, When chấm, Then report ghi rõ "câu trả lời quá ngắn để ước lượng Fluency đáng tin cậy" và không hiển thị band Fluency cho Part 2.</li>
+</ul>
+<h3 id="8-15-feature-f15-lỗi-đặc-trưng-của-người-việt-insight-xuyên-kỹ-năng-priority-m-s">8.15 Feature F15 — Lỗi đặc trưng của người Việt &amp; insight xuyên kỹ năng (Priority: M/S)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-120</td>
+<td>Taxonomy lỗi PHẢI có nhóm <strong>"lỗi đặc trưng của người Việt"</strong> cho phát âm và ngữ pháp (danh sách khởi đầu ở §14), mỗi lỗi có giải thích bằng tiếng Việt và bài luyện</td>
+<td>BR-020</td>
+<td>AC-F15-1</td>
+</tr>
+<tr>
+<td>FR-121</td>
+<td>Report Speaking và Writing PHẢI gắn nhãn "lỗi thường gặp ở người Việt" cho các lỗi thuộc nhóm này và giải thích nguyên nhân (VD: tiếng Việt không có âm cuối bật hơi)</td>
+<td>BR-020</td>
+<td>AC-F15-1</td>
+</tr>
+<tr>
+<td>FR-122</td>
+<td>Hệ thống NÊN tạo insight xuyên kỹ năng khi cùng một gốc lỗi xuất hiện ở cả Speaking và Writing (VD: bỏ -s ngôi thứ ba khi viết <strong>và</strong> nuốt âm /s/ cuối khi nói) trong 30 ngày gần nhất</td>
+<td>BR-021</td>
+<td>AC-F15-2</td>
+</tr>
+<tr>
+<td>FR-123</td>
+<td>Insight xuyên kỹ năng CHỈ được hiển thị khi có ≥ 2 lần xuất hiện ở mỗi kỹ năng, kèm liên kết bằng chứng; không suy diễn từ tín hiệu yếu</td>
+<td>BR-021, BR-006</td>
+<td>AC-F15-3</td>
+</tr>
+<tr>
+<td>FR-124</td>
+<td>Drill phát âm NÊN có dạng "nghe mẫu → đọc lại → chấm ngay" cho từng âm/lỗi đặc trưng; drill này dùng 0 credit và có giới hạn số lượt/ngày để kiểm soát chi phí (<span class="tag tag-prop">Đề xuất</span> 20 lượt/ngày)</td>
+<td>BR-011, BR-020, BR-004</td>
+<td>Drill hoạt động; vượt giới hạn → thông báo</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F15-1</strong> — Given người học bỏ âm /t/ cuối trong "want", "just", "most" ở bài Speaking, When report hoàn tất, Then các từ này được gắn nhãn "mất âm cuối — lỗi thường gặp ở người Việt" kèm giải thích tiếng Việt và nút "Luyện âm cuối".</li>
+<li><strong>AC-F15-2</strong> — Given trong 30 ngày người học có 2 bài Writing bỏ -s ngôi thứ ba và 2 bài Speaking nuốt âm /s/ cuối ở động từ, When mở Dashboard, Then thấy insight "Lỗi -s xuất hiện ở cả nói và viết" kèm liên kết 4 bằng chứng.</li>
+<li><strong>AC-F15-3</strong> — Given lỗi -s chỉ xuất hiện 1 lần ở Speaking, When tính insight, Then không hiển thị insight xuyên kỹ năng.</li>
+</ul>
 <hr />
 <h2 id="9-non-functional-requirements">9. Non-Functional Requirements</h2>
 <blockquote class="note">
-<p>Các target có nhãn <span class="tag tag-prop">Đề xuất</span> chờ duyệt trước tuần 6.</p>
+<p>Các target có nhãn <span class="tag tag-prop">Đề xuất</span> chờ duyệt trước tuần 8.</p>
 </blockquote>
 <h3 id="9-1-performance">9.1 Performance</h3>
 <div class="table-wrap"><table>
@@ -1600,6 +1947,18 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>Độ trễ sau lần gõ cuối</td>
 <td>≤ 5s</td>
 </tr>
+<tr>
+<td>NFR-P05</td>
+<td>Thời gian trả report Speaking đủ 3 Part</td>
+<td>p50 / p95 từ lúc nộp</td>
+<td>≤ 60s / ≤ 120s <span class="tag tag-prop">Đề xuất</span></td>
+</tr>
+<tr>
+<td>NFR-P06</td>
+<td>Độ trễ giữa hai câu hỏi của giám khảo AI</td>
+<td>Từ lúc dừng ghi âm đến lúc phát câu hỏi tiếp theo</td>
+<td>≤ 2s; câu hỏi nối tiếp Part 3 ≤ 5s</td>
+</tr>
 </tbody>
 </table></div>
 <h3 id="9-2-reliability-availability">9.2 Reliability &amp; Availability</h3>
@@ -1634,8 +1993,13 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>NFR-R05</td>
-<td>Mất bài đã gõ do lỗi hệ thống</td>
+<td>Mất bài đã gõ hoặc bản ghi âm đã thu do lỗi hệ thống</td>
 <td>0 trường hợp được xác nhận</td>
+</tr>
+<tr>
+<td>NFR-R06</td>
+<td>Tỉ lệ ghi âm/upload thành công trên các trình duyệt được hỗ trợ</td>
+<td>≥ 99% <span class="tag tag-prop">Đề xuất</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -1688,6 +2052,11 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>NFR-S08</td>
 <td>Webhook</td>
 <td>Xác minh chữ ký + idempotency key</td>
+</tr>
+<tr>
+<td>NFR-S09</td>
+<td>Audio</td>
+<td>Lưu ở storage riêng tư, chỉ truy cập qua URL ký hạn ≤ 15 phút; tự xóa sau 30 ngày</td>
 </tr>
 </tbody>
 </table></div>
@@ -1776,6 +2145,10 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>NFR-C03</td>
 <td>Chiều rộng màn hình 360px → 2560px</td>
 </tr>
+<tr>
+<td>NFR-C04</td>
+<td>Ghi âm Speaking hoạt động trên Chrome/Edge desktop, Safari macOS, iOS Safari ≥ 16, Android Chrome — danh sách cuối cùng và codec: <span class="tag tag-tbd">TBD-14</span></td>
+</tr>
 </tbody>
 </table></div>
 <h3 id="9-7-portability-scalability-cost">9.7 Portability, Scalability &amp; Cost</h3>
@@ -1807,6 +2180,11 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>NFR-COST01</td>
 <td>Chi phí AI/lượt chấm Writing</td>
 <td>Trung bình ≤ 1.500đ <span class="tag tag-prop">Đề xuất</span></td>
+</tr>
+<tr>
+<td>NFR-COST03</td>
+<td>Chi phí AI + speech/bài thi Speaking đủ 3 Part (STT + chấm phát âm + LLM + TTS)</td>
+<td>Trung bình ≤ 5.000đ <span class="tag tag-prop">Đề xuất</span></td>
 </tr>
 <tr>
 <td>NFR-COST02</td>
@@ -1843,6 +2221,13 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td><span class="tag tag-tbd">TBD-04</span>; danh sách Lớp A phải có cam kết không huấn luyện</td>
 </tr>
 <tr>
+<td>Speech provider(s)</td>
+<td>STT, chấm phát âm ở mức âm/từ (Lớp A); TTS giọng giám khảo và mẫu phát âm (Lớp B, cache lại)</td>
+<td>HTTPS REST / streaming</td>
+<td>API key (backend)</td>
+<td><span class="tag tag-tbd">TBD-04</span>; cùng yêu cầu Lớp A như AI provider</td>
+</tr>
+<tr>
 <td>Payment provider</td>
 <td>Thu tiền</td>
 <td>HTTPS REST + webhook</td>
@@ -1858,7 +2243,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>Object storage</td>
-<td>Ảnh biểu đồ Task 1, (R2) audio</td>
+<td>Ảnh biểu đồ Task 1, audio ghi âm, audio TTS đã cache</td>
 <td>S3-compatible</td>
 <td>Access key, URL ký hạn ngắn</td>
 <td><span class="tag tag-tbd">TBD-10</span></td>
@@ -1889,8 +2274,8 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td><code>section</code>, <code>task_type</code></td>
-<td>Writing Task 1/2 …</td>
-<td>Cấu trúc section, thời gian và luật điều hướng lưu trong metadata, không hard-code UI</td>
+<td>Writing Task 1/2, Speaking Part 1/2/3 …</td>
+<td>Cấu trúc section, thời gian (chuẩn bị, thời lượng nói) và luật điều hướng lưu trong metadata, không hard-code UI</td>
 </tr>
 <tr>
 <td><code>item</code> (đề)</td>
@@ -1899,8 +2284,8 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td><code>scoring_strategy</code></td>
-<td>rubric_ai (IELTS Writing), answer_key, raw_to_band, raw_to_scaled (TOEIC), adaptive_module (SAT)</td>
-<td>R1 chỉ triển khai rubric_ai</td>
+<td>rubric_ai (IELTS Writing), speech_rubric_ai (IELTS Speaking), answer_key, raw_to_band, raw_to_scaled (TOEIC), adaptive_module (SAT)</td>
+<td>R1 triển khai rubric_ai và speech_rubric_ai</td>
 </tr>
 <tr>
 <td><code>rubric_version</code></td>
@@ -1913,14 +2298,24 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>—</td>
 </tr>
 <tr>
+<td><code>recording</code></td>
+<td>attempt, câu hỏi, đường dẫn audio, thời lượng, trạng thái upload, hạn xóa</td>
+<td>Tự xóa sau 30 ngày; transcript và kết quả giữ lại</td>
+</tr>
+<tr>
+<td><code>speech_analysis</code></td>
+<td>recording, transcript, độ tin cậy STT, kết quả phát âm theo từ/âm, tốc độ nói, khoảng ngừng</td>
+<td>Nguồn bằng chứng cho F14</td>
+</tr>
+<tr>
 <td><code>report</code></td>
 <td>band, tiêu chí, nhận xét + bằng chứng, model/provider, rubric version, cờ fallback</td>
 <td>—</td>
 </tr>
 <tr>
 <td><code>error_taxonomy</code></td>
-<td>domain → subskill → error tag</td>
-<td>Dùng chung cho mọi kỳ thi (VD: lỗi ngữ pháp dùng lại cho TOEIC)</td>
+<td>domain → subskill → error tag, cờ <code>l1_vietnamese</code>, <code>root_cause</code> (gốc lỗi chung giữa nói và viết)</td>
+<td>Dùng chung cho mọi kỳ thi (VD: lỗi ngữ pháp dùng lại cho TOEIC); <code>root_cause</code> phục vụ insight xuyên kỹ năng</td>
 </tr>
 <tr>
 <td><code>error_occurrence</code></td>
@@ -1968,9 +2363,9 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>Xóa vĩnh viễn</td>
 </tr>
 <tr>
-<td>(R2) Audio ghi âm</td>
+<td>Audio ghi âm</td>
 <td>30 ngày</td>
-<td>Tự động xóa, kể cả bản tạm</td>
+<td>Tự động xóa, kể cả bản tạm và bản local đã upload xong</td>
 </tr>
 <tr>
 <td>Log vận hành AI (không có nội dung bài)</td>
@@ -1991,7 +2386,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </table></div>
 <h3 id="11-3-content-quality-gates-trước-khi-publish-đề">11.3 Content Quality Gates (trước khi publish đề)</h3>
 <ol>
-<li>Validate schema. 2. Kiểm tra dữ liệu biểu đồ khớp hình hiển thị (Task 1). 3. Kiểm tra quyền sử dụng &amp; provenance. 4. Review nội dung AI-generated. 5. Nội dung chưa chắc chắn giữ ở trạng thái draft.</li>
+<li>Validate schema. 2. Kiểm tra dữ liệu biểu đồ khớp hình hiển thị (Task 1). 3. Nghe lại audio TTS câu hỏi Speaking. 4. Kiểm tra quyền sử dụng &amp; provenance. 5. Review nội dung AI-generated. 6. Nội dung chưa chắc chắn giữ ở trạng thái draft.</li>
 </ol>
 <hr />
 <h2 id="12-compliance-legal">12. Compliance &amp; Legal</h2>
@@ -2007,7 +2402,12 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tr>
 <td>Luật Bảo vệ dữ liệu cá nhân 2025 và Nghị định 13/2023/NĐ-CP (cùng văn bản hướng dẫn hiện hành)</td>
 <td>✅</td>
-<td>Thông báo &amp; chấp thuận, xóa dữ liệu, chuyển dữ liệu tới AI provider (có thể ở nước ngoài) — <strong>cần rà soát pháp lý <span class="tag tag-tbd">TBD-12</span></strong></td>
+<td>Thông báo &amp; chấp thuận, xóa dữ liệu, chuyển dữ liệu tới AI/speech provider (có thể ở nước ngoài) — <strong>cần rà soát pháp lý <span class="tag tag-tbd">TBD-12</span></strong></td>
+</tr>
+<tr>
+<td>Giọng nói (ghi âm)</td>
+<td>✅</td>
+<td>Cần xác định giọng nói có thuộc nhóm dữ liệu cá nhân nhạy cảm theo quy định hiện hành hay không; chấp thuận riêng trước khi ghi âm; không dùng để nhận dạng danh tính — <strong><span class="tag tag-tbd">TBD-12</span></strong></td>
 </tr>
 <tr>
 <td>Người chưa thành niên (P2)</td>
@@ -2057,7 +2457,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tr>
 <td>Premium tháng</td>
 <td><strong>69.000đ</strong></td>
-<td>30/tháng <span class="tag tag-prop">Đề xuất</span></td>
+<td>30/tháng <span class="tag tag-prop">Đề xuất</span> (VD: 10 bài thi Speaking đủ 3 Part, hoặc 30 bài Writing, hoặc kết hợp)</td>
 <td>Không tự gia hạn trong R1</td>
 </tr>
 <tr>
@@ -2069,10 +2469,117 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tbody>
 </table></div>
 <p><strong>Công thức theo dõi (O4):</strong>
-<code>AI cost ratio = (credit đã dùng × chi phí trung bình/lượt) ÷ doanh thu thuần</code> — mục tiêu ≤ 30%.</p>
+<code>AI cost ratio = Σ(credit đã dùng theo loại × chi phí trung bình/credit của loại đó) ÷ doanh thu thuần</code> — mục tiêu ≤ 30%. Theo dõi riêng Speaking và Writing.</p>
 <hr />
-<h2 id="14-dành-chỗ-speaking-r2">14. (Dành chỗ) Speaking — R2</h2>
-<p>Giữ nguyên nguyên tắc v1.0: STT + LLM, không kết luận phát âm chỉ từ transcript, audio tự xóa sau 30 ngày, trạng thái xử lý, retry an toàn, Speaking tiêu tốn nhiều credit hơn (RULE-05). Đặc tả chi tiết sẽ viết khi R2 qua gate.</p>
+<h2 id="14-lỗi-đặc-trưng-của-người-việt-danh-sách-khởi-đầu">14. Lỗi đặc trưng của người Việt — danh sách khởi đầu</h2>
+<blockquote class="note">
+<p>Đây là <strong>giả thuyết ban đầu</strong> dựa trên các lỗi phổ biến của người học tiếng Anh có tiếng mẹ đẻ là tiếng Việt. Phải kiểm chứng và tinh chỉnh bằng eval set Speaking/Writing (FR-091) và người review có chuyên môn (<span class="tag tag-tbd">TBD-13</span>) trước tuần 8.</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Lỗi</th>
+<th>Ví dụ</th>
+<th>Kỹ năng</th>
+<th><code>root_cause</code> (dùng cho insight xuyên kỹ năng)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phát âm</td>
+<td>Mất/nuốt âm cuối</td>
+<td>want → /wɒn/, most → /məʊs/</td>
+<td>Speaking</td>
+<td><code>final_consonant</code></td>
+</tr>
+<tr>
+<td>Phát âm</td>
+<td>Bỏ âm /s/ /z/ cuối (số nhiều, ngôi thứ ba)</td>
+<td>He like it; two book</td>
+<td>Speaking</td>
+<td><code>inflection_s</code></td>
+</tr>
+<tr>
+<td>Phát âm</td>
+<td>Bỏ âm /t/ /d/ của đuôi -ed</td>
+<td>I walk yesterday</td>
+<td>Speaking</td>
+<td><code>inflection_ed</code></td>
+</tr>
+<tr>
+<td>Phát âm</td>
+<td>/θ/ /ð/ thay bằng /t/ /d/ hoặc /s/ /z/</td>
+<td>think → /tɪŋk/, this → /dɪs/</td>
+<td>Speaking</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Phát âm</td>
+<td>/ʃ/ thay bằng /s/</td>
+<td>she → /siː/</td>
+<td>Speaking</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Phát âm</td>
+<td>Rút gọn cụm phụ âm</td>
+<td>street → /sə'triːt/</td>
+<td>Speaking</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Phát âm</td>
+<td>Sai trọng âm từ</td>
+<td>'develop' nhấn âm đầu</td>
+<td>Speaking</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Phát âm</td>
+<td>Ngữ điệu phẳng, nhấn mọi từ như nhau</td>
+<td>—</td>
+<td>Speaking</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Ngữ pháp</td>
+<td>Thiếu -s ngôi thứ ba / số nhiều</td>
+<td>He go to school; many student</td>
+<td>Writing + Speaking</td>
+<td><code>inflection_s</code></td>
+</tr>
+<tr>
+<td>Ngữ pháp</td>
+<td>Không chia thì quá khứ</td>
+<td>Last year I visit Hanoi</td>
+<td>Writing + Speaking</td>
+<td><code>inflection_ed</code></td>
+</tr>
+<tr>
+<td>Ngữ pháp</td>
+<td>Thiếu/sai mạo từ a/an/the</td>
+<td>I have car</td>
+<td>Writing + Speaking</td>
+<td><code>article</code></td>
+</tr>
+<tr>
+<td>Ngữ pháp</td>
+<td>Thiếu động từ to be</td>
+<td>She very happy</td>
+<td>Writing + Speaking</td>
+<td><code>copula</code></td>
+</tr>
+<tr>
+<td>Ngữ pháp</td>
+<td>Dịch sát cấu trúc tiếng Việt</td>
+<td>"Although… but…", "Because… so…"</td>
+<td>Writing + Speaking</td>
+<td><code>l1_transfer_connector</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Nguyên tắc:</strong> các lỗi có cùng <code>root_cause</code> ở cả hai kỹ năng là nguồn của insight xuyên kỹ năng (FR-122).</p>
 <hr />
 <h2 id="15-chiến-lược-đa-kỳ-thi">15. Chiến lược đa kỳ thi</h2>
 <h3 id="15-1-khác-biệt-giữa-các-kỳ-thi">15.1 Khác biệt giữa các kỳ thi</h3>
@@ -2100,14 +2607,14 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>Giá trị cốt lõi</td>
-<td>Chấm AI Writing/Speaking</td>
+<td>Speaking mô phỏng phòng thi + chấm phát âm; Writing có Error Memory</td>
 <td>Kho đề lớn, phân tích theo Part, từ vựng</td>
 <td>Adaptive, Math, mô phỏng giao diện thi</td>
 </tr>
 <tr>
 <td>Thành phần dùng lại từ R1</td>
 <td>—</td>
-<td>Auth, credit/thanh toán, Error Memory, taxonomy, admin</td>
+<td>Auth, credit/thanh toán, Error Memory, taxonomy (gồm lỗi đặc trưng của người Việt), speech pipeline cho TOEIC Speaking sau này, admin</td>
 <td>Như TOEIC + engine làm bài</td>
 </tr>
 </tbody>
@@ -2179,17 +2686,17 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>R8</td>
-<td>Founder solo trễ tiến độ</td>
+<td>Founder solo trễ tiến độ (Speaking làm tăng khối lượng)</td>
 <td>High</td>
-<td>Med</td>
-<td>R1 chỉ Writing; Should nằm cuối timeline, cắt được</td>
+<td>High</td>
+<td>Writing chỉ dựng lõi ở tuần 2–4; Should nằm cuối timeline; thứ tự cắt scope ở §17 (có thể cắt Writing Task 1 trước khi cắt Speaking)</td>
 </tr>
 <tr>
 <td>R9</td>
 <td>Người dùng không trả tiền (sai giả thuyết)</td>
 <td>Med</td>
 <td>High</td>
-<td>Thu tiền từ tuần 6; gate ở tuần 12 quyết định tiếp tục/pivot</td>
+<td>Beta kín tuần 8, bán từ tuần 9; đo O6; gate ở tuần 12 quyết định tiếp tục/pivot</td>
 </tr>
 <tr>
 <td>R10</td>
@@ -2200,10 +2707,38 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>R11</td>
-<td>Chỉ có Writing khiến sản phẩm "mỏng"</td>
+<td>Người học thấy ChatGPT (kể cả chế độ giọng nói) "đủ dùng"</td>
+<td>Med</td>
+<td>High</td>
+<td>Định vị theo 5 điểm khác biệt ở §2.7; landing page trình diễn chấm phát âm (FR-096); đo O6</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>Chấm phát âm không chính xác với giọng người Việt</td>
+<td>Med</td>
+<td>High</td>
+<td>Xác minh speech provider ở tuần 1 (A5) và eval set Speaking (FR-091); chỉ hiện lỗi phát âm có độ tin cậy trên ngưỡng; nút báo sai</td>
+</tr>
+<tr>
+<td>R13</td>
+<td>STT nghe sai khiến nhận xét ngữ pháp/từ vựng sai</td>
 <td>Med</td>
 <td>Med</td>
-<td>Định vị Error Memory + Rewrite/Retest làm giá trị chính; roadmap R2 công khai</td>
+<td>Hiển thị transcript, báo lỗi transcript, hoàn credit khi xác nhận (FR-117)</td>
+</tr>
+<tr>
+<td>R14</td>
+<td>Ghi âm lỗi trên một số trình duyệt, đặc biệt iOS</td>
+<td>Med</td>
+<td>Med</td>
+<td>Kiểm tra micro trước khi thi (FR-106), lưu local và tự upload lại (FR-107), ma trận thiết bị <span class="tag tag-tbd">TBD-14</span></td>
+</tr>
+<tr>
+<td>R15</td>
+<td>Chi phí Speaking vượt 5.000đ/bài thi</td>
+<td>Med</td>
+<td>High</td>
+<td>Kiểm tra ở tuần 1; cache TTS; điều chỉnh credit trước khi bán</td>
 </tr>
 </tbody>
 </table></div>
@@ -2221,44 +2756,45 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tbody>
 <tr>
 <td>1</td>
-<td>M0 — Nền tảng</td>
-<td>Schema đề/rubric/taxonomy, data model §11.1, Docker Compose, CI; kiểm tra A1 (AI provider Lớp A) và A2 (payment)</td>
-<td>App/API chạy local; 1 đề mẫu validate; có danh sách provider Lớp A</td>
+<td>M0 — Nền tảng &amp; kiểm chứng speech</td>
+<td>Schema đề/rubric/taxonomy, data model §11.1, Docker Compose, CI; kiểm tra A1 (AI provider), <strong>A5 (speech provider: chất lượng với giọng Việt + chi phí/bài thi)</strong>, A2 (payment)</td>
+<td>App/API chạy local; có danh sách provider Lớp A; <strong>chi phí Speaking đo được ≤ 5.000đ/bài thi</strong> hoặc có phương án điều chỉnh</td>
 </tr>
 <tr>
 <td>2–4</td>
-<td>M1 — Vertical slice Task 2</td>
-<td>F1, F3 (Task 2), F4, F9 (cơ bản), eval set v1</td>
-<td>Đăng nhập → viết → reload → nộp → report có bằng chứng; O1(b)(c) đạt trên eval set; alpha nội bộ 5 người</td>
+<td>M1 — Lõi hệ thống qua Writing Task 2</td>
+<td>F1, F3 (Task 2), F4, F9 (cơ bản), Error Memory cơ bản, eval set Writing v1</td>
+<td>Đăng nhập → viết → reload → nộp → report có bằng chứng; O1(b)(c) đạt trên eval set Writing</td>
 </tr>
 <tr>
-<td>5–6</td>
-<td>M2 — Có thể bán</td>
-<td>Task 1 Academic, F5 (Error Memory, Rewrite, Retest), F8 (credit + xác nhận chuyển khoản thủ công), F2</td>
-<td><strong>Mở paid beta 20–50 người</strong>; thanh toán đầu tiên thành công; O1(a) được đo</td>
+<td>5–7</td>
+<td>M2 — <strong>Speaking</strong></td>
+<td>F13 (Part 1–3, kiểm tra micro, lưu local/upload lại), F14 (transcript, chấm phát âm, Fluency từ audio), taxonomy lỗi người Việt v1 (§14), eval set Speaking</td>
+<td>Thi đủ 3 Part → report ≤ 120s (p95); Pronunciation chỉ từ phân tích audio; ghi âm chạy trên ma trận thiết bị <span class="tag tag-tbd">TBD-14</span>; alpha nội bộ 5 người</td>
 </tr>
 <tr>
-<td>7–8</td>
-<td>M3 — Giữ chân</td>
-<td>F6 drill, F7 dashboard, FR-095 chia sẻ report, tự động hóa thanh toán qua provider</td>
-<td>Webhook idempotent đạt test; drill không gọi AI khi đã có trong kho</td>
+<td>8</td>
+<td>M3 — Beta kín (miễn phí)</td>
+<td>F2 diagnostic, F5 Redo/Rewrite/Retest, F15 nhãn lỗi người Việt, F8 credit; tuyển 20–50 beta tester</td>
+<td>O1 đo được cho cả hai kỹ năng; không có lỗi mất bản ghi</td>
 </tr>
 <tr>
 <td>9–10</td>
-<td>M4 — Vận hành</td>
-<td>F10 đầy đủ, FR-074 trần chi phí, FR-097 email, xóa dữ liệu, backup/restore</td>
-<td>Diễn tập restore thành công; cảnh báo chi phí hoạt động</td>
+<td>M4 — <strong>Bắt đầu bán</strong></td>
+<td>Xác nhận chuyển khoản thủ công (FR-064), Writing Task 1, insight xuyên kỹ năng (FR-122), FR-096 "đọc thử 3 câu", landing page theo §2.7</td>
+<td>Thanh toán đầu tiên thành công; O6 bắt đầu được đo</td>
 </tr>
 <tr>
 <td>11–12</td>
-<td>M5 — Đo &amp; quyết định</td>
-<td>Đo O1–O5, phỏng vấn beta</td>
-<td><strong>Gate R2</strong>: đạt → Speaking; không đạt → điều chỉnh giá/định vị/phân khúc</td>
+<td>M5 — Vận hành, đo &amp; quyết định</td>
+<td>F10 đầy đủ, FR-074 trần chi phí, xóa dữ liệu + xóa audio 30 ngày, backup/restore; đo O1–O6; phỏng vấn beta</td>
+<td>Diễn tập restore thành công; <strong>Gate R2</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>Thứ tự cắt scope nếu trễ:</strong> FR-098 referral → FR-096 công cụ miễn phí → FR-057 biểu đồ tiến bộ → F6 drill → tự động hóa thanh toán (giữ xác nhận thủ công).</p>
-<p><strong>Không cắt:</strong> bảo mật &amp; cách ly dữ liệu, nhãn band không chính thức, validate bằng chứng, autosave, credit ở backend, xác minh thanh toán, phân loại dữ liệu Lớp A, quyền nội dung.</p>
+<p><strong>Thứ tự cắt scope nếu trễ:</strong> FR-098 referral → FR-097 email → FR-095 chia sẻ report → F6/FR-124 drill → FR-057 biểu đồ tiến bộ → tự động hóa thanh toán (giữ xác nhận thủ công) → <strong>Writing Task 1</strong> (giữ Task 2) → FR-122 insight xuyên kỹ năng.</p>
+<p><strong>Không cắt Speaking</strong> (F13, F14): đây là lý do sản phẩm tồn tại so với ChatGPT.</p>
+<p><strong>Không cắt:</strong> bảo mật &amp; cách ly dữ liệu, nhãn band không chính thức, validate bằng chứng, autosave/lưu bản ghi, credit ở backend, xác minh thanh toán, phân loại dữ liệu Lớp A, không suy ra phát âm từ transcript, xóa audio sau 30 ngày, quyền nội dung.</p>
 <hr />
 <h2 id="18-open-issues-tbd">18. Open Issues (TBD)</h2>
 <div class="table-wrap"><table>
@@ -2273,7 +2809,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tr>
 <td>TBD-01</td>
 <td>Phân khúc beta (P1/P2/P3) và <strong>duyệt các ngưỡng <span class="tag tag-prop">Đề xuất</span></strong> (KPI, credit, giá gói 3 tháng, NFR)</td>
-<td>Trước tuần 6</td>
+<td>Trước tuần 8</td>
 </tr>
 <tr>
 <td>TBD-02</td>
@@ -2287,18 +2823,18 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>TBD-04</td>
-<td>AI provider/model Lớp A (chấm) và Lớp B/C</td>
+<td>AI provider/model Lớp A (chấm) và Lớp B/C; <strong>speech provider</strong> (STT, chấm phát âm, TTS)</td>
 <td>Tuần 1</td>
 </tr>
 <tr>
 <td>TBD-05</td>
-<td>Rubric mapping chi tiết, JSON schema, taxonomy lỗi v1</td>
-<td>Tuần 2</td>
+<td>Rubric mapping chi tiết (Writing tuần 2, Speaking tuần 5), JSON schema, taxonomy lỗi v1</td>
+<td>Tuần 2 / tuần 5</td>
 </tr>
 <tr>
 <td>TBD-06</td>
 <td>Chính sách hoàn tiền</td>
-<td>Trước tuần 6</td>
+<td>Trước tuần 9</td>
 </tr>
 <tr>
 <td>TBD-07</td>
@@ -2323,12 +2859,22 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <tr>
 <td>TBD-11</td>
 <td>Quy trình support và định nghĩa mức độ nghiêm trọng</td>
-<td>Trước tuần 6</td>
+<td>Trước tuần 8</td>
 </tr>
 <tr>
 <td>TBD-12</td>
-<td>Rà soát pháp lý: dữ liệu cá nhân, chuyển dữ liệu ra nước ngoài, người chưa thành niên, điều khoản, lưu chứng từ</td>
-<td>Trước public launch</td>
+<td>Rà soát pháp lý: dữ liệu cá nhân, <strong>ghi âm giọng nói</strong>, chuyển dữ liệu ra nước ngoài, người chưa thành niên, điều khoản, lưu chứng từ</td>
+<td>Trước beta kín (tuần 8) cho phần ghi âm; trước public launch cho phần còn lại</td>
+</tr>
+<tr>
+<td>TBD-13</td>
+<td>Người review có chuyên môn cho danh sách lỗi đặc trưng của người Việt (§14) và eval set Speaking</td>
+<td>Tuần 5</td>
+</tr>
+<tr>
+<td>TBD-14</td>
+<td>Ma trận trình duyệt/thiết bị hỗ trợ ghi âm, định dạng/codec audio, thời lượng tối đa</td>
+<td>Tuần 5</td>
 </tr>
 </tbody>
 </table></div>
@@ -2364,28 +2910,28 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>BR-003</td>
-<td>FR-011, FR-025, FR-027, FR-038, FR-039, FR-052, FR-060–FR-066, FR-071</td>
+<td>FR-011, FR-025, FR-027, FR-038, FR-039, FR-052, FR-060–FR-066, FR-071, FR-116</td>
 <td>NFR-S08</td>
 <td>TC-030 – TC-040</td>
 <td>Todo</td>
 </tr>
 <tr>
 <td>BR-004</td>
-<td>FR-051, FR-068, FR-070, FR-071, FR-074</td>
-<td>NFR-COST01, NFR-COST02</td>
+<td>FR-051, FR-068, FR-070, FR-071, FR-074, FR-124</td>
+<td>NFR-COST01, NFR-COST02, NFR-COST03</td>
 <td>TC-045 – TC-049</td>
 <td>Todo</td>
 </tr>
 <tr>
 <td>BR-005</td>
 <td>FR-005, FR-006, FR-067, FR-073</td>
-<td>NFR-S06</td>
+<td>NFR-S06, NFR-S09</td>
 <td>TC-050 – TC-053</td>
 <td>Todo</td>
 </tr>
 <tr>
 <td>BR-006</td>
-<td>FR-013, FR-031, FR-036, FR-037, FR-045, FR-069, FR-072, FR-075, FR-076, FR-091</td>
+<td>FR-013, FR-031, FR-036, FR-037, FR-045, FR-069, FR-072, FR-075, FR-076, FR-091, FR-111, FR-115, FR-117, FR-123</td>
 <td>NFR-M03</td>
 <td>TC-055 – TC-062</td>
 <td>Todo</td>
@@ -2399,14 +2945,14 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>BR-008</td>
-<td>FR-023–FR-025, FR-038, FR-068</td>
-<td>NFR-P04, NFR-R02, NFR-R05</td>
+<td>FR-023–FR-025, FR-038, FR-068, FR-106–FR-108, FR-116</td>
+<td>NFR-P04, NFR-R02, NFR-R05, NFR-R06</td>
 <td>TC-075 – TC-079</td>
 <td>Todo</td>
 </tr>
 <tr>
 <td>BR-009</td>
-<td>FR-037, FR-073, FR-080–FR-082, FR-085, FR-090</td>
+<td>FR-037, FR-073, FR-080–FR-082, FR-085, FR-090, FR-117</td>
 <td>NFR-R03, NFR-R04</td>
 <td>TC-080 – TC-085</td>
 <td>Todo</td>
@@ -2420,7 +2966,7 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>BR-011</td>
-<td>FR-050–FR-052</td>
+<td>FR-050–FR-052, FR-124</td>
 <td>—</td>
 <td>TC-090 – TC-092</td>
 <td>Todo</td>
@@ -2453,9 +2999,30 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 <td>TC-110</td>
 <td>Todo</td>
 </tr>
+<tr>
+<td>BR-016</td>
+<td>FR-011, FR-044, FR-091, FR-100–FR-117</td>
+<td>NFR-P05, NFR-P06, NFR-R06, NFR-C04, NFR-S09</td>
+<td>TC-120 – TC-140</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-020</td>
+<td>FR-096, FR-113, FR-120, FR-121, FR-124</td>
+<td>—</td>
+<td>TC-145 – TC-150</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-021</td>
+<td>FR-055, FR-122, FR-123</td>
+<td>—</td>
+<td>TC-155 – TC-158</td>
+<td>Todo</td>
+</tr>
 </tbody>
 </table></div>
-<p><strong>Kiểm tra orphan:</strong> mọi FR trong §8 đều trace về ≥ 1 BR; mọi BR in-scope đều có ≥ 1 FR. BR-016 – BR-019 là Won't, không có FR ở R1.</p>
+<p><strong>Kiểm tra orphan:</strong> mọi FR trong §8 đều trace về ≥ 1 BR; mọi BR in-scope đều có ≥ 1 FR. BR-017 – BR-019 là Won't, không có FR ở R1.</p>
 <hr />
 <h2 id="20-glossary">20. Glossary</h2>
 <div class="table-wrap"><table>
@@ -2480,7 +3047,27 @@ Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). 
 </tr>
 <tr>
 <td>Rewrite</td>
-<td>Viết lại bài đã chấm và so sánh với bản gốc</td>
+<td>Viết lại bài Writing đã chấm và so sánh với bản gốc</td>
+</tr>
+<tr>
+<td>Redo</td>
+<td>Trả lời lại câu/Part Speaking đã chấm và so sánh với lần trước</td>
+</tr>
+<tr>
+<td>Chấm phát âm (pronunciation assessment)</td>
+<td>Phân tích audio để đánh giá phát âm ở mức âm/từ; không suy ra từ transcript</td>
+</tr>
+<tr>
+<td>STT / TTS</td>
+<td>Chuyển giọng nói thành văn bản / chuyển văn bản thành giọng nói</td>
+</tr>
+<tr>
+<td>Lỗi đặc trưng của người Việt</td>
+<td>Lỗi phát âm/ngữ pháp phổ biến do ảnh hưởng tiếng Việt (§14)</td>
+</tr>
+<tr>
+<td>Insight xuyên kỹ năng</td>
+<td>Cảnh báo khi cùng một gốc lỗi (<code>root_cause</code>) xuất hiện ở cả Speaking và Writing</td>
 </tr>
 <tr>
 <td>Retest</td>
