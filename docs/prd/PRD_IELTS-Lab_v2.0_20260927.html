@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IELTS Speaking Writing PRD</title>
+<title>IELTS Lab Band thật PRD</title>
 <meta name="description" content="PRD v1.2 — IELTS Speaking & Writing Lab, chuẩn BABOK v3 / SRS">
 <style>
 :root {
@@ -97,21 +97,23 @@ strong.ac { color:var(--accent); }
 <li><a href="#13-monetization-unit-economics">13. Monetization &amp; Unit Economics</a></li>
 <li><a href="#14-lỗi-đặc-trưng-của-người-việt-danh-sách-khởi-đầu">14. Lỗi đặc trưng của người Việt — danh sách khởi đầu</a></li>
 <li><a href="#15-chiến-lược-đa-kỳ-thi">15. Chiến lược đa kỳ thi</a></li>
-<li><a href="#16-risks-mitigations">16. Risks &amp; Mitigations</a></li>
-<li><a href="#17-roadmap-12-tuần">17. Roadmap 12 tuần</a></li>
-<li><a href="#18-open-issues-tbd">18. Open Issues (TBD)</a></li>
-<li><a href="#19-traceability-matrix">19. Traceability Matrix</a></li>
-<li><a href="#20-glossary">20. Glossary</a></li>
-<li><a href="#21-approval">21. Approval</a></li>
+<li><a href="#16-chiến-lược-dữ-liệu-hiệu-chỉnh">16. Chiến lược dữ liệu &amp; hiệu chỉnh</a></li>
+<li><a href="#17-risks-mitigations">17. Risks &amp; Mitigations</a></li>
+<li><a href="#18-roadmap-16-tuần">18. Roadmap 16 tuần</a></li>
+<li><a href="#19-open-issues-tbd">19. Open Issues (TBD)</a></li>
+<li><a href="#20-traceability-matrix">20. Traceability Matrix</a></li>
+<li><a href="#21-glossary">21. Glossary</a></li>
+<li><a href="#22-approval">22. Approval</a></li>
 </ul>
 </div>
 </details></nav>
 <main>
-<h1 id="ielts-speaking-writing-lab-product-requirements-document-prd-srs">IELTS Speaking &amp; Writing Lab — Product Requirements Document (PRD / SRS)</h1><div class="legend"><span><span class="pri pri-M">M</span> Must</span><span><span class="pri pri-S">S</span> Should</span><span><span class="pri pri-C">C</span> Could</span><span><span class="pri pri-W">W</span> Won&#39;t</span><span><span class="tag tag-prop">Đề xuất</span> chờ duyệt</span><span><span class="tag tag-tbd">TBD-xx</span> quyết định mở</span></div>
+<h1 id="ielts-lab-band-thật-product-requirements-document-prd-srs">IELTS Lab "Band thật" — Product Requirements Document (PRD / SRS)</h1><div class="legend"><span><span class="pri pri-M">M</span> Must</span><span><span class="pri pri-S">S</span> Should</span><span><span class="pri pri-C">C</span> Could</span><span><span class="pri pri-W">W</span> Won&#39;t</span><span><span class="tag tag-prop">Đề xuất</span> chờ duyệt</span><span><span class="tag tag-tbd">TBD-xx</span> quyết định mở</span></div>
 <blockquote class="note">
 <p>Chuẩn IIBA BABOK v3 (Agile Perspective) + cấu trúc SRS (BRD + FRD + NFR).
-Thay thế <strong>IELTS Exam Lab PRD v1.0</strong> và <strong>PRD v1.1</strong>. Release 1 tập trung vào hai kỹ năng
-<strong>Speaking và Writing</strong>, nơi AI tạo khác biệt thật sự so với ChatGPT; <strong>Speaking là tính năng chính</strong>.</p>
+Thay thế PRD v1.0 – v1.2. Lợi thế cạnh tranh chuyển từ <strong>tính năng AI</strong> (ChatGPT đã làm tốt, xem §2.7)
+sang hai thứ ChatGPT về cấu trúc không có: <strong>(A) dự đoán band được hiệu chỉnh bằng điểm thi thật của người Việt</strong>
+và <strong>(C) cohort có cam kết, chủ động đồng hành đến ngày thi</strong>. Speaking + Writing là công cụ đo.</p>
 </blockquote>
 <hr />
 <h2 id="document-control">Document Control</h2>
@@ -129,7 +131,7 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong> và <strong>PRD v1.1</strong
 </tr>
 <tr>
 <td>Version</td>
-<td>1.2</td>
+<td>2.0</td>
 </tr>
 <tr>
 <td>Status</td>
@@ -153,7 +155,7 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong> và <strong>PRD v1.1</strong
 </tr>
 <tr>
 <td>Tên sản phẩm Release 1</td>
-<td>IELTS Speaking &amp; Writing Lab (tên làm việc)</td>
+<td>IELTS Lab "Band thật" (tên làm việc)</td>
 </tr>
 </tbody>
 </table></div>
@@ -161,8 +163,8 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong> và <strong>PRD v1.1</strong
 <ul>
 <li><strong>PHẢI</strong> (Must) — bắt buộc; thiếu = không phát hành. <strong>NÊN</strong> (Should) — khuyến nghị. <strong>CÓ THỂ</strong> (Could) — tùy chọn.</li>
 <li>Priority theo <strong>MoSCoW</strong>: <code>M</code> Must · <code>S</code> Should · <code>C</code> Could · <code>W</code> Won't (không làm trong release này).</li>
-<li><strong><span class="tag tag-prop">Đề xuất</span></strong> — con số/ngưỡng do BA đề xuất, <strong>chưa được Founder duyệt</strong>. Phải chốt trước mốc ghi trong §18.</li>
-<li><strong><code>TBD-xx</code></strong> — quyết định còn mở, xem §18.</li>
+<li><strong><span class="tag tag-prop">Đề xuất</span></strong> — con số/ngưỡng do BA đề xuất, <strong>chưa được Founder duyệt</strong>. Phải chốt trước mốc ghi trong §19.</li>
+<li><strong><code>TBD-xx</code></strong> — quyết định còn mở, xem §19.</li>
 </ul>
 <h3 id="change-log">Change Log</h3>
 <div class="table-wrap"><table>
@@ -192,6 +194,75 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong> và <strong>PRD v1.1</strong
 <td>2026-09-27</td>
 <td>BA (Claude) + Founder</td>
 <td>Release 1 = Speaking + Writing; định vị cạnh tranh với ChatGPT; xem bảng "Thay đổi so với v1.1"</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>2026-09-27</td>
+<td>BA (Claude) + Founder</td>
+<td>Định vị "Band thật" (A) + Cohort cam kết (C); chiến lược dữ liệu nguồn 4 → open beta → hiệu chỉnh bằng nguồn 1; xem bảng "Thay đổi so với v1.2"</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="thay-đổi-so-với-v1-2-founder-duyệt-2026-09-27">Thay đổi so với v1.2 (Founder duyệt 2026-09-27)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Hạng mục</th>
+<th>v1.2</th>
+<th>v2.0</th>
+<th>Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Lợi thế cạnh tranh</td>
+<td>5 tính năng AI (mô phỏng phòng thi, chấm phát âm…)</td>
+<td><strong>A: dự đoán band thật được hiệu chỉnh bằng kết quả thi thật</strong> + <strong>C: cohort cam kết</strong></td>
+<td>Nghiên cứu 09/2026: ChatGPT voice (GPT-Live, free) đã làm tốt hội thoại luyện thi; tính năng AI bị bắt kịp trong vài tháng (§2.7)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Định vị</td>
+<td>"Phòng luyện nói và viết cho người Việt"</td>
+<td><strong>"Biết trước điểm thật của bạn — và đi cùng bạn đến ngày thi"</strong></td>
+<td>Câu mà ChatGPT không thể nói vì không có dữ liệu điểm thật</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Chiến lược dữ liệu</td>
+<td>—</td>
+<td><strong>Nguồn 4</strong> (dữ liệu công khai, qua kiểm tra license) → <strong>open beta</strong> → <strong>nguồn 1</strong> (người vừa thi xong) để hiệu chỉnh; cohort nuôi dữ liệu lâu dài (§16)</td>
+<td>Founder chọn thứ tự này</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Beta</td>
+<td>Beta kín tuần 8, bán tuần 9</td>
+<td><strong>Open beta tuần 10</strong>, bắt đầu bán cùng lúc</td>
+<td>Cần nhiều người dùng để có dữ liệu</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tính năng mới</td>
+<td>—</td>
+<td>F16 Dự đoán band, F17 Thu thập kết quả thi thật, F18 Hiệu chỉnh, F19 Cohort, F20 Nhắc học chủ động, F21 Quản lý bộ dữ liệu &amp; license</td>
+<td>Hiện thực A + C</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cam kết hoàn tiền theo kết quả</td>
+<td>—</td>
+<td><strong>Chỉ bật khi sai số đạt ngưỡng</strong> trên dữ liệu thật (FR-175)</td>
+<td>Tránh rủi ro tài chính và quảng cáo sai sự thật</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Speaking/Writing</td>
+<td>Là lợi thế chính</td>
+<td>Là <strong>công cụ đo</strong> cho dự đoán; giữ nguyên yêu cầu chức năng</td>
+<td>Chấm nhất quán trở thành điều kiện sống còn cho hiệu chỉnh</td>
 </tr>
 </tbody>
 </table></div>
@@ -331,27 +402,33 @@ Thay thế <strong>IELTS Exam Lab PRD v1.0</strong> và <strong>PRD v1.1</strong
 <hr />
 <h2 id="1-introduction">1. Introduction</h2>
 <h3 id="1-1-purpose">1.1 Purpose</h3>
-<p>Tài liệu đặc tả yêu cầu business, chức năng và phi chức năng cho <strong>Release 1 — IELTS Speaking &amp; Writing Lab</strong>,
+<p>Tài liệu đặc tả yêu cầu business, chức năng và phi chức năng cho <strong>Release 1 — IELTS Lab "Band thật"</strong>,
 đồng thời xác định lộ trình và các ràng buộc kiến trúc để mở rộng sang Listening/Reading, TOEIC và SAT.</p>
 <h3 id="1-2-intended-audience">1.2 Intended Audience</h3>
 <p>Founder (Sponsor/PO/Dev), cộng tác viên nội dung/QA tương lai, cố vấn pháp lý, chuyên gia IELTS (khi có).</p>
 <h3 id="1-3-product-scope">1.3 Product Scope</h3>
-<p>Nền tảng web (responsive + PWA) giúp người học IELTS Academic tại Việt Nam luyện hai kỹ năng sản sinh:
+<p>Nền tảng web (responsive + PWA) giúp người học IELTS Academic tại Việt Nam <strong>biết trước band Speaking và Writing khi đi thi thật</strong> và <strong>được đồng hành đến ngày thi</strong>:</p>
+<ul>
+<li><strong>Dự đoán band thật (A):</strong> từ các bài thi thử trên hệ thống, dự đoán band Speaking và Writing khi thi thật, kèm khoảng sai số. Dự đoán được hiệu chỉnh bằng các cặp "bài thi thử + phiếu điểm thật" do người dùng tự nguyện gửi.</li>
+<li><strong>Cohort cam kết (C):</strong> nhóm học 8 tuần có ngày thi mục tiêu, được nhắc luyện chủ động mỗi ngày, có đặt cọc hoàn lại khi hoàn thành.</li>
+</ul>
+<p>Công cụ đo là hai kỹ năng sản sinh:
 - <strong>Speaking:</strong> thi thử Part 1 → 2 → 3 với giám khảo AI, đúng thời gian như phòng thi → report theo 4 tiêu chí, <strong>phát âm được chấm bằng phân tích audio</strong>, chỉ ra <strong>lỗi đặc trưng của người Việt</strong>.
 - <strong>Writing:</strong> nộp Task 1/Task 2 → report theo 4 tiêu chí, gắn bằng chứng trong bài.</p>
 <p>Cả hai kỹ năng dùng chung <strong>Error Memory</strong>: hệ thống ghi nhớ lỗi lặp lại, kể cả lỗi xuất hiện ở cả nói và viết → người học <strong>làm lại / làm đề tương đương</strong> → <strong>kiểm chứng lỗi đã được sửa hay chưa</strong>.</p>
-<p><strong>Định vị:</strong> <em>"Phòng luyện nói và viết IELTS dành riêng cho người Việt — biết bạn sai gì, sửa được chưa."</em>
-Speaking là tính năng chính trong thông điệp bán hàng. Không định vị là "AI chấm IELTS" (tính năng này đã phổ biến). Band do AI tạo ra là <strong>ước lượng phục vụ luyện tập</strong>, không phải điểm chính thức.</p>
+<p><strong>Định vị:</strong> <em>"Biết trước điểm thật của bạn — và đi cùng bạn đến ngày thi."</em>
+Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band là <strong>ước lượng/dự đoán</strong>, không phải điểm chính thức. Chỉ được công bố độ chính xác dự đoán bằng số liệu thật đã đo (FR-174).</p>
 <h3 id="1-4-references">1.4 References</h3>
 <ul>
 <li>IELTS Exam Lab PRD v1.0 (2026-09-27)</li>
 <li>Biên bản đánh giá business (phiên làm việc 2026-09-27)</li>
 <li>IELTS Writing và Speaking Band Descriptors (public version) — dùng làm cơ sở rubric; không sao chép đề thi có bản quyền</li>
+<li>Nghiên cứu cạnh tranh và bộ dữ liệu công khai (09/2026) — nguồn liệt kê ở §2.7 và §16</li>
 </ul>
 <hr />
 <h2 id="2-business-context-baccm">2. Business Context (BACCM)</h2>
 <h3 id="2-1-change">2.1 Change</h3>
-<p>Xây mới một sản phẩm luyện thi dựa trên AI, bắt đầu bằng <strong>hai kỹ năng sản sinh (Speaking + Writing)</strong>, là nơi AI tạo khác biệt rõ nhất so với ChatGPT. Beta kín từ tuần 8, bắt đầu thu tiền từ tuần 9, sau đó mở rộng theo từng release có điều kiện.</p>
+<p>Xây mới một sản phẩm luyện thi có lợi thế dựa trên <strong>dữ liệu điểm thật</strong> và <strong>cam kết đồng hành</strong>, dùng Speaking + Writing làm công cụ đo. Trình tự: chuẩn bị bộ chấm bằng dữ liệu công khai hợp lệ (nguồn 4) → open beta tuần 10 → hiệu chỉnh dự đoán bằng kết quả thi thật (nguồn 1) → bật cam kết theo kết quả khi đủ dữ liệu.</p>
 <h3 id="2-2-need-giả-thuyết-cần-kiểm-chứng-trong-beta">2.2 Need (giả thuyết cần kiểm chứng trong beta)</h3>
 <div class="table-wrap"><table>
 <thead>
@@ -392,10 +469,20 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>Gia sư Speaking 1-1 có chi phí cao và khó sắp lịch luyện thường xuyên</td>
 <td>Giả thuyết</td>
 </tr>
+<tr>
+<td>N7</td>
+<td>Người học không biết mình đã đủ điểm để đăng ký thi hay chưa; lệ phí thi IELTS ở mức vài triệu đồng/lần nên thi trượt mục tiêu rất tốn kém</td>
+<td>Giả thuyết — cần xác nhận qua phỏng vấn</td>
+</tr>
+<tr>
+<td>N8</td>
+<td>Người tự học bỏ cuộc giữa chừng vì không có ai đồng hành, không có hạn chót</td>
+<td>Giả thuyết</td>
+</tr>
 </tbody>
 </table></div>
 <h3 id="2-3-solution-high-level">2.3 Solution (high-level)</h3>
-<p>Speaking &amp; Writing Lab gồm: (1) thi thử Speaking Part 1–3 với giám khảo AI; (2) chấm phát âm dựa trên audio và phát hiện lỗi đặc trưng của người Việt; (3) nộp bài Writing Task 1/Task 2 trong Exam Mode hoặc Practice Mode; (4) AI report theo tiêu chí có bằng chứng cho cả hai kỹ năng; (5) Error Memory và insight xuyên kỹ năng; (6) Redo/Rewrite &amp; Retest; (7) Drill mục tiêu; (8) Credit/Premium; (9) Admin theo dõi chi phí và chất lượng.</p>
+<p>Sản phẩm gồm: (0) <strong>dự đoán band thật</strong> có khoảng sai số và <strong>cohort cam kết</strong> có nhắc học chủ động — hai lợi thế chính; (1) thi thử Speaking Part 1–3 với giám khảo AI; (2) chấm phát âm dựa trên audio và phát hiện lỗi đặc trưng của người Việt; (3) nộp bài Writing Task 1/Task 2 trong Exam Mode hoặc Practice Mode; (4) AI report theo tiêu chí có bằng chứng cho cả hai kỹ năng; (5) Error Memory và insight xuyên kỹ năng; (6) Redo/Rewrite &amp; Retest; (7) Drill mục tiêu; (8) Credit/Premium; (9) Admin theo dõi chi phí và chất lượng.</p>
 <h3 id="2-4-stakeholders-xem-4">2.4 Stakeholders — xem §4.</h3>
 <h3 id="2-5-value-xem-3-business-objectives">2.5 Value — xem §3 (Business Objectives).</h3>
 <h3 id="2-6-context">2.6 Context</h3>
@@ -417,7 +504,7 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 </tr>
 <tr>
 <td>Thời gian</td>
-<td>Beta kín từ tuần 8, bắt đầu bán từ tuần 9; đánh giá gate Release 2 ở tuần 12</td>
+<td>Nguồn 4 tuần 1–3; open beta + bắt đầu bán tuần 10; chiến dịch nguồn 1 từ tuần 10; cohort đầu tiên tuần 12; cam kết hoàn tiền chỉ bật khi đạt ngưỡng dữ liệu (dự kiến tháng 6–9)</td>
 </tr>
 <tr>
 <td>Tech stack</td>
@@ -441,49 +528,102 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 </tr>
 </tbody>
 </table></div>
-<h3 id="2-7-định-vị-cạnh-tranh">2.7 Định vị cạnh tranh</h3>
+<h3 id="2-7-định-vị-cạnh-tranh-cập-nhật-theo-nghiên-cứu-09-2026">2.7 Định vị cạnh tranh (cập nhật theo nghiên cứu 09/2026)</h3>
+<p><strong>ChatGPT hiện đã làm được</strong> (có nguồn):</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th>Kỹ năng</th>
-<th>Đối thủ thật</th>
-<th>ChatGPT thay thế được?</th>
-<th>AI của sản phẩm tạo khác biệt?</th>
-<th>Quyết định</th>
+<th>Thời điểm</th>
+<th>Cập nhật</th>
+<th>Hệ quả</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Speaking</strong></td>
-<td>Gia sư 1-1</td>
-<td>Một phần: hội thoại được, nhưng không mô phỏng phòng thi, không đo thời gian, không có điểm phát âm định lượng</td>
-<td><strong>Nhiều nhất</strong></td>
-<td>R1, tính năng chính</td>
+<td>06/2026</td>
+<td>Hướng dẫn phát âm từ kèm audio mẫu, 60+ ngôn ngữ</td>
+<td>Dạy phát âm; chưa thấy nguồn nói có <em>chấm</em> phát âm người dùng</td>
 </tr>
 <tr>
-<td><strong>Writing</strong></td>
-<td>ChatGPT miễn phí</td>
-<td>Gần như hoàn toàn nếu chỉ chấm một bài</td>
-<td>Chỉ khi có Error Memory, điểm nhất quán và Retest</td>
-<td>R1, kỹ năng thứ hai</td>
+<td>07/2026</td>
+<td>GPT-Live-1 / mini: nghe-nói đồng thời, ngắt lời tự nhiên; <strong>người dùng free có bản mini</strong></td>
+<td>Thi thử Speaking dạng hội thoại dùng miễn phí được, rất tự nhiên</td>
 </tr>
 <tr>
-<td>Listening/Reading</td>
-<td>Kho đề miễn phí/giá rẻ</td>
-<td>Không liên quan (chấm theo đáp án)</td>
-<td>Gần như không</td>
-<td>R2</td>
+<td>09/2026</td>
+<td>Voice chạy trên các model GPT-6, có plugin</td>
+<td>Chất lượng hội thoại tiếp tục tăng</td>
+</tr>
+<tr>
+<td>2025–2026</td>
+<td>Study mode + memory, theo dõi tiến độ qua phiên (nguồn thứ ba)</td>
+<td>"ChatGPT không nhớ lịch sử" không còn đúng</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>5 điều sản phẩm làm được mà ChatGPT không làm được (phải hiện rõ trên landing page):</strong></p>
-<ol>
-<li>Mô phỏng phòng thi Speaking: Part 1 → 2 → 3, 1 phút chuẩn bị, 2 phút nói, câu hỏi nối tiếp (F13).</li>
-<li>Phát âm được chấm bằng phân tích audio ở mức âm/từ, không suy ra từ transcript (F14).</li>
-<li>Nhận diện <strong>lỗi đặc trưng của người Việt</strong>: mất âm cuối, bỏ -s/-ed, /θ/ /ð/, trọng âm từ, thiếu mạo từ… (F15, §14).</li>
-<li><strong>Insight xuyên kỹ năng:</strong> "bạn bỏ -s ở động từ khi viết và cũng nuốt âm /s/ khi nói" (F15).</li>
-<li>Điểm nhất quán theo thời gian nhờ model và rubric cố định, nên so sánh được để chứng minh tiến bộ (FR-076).</li>
-</ol>
+<p><strong>Đánh giá lại các lợi thế dựa trên tính năng AI:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Lợi thế ở v1.2</th>
+<th>Còn đứng vững?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mô phỏng phòng thi Speaking</td>
+<td>❌ Yếu đi nhiều</td>
+</tr>
+<tr>
+<td>Chấm phát âm định lượng theo âm vị</td>
+<td>⚠️ Nhiều khả năng ChatGPT chưa có, nhưng ai cũng mua được API; app chuyên phát âm đã làm từ lâu</td>
+</tr>
+<tr>
+<td>Lỗi đặc trưng của người Việt</td>
+<td>⚠️ Trùng với các app phát âm hiện có</td>
+</tr>
+<tr>
+<td>Insight xuyên kỹ năng</td>
+<td>✅ Riêng nhưng khó bán</td>
+</tr>
+<tr>
+<td>Điểm nhất quán</td>
+<td>✅ Đúng (IELTS 04/2026 nêu hạn chế về chuẩn hóa của AI hội thoại) — giờ là <strong>nền móng</strong> cho hiệu chỉnh</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Lợi thế v2.0 — thứ ChatGPT về cấu trúc không có:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Lợi thế</th>
+<th>Vì sao ChatGPT không làm được</th>
+<th>Bền vững?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><strong>Dự đoán band thật</strong>, công bố sai số đo trên N kết quả thi thật của người Việt</td>
+<td>Không có dữ liệu ghép cặp "bài luyện ↔ điểm thật"; không chịu trách nhiệm về kết quả</td>
+<td><strong>Có</strong> — dữ liệu tích lũy theo thời gian, đối thủ đến sau không sao chép được</td>
+</tr>
+<tr>
+<td><span class="pri pri-C" title="Could">C</span></td>
+<td><strong>Cohort cam kết</strong>: hạn chót, đặt cọc, nhắc học chủ động mỗi ngày</td>
+<td>Chỉ phản hồi khi người dùng hỏi; không có cơ chế cam kết</td>
+<td>Trung bình — cộng đồng cohort tạo gắn kết</td>
+</tr>
+<tr>
+<td>A+C</td>
+<td><strong>Cohort nuôi dữ liệu cho A</strong>: điều kiện hoàn cọc gồm gửi phiếu điểm thật</td>
+<td>—</td>
+<td>Vòng quay dữ liệu tự vận hành</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Nguồn:</strong> <a href="https://techcrunch.com/2026/07/08/openai-releases-new-voice-models-for-more-natural-live-conversations/">TechCrunch 07/2026</a> · <a href="https://9to5mac.com/2026/09/23/openai-just-upgraded-chatgpt-voice-in-three-ways/">9to5Mac 09/2026</a> · <a href="https://windowsreport.com/chatgpt-gets-pronunciation-audio-world-cup-hub-faster-photo-uploads-more/">Windows Report — pronunciation audio</a> · <a href="https://ielts.org/news-and-insights/exploring-the-potential-of-conversational-ai-in-speaking-assessment">IELTS 04/2026</a> · <a href="https://help.openai.com/en/articles/11780217-chatgpt-study-mode-faq">OpenAI Help — Study mode</a> · <a href="https://www.twilio.com/en-us/blog/ai-voice-analyze-pronunciation-twilio-programmable-voice-openai-azure-speech">Twilio — OpenAI + Azure pronunciation</a></p>
 <hr />
 <h2 id="3-business-objectives-kpi">3. Business Objectives &amp; KPI</h2>
 <blockquote class="note">
@@ -503,37 +643,55 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>O1</td>
 <td>Chứng minh chất lượng feedback đủ dùng</td>
 <td>(a) Tỉ lệ đánh giá 👍 trên report ≥ 70% (đo riêng Speaking và Writing); (b) chấm lại cùng một bài trong eval set: chênh lệch overall band ≤ 0,5 ở ≥ 90% bài; (c) 0 trường hợp trích dẫn bằng chứng không có trong bài/transcript</td>
-<td>Tuần 8 (trước khi bán)</td>
+<td>Tuần 9 (trước open beta)</td>
 </tr>
 <tr>
 <td>O2</td>
 <td>Chứng minh learning loop</td>
 <td>≥ 30% người đã nhận report có thực hiện Redo/Rewrite hoặc Retest trong 14 ngày</td>
-<td>Tuần 12</td>
+<td>Tuần 16</td>
 </tr>
 <tr>
 <td>O3</td>
 <td>Chứng minh sẵn sàng trả tiền</td>
 <td>≥ 10 người trả phí <strong>và</strong> tỉ lệ chuyển đổi ≥ 3% trên người dùng hoạt động (≥ 1 bài nộp) trong 30 ngày</td>
-<td>Tuần 12</td>
+<td>Tuần 16</td>
 </tr>
 <tr>
 <td>O4</td>
 <td>Unit economics dương</td>
 <td>Chi phí AI ≤ 30% doanh thu thuần/người trả phí; chi phí trung bình ≤ 1.500đ/lượt Writing và ≤ 5.000đ/bài thi Speaking đủ 3 Part</td>
-<td>Tuần 12</td>
+<td>Tuần 16</td>
 </tr>
 <tr>
 <td>O5</td>
 <td>Activation &amp; retention</td>
 <td>≥ 60% người đăng ký nộp bài đầu tiên trong 7 ngày; ≥ 20% người dùng hoạt động quay lại ở tuần thứ 4</td>
-<td>Tuần 12</td>
+<td>Tuần 16</td>
 </tr>
 <tr>
 <td>O6</td>
-<td>Chứng minh Speaking là lý do mua</td>
-<td>≥ 50% người trả phí đã dùng Speaking trước khi thanh toán; ≥ 60% người trả lời khảo sát chọn Speaking là lý do chính</td>
-<td>Tuần 12</td>
+<td>Chứng minh "Band thật" là lý do mua</td>
+<td>≥ 50% người trả phí đã xem Dự đoán band trước khi thanh toán; ≥ 50% người trả lời khảo sát chọn dự đoán band hoặc cohort là lý do chính</td>
+<td>Tuần 16</td>
+</tr>
+<tr>
+<td>O7</td>
+<td>Thu thập dữ liệu điểm thật (nguồn 1 + cohort)</td>
+<td>≥ 50 cặp hợp lệ/kỹ năng trước tuần 16; ≥ 300 cặp/kỹ năng trước tháng 6</td>
+<td>Tuần 16 / tháng 6</td>
+</tr>
+<tr>
+<td>O8</td>
+<td>Độ chính xác dự đoán</td>
+<td>Sai số tuyệt đối trung bình (MAE) ≤ 0,5 band trên ≥ 100 cặp kiểm tra/kỹ năng không dùng để hiệu chỉnh</td>
+<td>Tháng 6–9</td>
+</tr>
+<tr>
+<td>O9</td>
+<td>Cohort</td>
+<td>≥ 60% thành viên hoàn thành ≥ 80% lộ trình; ≥ 70% thành viên đã thi gửi phiếu điểm</td>
+<td>Sau cohort thứ 2</td>
 </tr>
 </tbody>
 </table></div>
@@ -630,16 +788,22 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 </thead>
 <tbody>
 <tr>
-<td><strong>R1 — IELTS Speaking &amp; Writing Lab</strong></td>
-<td>Speaking Part 1–3 (mô phỏng phòng thi, chấm phát âm, lỗi của người Việt), Writing Academic Task 1 + Task 2, Error Memory xuyên kỹ năng, Redo/Rewrite/Retest, credit &amp; thanh toán</td>
+<td><strong>R1 — IELTS Lab "Band thật"</strong></td>
+<td>Speaking Part 1–3 + Writing Task 1/2 làm công cụ đo; Dự đoán band; thu thập &amp; hiệu chỉnh bằng điểm thật; Cohort cam kết + nhắc học; credit &amp; thanh toán</td>
 <td>—</td>
-<td>Tuần 1–12</td>
+<td>Tuần 1–16 (roadmap §18)</td>
+</tr>
+<tr>
+<td>R1.5 — Cam kết theo kết quả</td>
+<td>Hoàn tiền nếu điểm thật thấp hơn dự đoán quá ngưỡng</td>
+<td><strong>O8 đạt</strong> + rà soát pháp lý (<span class="tag tag-tbd">TBD-18</span>)</td>
+<td>Dự kiến tháng 6–9</td>
 </tr>
 <tr>
 <td>R2 — Listening/Reading + Full mock Academic</td>
-<td>Chấm khách quan theo answer key, full mock 4 kỹ năng</td>
+<td>Chấm khách quan theo answer key, full mock 4 kỹ năng; dự đoán overall band</td>
 <td>O1, O3, O4, O6 đạt; có nguồn nội dung hợp pháp</td>
-<td>Sau tuần 12</td>
+<td>Sau R1</td>
 </tr>
 <tr>
 <td>R3 — TOEIC Listening &amp; Reading</td>
@@ -670,6 +834,11 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <li>✅ AI Gateway: phân loại dữ liệu, model chấm cố định, caching, circuit breaker, trần chi phí</li>
 <li>✅ Admin: user, usage/cost, feedback, import nội dung</li>
 <li>✅ Data model sẵn sàng đa kỳ thi (không làm tính năng TOEIC/SAT)</li>
+<li>✅ <strong>Nguồn 4:</strong> đăng ký bộ dữ liệu công khai kèm license; chỉ dùng bộ có quyền thương mại (F21)</li>
+<li>✅ <strong>Dự đoán band Speaking và Writing</strong> có khoảng sai số; trạng thái "chưa hiệu chỉnh" trước khi đủ dữ liệu (F16)</li>
+<li>✅ <strong>Thu thập kết quả thi thật</strong> tự nguyện, có phần thưởng, xác minh và bảo vệ dữ liệu (F17)</li>
+<li>✅ <strong>Hiệu chỉnh</strong> và công bố sai số đo được (F18)</li>
+<li>✅ <strong>Cohort 8 tuần</strong> có ngày thi mục tiêu, đặt cọc hoàn lại (F19) và <strong>nhắc học chủ động</strong> (F20)</li>
 </ul>
 <h3 id="5-3-out-of-scope-r1">5.3 Out-of-Scope (R1)</h3>
 <ul>
@@ -681,15 +850,19 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <li>❌ AI Companion, Skill Garden 4 kỹ năng, streak/reward nâng cao</li>
 <li>❌ App native iOS/Android, push notification</li>
 <li>❌ Marketplace gia sư, social feed, hồ sơ công khai</li>
-<li>❌ Cam kết độ chính xác band tương đương giám khảo; chứng nhận điểm</li>
-<li>❌ Huấn luyện model từ dữ liệu người dùng</li>
+<li>❌ Cam kết hoàn tiền theo kết quả — chỉ bật ở R1.5 khi O8 đạt</li>
+<li>❌ Chứng nhận điểm; tuyên bố tương đương giám khảo</li>
+<li>❌ Dự đoán band Listening, Reading và overall — R2</li>
+<li>❌ Huấn luyện foundation model; dữ liệu người dùng chỉ dùng cho hiệu chỉnh khi có consent riêng (FR-171)</li>
+<li>❌ Thu thập hoặc lưu nội dung câu hỏi của đề thi thật</li>
+<li>❌ Cào dữ liệu từ mạng xã hội</li>
 </ul>
 <h3 id="5-4-boundaries-interfaces">5.4 Boundaries / Interfaces</h3>
 <ul>
 <li>Browser/PWA ↔ Next.js ↔ FastAPI (HTTPS)</li>
 <li>FastAPI ↔ AI Gateway ↔ các AI provider và speech provider bên ngoài (STT, chấm phát âm, TTS giọng giám khảo)</li>
 <li>FastAPI ↔ Payment adapter ↔ Payment provider (webhook)</li>
-<li>FastAPI ↔ Email provider; FastAPI ↔ Google OAuth</li>
+<li>FastAPI ↔ Email provider; FastAPI ↔ Google OAuth; FastAPI ↔ kênh nhắn tin (Zalo OA hoặc thay thế, <span class="tag tag-tbd">TBD-16</span>)</li>
 </ul>
 <hr />
 <h2 id="6-business-requirements">6. Business Requirements</h2>
@@ -849,7 +1022,63 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>Hệ thống NÊN chỉ ra lỗi xuất hiện ở cả Speaking và Writing (insight xuyên kỹ năng)</td>
 <td><span class="pri pri-S" title="Should">S</span></td>
 <td>Chỉ có được khi một hệ thống thấy cả hai kỹ năng</td>
-<td>O2, O6</td>
+<td>O2</td>
+</tr>
+<tr>
+<td>BR-022</td>
+<td>Hệ thống PHẢI dự đoán band Speaking và Writing khi thi thật, kèm khoảng sai số và nêu rõ đã/chưa được hiệu chỉnh</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td><strong>Lợi thế A</strong></td>
+<td>O6, O8, N7</td>
+</tr>
+<tr>
+<td>BR-023</td>
+<td>Hệ thống PHẢI cho phép người dùng tự nguyện gửi kết quả thi thật, có consent riêng, xác minh chống gian lận và phần thưởng</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Nguồn dữ liệu cho A</td>
+<td>O7</td>
+</tr>
+<tr>
+<td>BR-024</td>
+<td>Hệ thống PHẢI hiệu chỉnh dự đoán bằng dữ liệu điểm thật và chỉ công bố độ chính xác bằng số liệu đo được</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Tuyên bố trung thực, tránh quảng cáo sai</td>
+<td>O8</td>
+</tr>
+<tr>
+<td>BR-025</td>
+<td>Mọi bộ dữ liệu bên ngoài PHẢI được đăng ký kèm license; chỉ bộ có quyền dùng thương mại mới được đưa vào phát triển/đánh giá sản phẩm</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Rủi ro pháp lý (đa số bộ dữ liệu phù hợp là phi thương mại, §16)</td>
+<td>§12</td>
+</tr>
+<tr>
+<td>BR-026</td>
+<td>Người học PHẢI tham gia được cohort 8 tuần có ngày thi mục tiêu và lộ trình</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td><strong>Lợi thế C</strong>; nguồn dữ liệu cao chất lượng cho A</td>
+<td>O9, N8</td>
+</tr>
+<tr>
+<td>BR-027</td>
+<td>Hệ thống NÊN chủ động nhắc học mỗi ngày qua kênh người học dùng (email, Zalo nếu khả thi)</td>
+<td><span class="pri pri-S" title="Should">S</span></td>
+<td>ChatGPT chỉ phản hồi khi được hỏi</td>
+<td>O5, O9</td>
+</tr>
+<tr>
+<td>BR-028</td>
+<td>Cohort NÊN có đặt cọc hoàn lại khi hoàn thành lộ trình và gửi phiếu điểm</td>
+<td><span class="pri pri-S" title="Should">S</span></td>
+<td>Cơ chế cam kết; cần rà soát pháp lý</td>
+<td>O9, O7</td>
+</tr>
+<tr>
+<td>BR-029</td>
+<td>Hoàn tiền theo kết quả thi thật</td>
+<td><span class="pri pri-W" title="Won't">W</span></td>
+<td>Chỉ bật ở R1.5 khi O8 đạt</td>
+<td>—</td>
 </tr>
 </tbody>
 </table></div>
@@ -865,33 +1094,33 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <tbody>
 <tr>
 <td>Must</td>
-<td>12</td>
-<td>67%</td>
+<td>17</td>
+<td>68%</td>
 </tr>
 <tr>
 <td>Should</td>
-<td>5</td>
+<td>7</td>
 <td>28%</td>
 </tr>
 <tr>
 <td>Could</td>
 <td>1</td>
-<td>5%</td>
+<td>4%</td>
 </tr>
 <tr>
 <td><strong>Total in-scope</strong></td>
-<td><strong>18</strong></td>
+<td><strong>25</strong></td>
 <td><strong>100%</strong></td>
 </tr>
 <tr>
 <td>Won't (R1)</td>
-<td>3</td>
+<td>4</td>
 <td>—</td>
 </tr>
 </tbody>
 </table></div>
 <blockquote class="note">
-<p>⚠️ Must chiếm 67% số BR, và Speaking làm tăng effort đáng kể. Theo quy tắc 60/40, <strong>effort</strong> của nhóm Must nên ≤ 60% capacity; §17 đưa các BR Should về cuối timeline và liệt kê thứ tự cắt scope.</p>
+<p>⚠️ Must chiếm 67% số BR, và Speaking làm tăng effort đáng kể. Theo quy tắc 60/40, <strong>effort</strong> của nhóm Must nên ≤ 60% capacity; §18 đưa các BR Should về cuối timeline và liệt kê thứ tự cắt scope.</p>
 </blockquote>
 <hr />
 <h2 id="7-overall-description">7. Overall Description</h2>
@@ -1002,7 +1231,19 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 </tr>
 <tr>
 <td>A6</td>
-<td>STT đủ chính xác với giọng tiếng Anh của người Việt để transcript dùng làm bằng chứng — kiểm chứng bằng eval set Speaking ở tuần 5</td>
+<td>STT đủ chính xác với giọng tiếng Anh của người Việt để transcript dùng làm bằng chứng — kiểm chứng bằng eval set Speaking ở tuần 3</td>
+</tr>
+<tr>
+<td>A7</td>
+<td>Người vừa thi IELTS sẵn sàng làm 1 bài thi thử và gửi phiếu điểm để đổi phần thưởng — <strong>kiểm chứng bằng bài đăng mời thử trong tuần 1</strong> (≥ 20 người đồng ý <span class="tag tag-prop">Đề xuất</span>)</td>
+</tr>
+<tr>
+<td>A8</td>
+<td>Xin được license thương mại cho ít nhất một bộ dữ liệu có người nói tiếng Việt, <strong>hoặc</strong> tự xây eval set đủ dùng từ tình nguyện viên có consent (<span class="tag tag-tbd">TBD-15</span>)</td>
+</tr>
+<tr>
+<td>A9</td>
+<td>Có kênh nhắn tin chủ động hợp lệ (Zalo OA hoặc thay thế) với chi phí chấp nhận được (<span class="tag tag-tbd">TBD-16</span>)</td>
 </tr>
 <tr>
 <td>D1</td>
@@ -1907,10 +2148,325 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <li><strong>AC-F15-2</strong> — Given trong 30 ngày người học có 2 bài Writing bỏ -s ngôi thứ ba và 2 bài Speaking nuốt âm /s/ cuối ở động từ, When mở Dashboard, Then thấy insight "Lỗi -s xuất hiện ở cả nói và viết" kèm liên kết 4 bằng chứng.</li>
 <li><strong>AC-F15-3</strong> — Given lỗi -s chỉ xuất hiện 1 lần ở Speaking, When tính insight, Then không hiển thị insight xuyên kỹ năng.</li>
 </ul>
+<h3 id="8-16-feature-f16-dự-đoán-band-thật-priority-m-lợi-thế-a">8.16 Feature F16 — Dự đoán band thật (Priority: M) — <em>lợi thế A</em></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-150</td>
+<td>Hệ thống PHẢI hiển thị dự đoán band <strong>Speaking</strong> và <strong>Writing</strong> riêng biệt dưới dạng khoảng (VD: 6.0–6.5); KHÔNG dự đoán Listening, Reading, overall trong R1</td>
+<td>BR-022</td>
+<td>AC-F16-1</td>
+</tr>
+<tr>
+<td>FR-151</td>
+<td>Dự đoán CHỈ dựa trên bài làm Exam Mode đủ điều kiện: Speaking đủ 3 Part; Writing có Task 2 (Task 1 nếu có); ≥ 2 bài thi thử mỗi kỹ năng trong 14 ngày gần nhất <span class="tag tag-prop">Đề xuất</span></td>
+<td>BR-022</td>
+<td>AC-F16-2</td>
+</tr>
+<tr>
+<td>FR-152</td>
+<td>Trước khi calibration model đạt điều kiện công bố (FR-174), nhãn PHẢI là "Ước lượng AI — <strong>chưa được hiệu chỉnh</strong> bằng điểm thật" và không hiển thị con số sai số; sau khi đạt: "Dự đoán band thật X–Y · sai số trung bình Z trên N kết quả thật · cập nhật ngày D"</td>
+<td>BR-022, BR-024</td>
+<td>AC-F16-3</td>
+</tr>
+<tr>
+<td>FR-153</td>
+<td>Mỗi dự đoán PHẢI lưu rubric version, calibration model version và danh sách bài làm đầu vào</td>
+<td>BR-022, BR-006</td>
+<td>Metadata có trong DB</td>
+</tr>
+<tr>
+<td>FR-154</td>
+<td>Bài chấm bằng model dự phòng (FR-069) KHÔNG được dùng làm đầu vào dự đoán</td>
+<td>BR-006, BR-022</td>
+<td>Bài fallback bị loại</td>
+</tr>
+<tr>
+<td>FR-155</td>
+<td>Hệ thống NÊN hiển thị "Sẵn sàng đi thi?" so sánh dự đoán với band mục tiêu (FR-010) và gợi ý số tuần luyện thêm</td>
+<td>BR-022</td>
+<td>Hiển thị khi có band mục tiêu</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F16-1</strong> — Given người học có đủ bài thi thử hợp lệ, When mở trang Dự đoán, Then thấy 2 khoảng band riêng cho Speaking và Writing, không có overall.</li>
+<li><strong>AC-F16-2</strong> — Given người học mới chỉ có 1 bài Speaking Part 1, When mở trang Dự đoán, Then hệ thống không đưa dự đoán Speaking và chỉ rõ còn thiếu gì ("cần 2 bài thi đủ 3 Part trong 14 ngày").</li>
+<li><strong>AC-F16-3</strong> — Given calibration model chưa đạt FR-174, When hiển thị dự đoán, Then nhãn là "chưa được hiệu chỉnh" và không có chữ "sai số".</li>
+</ul>
+<h3 id="8-17-feature-f17-thu-thập-kết-quả-thi-thật-priority-m-nguồn-dữ-liệu-cho-a">8.17 Feature F17 — Thu thập kết quả thi thật (Priority: M) — <em>nguồn dữ liệu cho A</em></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-160</td>
+<td>Người dùng PHẢI gửi được kết quả thi: ngày thi, dạng thi (Academic/GT, máy/giấy), band Speaking và Writing (bắt buộc); band Listening, Reading, overall (tùy chọn, dùng cho R2)</td>
+<td>BR-023</td>
+<td>Form validate band 0–9, bước 0,5</td>
+</tr>
+<tr>
+<td>FR-161</td>
+<td>Người dùng PHẢI tải ảnh phiếu điểm để xác minh; hệ thống PHẢI hướng dẫn che ảnh chân dung và số giấy tờ trước khi tải; ảnh tự xóa ≤ 7 ngày sau khi xác minh hoặc từ chối</td>
+<td>BR-023, BR-005</td>
+<td>AC-F17-1</td>
+</tr>
+<tr>
+<td>FR-162</td>
+<td>Hệ thống PHẢI lấy <strong>consent riêng</strong> (tách khỏi điều khoản chung) cho việc dùng kết quả để hiệu chỉnh; người dùng rút consent được bất cứ lúc nào</td>
+<td>BR-023, BR-005</td>
+<td>AC-F17-2</td>
+</tr>
+<tr>
+<td>FR-163</td>
+<td>Hệ thống PHẢI chống gửi trùng bằng mã phiếu điểm (lưu dạng hash); một cặp chỉ hợp lệ khi có bài thi thử đủ điều kiện trong khoảng <strong>28 ngày trước hoặc sau ngày thi</strong> <span class="tag tag-prop">Đề xuất</span>, và ghi lại khoảng cách ngày</td>
+<td>BR-023</td>
+<td>AC-F17-3</td>
+</tr>
+<tr>
+<td>FR-164</td>
+<td>Admin PHẢI duyệt được từng kết quả (chờ duyệt / đã xác minh / từ chối kèm lý do) và thấy cờ bất thường (VD: band thật lệch ≥ 2 so với ước lượng)</td>
+<td>BR-023</td>
+<td>Trang Verification trong admin</td>
+</tr>
+<tr>
+<td>FR-165</td>
+<td>Phần thưởng PHẢI cấp sau khi xác minh: 2 tháng Premium <span class="tag tag-prop">Đề xuất</span>, <strong>như nhau cho mọi mức band</strong></td>
+<td>BR-023</td>
+<td>Credit cộng tự động sau khi "đã xác minh"</td>
+</tr>
+<tr>
+<td>FR-166</td>
+<td>Hệ thống PHẢI có luồng <strong>"Vừa thi xong"</strong> (nguồn 1): đăng ký → thi thử Speaking đủ 3 Part + Writing Task 2 (Task 1 tùy chọn), không trừ credit → gửi kết quả</td>
+<td>BR-023</td>
+<td>AC-F17-4</td>
+</tr>
+<tr>
+<td>FR-167</td>
+<td>Hệ thống KHÔNG được hỏi, nhận hoặc lưu nội dung câu hỏi của đề thi thật; form không có ô nhập tự do về đề thi</td>
+<td>BR-023</td>
+<td>Kiểm tra form &amp; review</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F17-1</strong> — Given admin đã xác minh kết quả lúc T, When đến T + 7 ngày, Then ảnh phiếu điểm bị xóa khỏi storage và chỉ còn các con số đã nhập.</li>
+<li><strong>AC-F17-2</strong> — Given người dùng rút consent hiệu chỉnh, When chạy hiệu chỉnh lần tiếp theo, Then cặp dữ liệu của họ không được dùng.</li>
+<li><strong>AC-F17-3</strong> — Given mã phiếu điểm đã được gửi bởi tài khoản khác, When người dùng gửi lại mã đó, Then hệ thống từ chối và gắn cờ cho admin.</li>
+<li><strong>AC-F17-4</strong> — Given người dùng vào luồng "Vừa thi xong" và thi ngày 01/10, When làm bài thi thử ngày 20/10 và gửi kết quả, Then cặp được ghi nhận với khoảng cách 19 ngày và chờ duyệt.</li>
+</ul>
+<h3 id="8-18-feature-f18-hiệu-chỉnh-công-bố-độ-chính-xác-priority-m">8.18 Feature F18 — Hiệu chỉnh &amp; công bố độ chính xác (Priority: M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-170</td>
+<td>Admin PHẢI xem bảng cặp dữ liệu hợp lệ theo kỹ năng, mức band thật, khoảng cách ngày và nguồn (1, 3, cohort)</td>
+<td>BR-024</td>
+<td>Trang Calibration Data</td>
+</tr>
+<tr>
+<td>FR-171</td>
+<td>Chỉ cặp có consent hiệu chỉnh còn hiệu lực mới được dùng; xóa tài khoản hoặc rút consent → loại khỏi lần chạy kế tiếp</td>
+<td>BR-024, BR-005</td>
+<td>AC-F17-2</td>
+</tr>
+<tr>
+<td>FR-172</td>
+<td>Mỗi lần hiệu chỉnh PHẢI tạo calibration model version mới, gắn với rubric version, và giữ riêng tập kiểm tra (holdout ≥ 30% số cặp, không dùng để hiệu chỉnh)</td>
+<td>BR-024</td>
+<td>Version lưu trong DB</td>
+</tr>
+<tr>
+<td>FR-173</td>
+<td>Mỗi version PHẢI có báo cáo: MAE, tỉ lệ lệch ≤ 0,5 band, độ lệch có hướng (chấm cao/thấp hơn) theo từng mức band (≤ 5.0, 5.5, 6.0, 6.5, 7.0, ≥ 7.5) và số cặp mỗi mức</td>
+<td>BR-024</td>
+<td>AC-F18-1</td>
+</tr>
+<tr>
+<td>FR-174</td>
+<td>Độ chính xác CHỈ được công bố ra ngoài khi holdout ≥ 100 cặp/kỹ năng <span class="tag tag-prop">Đề xuất</span>; câu công bố PHẢI gồm N, MAE, ngày cập nhật, và không làm tròn theo hướng có lợi</td>
+<td>BR-024</td>
+<td>AC-F18-2</td>
+</tr>
+<tr>
+<td>FR-175</td>
+<td>Cam kết hoàn tiền (R1.5) CHỈ bật được cho mức band có MAE ≤ 0,5 và ≥ 30 cặp holdout ở mức đó <span class="tag tag-prop">Đề xuất</span>, sau khi pháp lý duyệt (<span class="tag tag-tbd">TBD-18</span>); có công tắc bật/tắt theo từng mức band</td>
+<td>BR-029, BR-024</td>
+<td>Công tắc bị khóa khi chưa đạt điều kiện</td>
+</tr>
+<tr>
+<td>FR-176</td>
+<td>Đổi rubric/model chấm chính (FR-076) PHẢI kích hoạt hiệu chỉnh lại; dự đoán dùng version cũ bị gắn nhãn "phiên bản cũ"</td>
+<td>BR-024, BR-006</td>
+<td>AC-F18-3</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F18-1</strong> — Given calibration v3 có 40 cặp holdout ở mức 6.0 và 4 cặp ở mức ≥ 7.5, When xem báo cáo, Then mức ≥ 7.5 được đánh dấu "không đủ dữ liệu".</li>
+<li><strong>AC-F18-2</strong> — Given holdout Speaking mới có 80 cặp, When admin bấm "Công bố độ chính xác", Then hệ thống từ chối và hiển thị số cặp còn thiếu.</li>
+<li><strong>AC-F18-3</strong> — Given rubric Speaking đổi từ v2 sang v3, When người học mở dự đoán cũ, Then thấy nhãn "phiên bản cũ" và được mời làm bài thi thử mới.</li>
+</ul>
+<h3 id="8-19-feature-f19-cohort-cam-kết-priority-m-s-lợi-thế-c">8.19 Feature F19 — Cohort cam kết (Priority: M/S) — <em>lợi thế C</em></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-180</td>
+<td>Admin PHẢI tạo được cohort: ngày bắt đầu, 8 tuần, sĩ số tối đa, khoảng ngày thi mục tiêu</td>
+<td>BR-026</td>
+<td>Trang Cohort trong admin</td>
+</tr>
+<tr>
+<td>FR-181</td>
+<td>Người học PHẢI đăng ký cohort kèm ngày thi dự kiến và band mục tiêu</td>
+<td>BR-026</td>
+<td>Form bắt buộc 2 trường</td>
+</tr>
+<tr>
+<td>FR-182</td>
+<td>Lộ trình PHẢI có 1 nhiệm vụ/ngày ≤ 20 phút <span class="tag tag-prop">Đề xuất</span> và 1 bài thi thử đủ (Speaking 3 Part + Writing) mỗi 2 tuần để cập nhật dự đoán (F16)</td>
+<td>BR-026, BR-022</td>
+<td>AC-F19-1</td>
+</tr>
+<tr>
+<td>FR-183</td>
+<td>Hệ thống PHẢI hiển thị % hoàn thành cá nhân; bảng tiến độ nhóm NÊN có, ẩn danh mặc định, hiện tên khi người học opt-in</td>
+<td>BR-026</td>
+<td>Bảng tiến độ ẩn danh mặc định</td>
+</tr>
+<tr>
+<td>FR-184</td>
+<td>Cohort NÊN có đặt cọc 100.000đ <span class="tag tag-prop">Đề xuất</span>, hoàn lại khi (a) hoàn thành ≥ 80% nhiệm vụ <strong>và</strong> (b) gửi kết quả thi thật hợp lệ (F17) trong 30 ngày sau ngày thi; điều khoản hiển thị trước khi nộp cọc; người học chọn nhận lại tiền hoặc đổi thành credit — <strong>chỉ bật sau khi pháp lý duyệt (<span class="tag tag-tbd">TBD-18</span>)</strong></td>
+<td>BR-028</td>
+<td>AC-F19-2</td>
+</tr>
+<tr>
+<td>FR-185</td>
+<td>Người học PHẢI cập nhật được ngày thi; điều kiện hoàn cọc tính theo ngày mới, lùi tối đa 60 ngày <span class="tag tag-prop">Đề xuất</span></td>
+<td>BR-026, BR-028</td>
+<td>Lịch sử thay đổi ngày thi được lưu</td>
+</tr>
+<tr>
+<td>FR-186</td>
+<td>Phí cohort PHẢI bao gồm quyền Premium trong suốt 8 tuần</td>
+<td>BR-026, BR-003</td>
+<td>Entitlement Premium tự cấp khi vào cohort</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F19-1</strong> — Given người học ở tuần 4 của cohort, When hoàn thành bài thi thử định kỳ, Then dự đoán band được cập nhật và so sánh với lần trước.</li>
+<li><strong>AC-F19-2</strong> — Given người học hoàn thành 85% nhiệm vụ nhưng chưa gửi phiếu điểm sau 30 ngày kể từ ngày thi, When hết hạn, Then cọc không được hoàn và người học đã được nhắc ít nhất 2 lần trước hạn.</li>
+</ul>
+<h3 id="8-20-feature-f20-nhắc-học-chủ-động-priority-s">8.20 Feature F20 — Nhắc học chủ động (Priority: S)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-190</td>
+<td>Hệ thống NÊN gửi nhiệm vụ hằng ngày qua kênh người học chọn (email mặc định; Zalo nếu <span class="tag tag-tbd">TBD-16</span> khả thi) vào khung giờ người học chọn</td>
+<td>BR-027</td>
+<td>AC-F20-1</td>
+</tr>
+<tr>
+<td>FR-191</td>
+<td>Tin nhắc NÊN chứa liên kết mở thẳng trang trả lời 1 câu Speaking Part 1; liên kết đăng nhập một lần, hết hạn sau 24 giờ</td>
+<td>BR-027, BR-007</td>
+<td>Liên kết hết hạn sau 24 giờ</td>
+</tr>
+<tr>
+<td>FR-192</td>
+<td>Tối đa 1 tin nhắc/ngày + 1 tin nhắc lại nếu chưa làm; không gửi 22:00–07:00 <span class="tag tag-prop">Đề xuất</span>; tắt nhắc bằng 1 chạm</td>
+<td>BR-027</td>
+<td>AC-F20-2</td>
+</tr>
+<tr>
+<td>FR-193</td>
+<td>Câu trả lời từ tin nhắc dùng 0 credit và tính vào giới hạn drill hằng ngày (FR-124)</td>
+<td>BR-027, BR-004</td>
+<td>Không trừ credit</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F20-1</strong> — Given người học chọn nhận nhắc lúc 20:00 qua email, When đến 20:00, Then email nhiệm vụ trong ngày được gửi.</li>
+<li><strong>AC-F20-2</strong> — Given người học đã hoàn thành nhiệm vụ lúc 19:00, When đến giờ nhắc lại, Then không có tin nhắc lại.</li>
+</ul>
+<h3 id="8-21-feature-f21-quản-lý-bộ-dữ-liệu-license-priority-m-nguồn-4">8.21 Feature F21 — Quản lý bộ dữ liệu &amp; license (Priority: M) — <em>nguồn 4</em></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-195</td>
+<td>Admin PHẢI đăng ký mỗi bộ dữ liệu bên ngoài: tên, nguồn, license, <strong>được phép thương mại (Có/Không)</strong>, yêu cầu ghi công, hạn chế chia sẻ, file license/thỏa thuận, ngày duyệt</td>
+<td>BR-025</td>
+<td>Trang Dataset Registry</td>
+</tr>
+<tr>
+<td>FR-196</td>
+<td>Pipeline đánh giá/hiệu chỉnh PHẢI từ chối bộ dữ liệu có "được phép thương mại = Không", trừ khi đã lưu license thương mại riêng</td>
+<td>BR-025</td>
+<td>AC-F21-1</td>
+</tr>
+<tr>
+<td>FR-197</td>
+<td>Mỗi báo cáo eval PHẢI ghi rõ bộ dữ liệu và phiên bản đã dùng</td>
+<td>BR-025, BR-006</td>
+<td>Báo cáo có danh sách bộ dữ liệu</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F21-1</strong> — Given bộ ELLIPSE được đăng ký với license CC BY-NC-SA, When chạy eval có chọn bộ này, Then pipeline dừng và báo "cần license thương mại".</li>
+</ul>
 <hr />
 <h2 id="9-non-functional-requirements">9. Non-Functional Requirements</h2>
 <blockquote class="note">
-<p>Các target có nhãn <span class="tag tag-prop">Đề xuất</span> chờ duyệt trước tuần 8.</p>
+<p>Các target có nhãn <span class="tag tag-prop">Đề xuất</span> chờ duyệt trước tuần 9.</p>
 </blockquote>
 <h3 id="9-1-performance">9.1 Performance</h3>
 <div class="table-wrap"><table>
@@ -1958,6 +2514,12 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>Độ trễ giữa hai câu hỏi của giám khảo AI</td>
 <td>Từ lúc dừng ghi âm đến lúc phát câu hỏi tiếp theo</td>
 <td>≤ 2s; câu hỏi nối tiếp Part 3 ≤ 5s</td>
+</tr>
+<tr>
+<td>NFR-P07</td>
+<td>Cập nhật dự đoán band</td>
+<td>Từ lúc bài thi thử đủ điều kiện được chấm xong</td>
+<td>≤ 5 phút</td>
 </tr>
 </tbody>
 </table></div>
@@ -2058,6 +2620,16 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>Audio</td>
 <td>Lưu ở storage riêng tư, chỉ truy cập qua URL ký hạn ≤ 15 phút; tự xóa sau 30 ngày</td>
 </tr>
+<tr>
+<td>NFR-S10</td>
+<td>Ảnh phiếu điểm</td>
+<td>Mã hóa khi lưu; chỉ admin được chỉ định xem; mọi lần xem ghi audit log; xóa ≤ 7 ngày (FR-161)</td>
+</tr>
+<tr>
+<td>NFR-S11</td>
+<td>Mã phiếu điểm</td>
+<td>Chỉ lưu dạng hash có salt, không lưu bản rõ</td>
+</tr>
 </tbody>
 </table></div>
 <h3 id="9-4-usability">9.4 Usability</h3>
@@ -2088,7 +2660,7 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <tr>
 <td>NFR-U04</td>
 <td>Minh bạch AI</td>
-<td>Nhãn "ước lượng — không chính thức" hiển thị ở 100% vị trí có band</td>
+<td>Nhãn "ước lượng — không chính thức" hiển thị ở 100% vị trí có band; nhãn trạng thái hiệu chỉnh ở 100% vị trí có dự đoán</td>
 </tr>
 </tbody>
 </table></div>
@@ -2242,6 +2814,20 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td><span class="tag tag-tbd">TBD-09</span></td>
 </tr>
 <tr>
+<td>Kênh nhắn tin chủ động</td>
+<td>Nhắc học hằng ngày (F20)</td>
+<td>Theo nhà cung cấp (VD: Zalo OA)</td>
+<td>Theo nhà cung cấp</td>
+<td><span class="tag tag-tbd">TBD-16</span>; kiểm tra chính sách gửi tin chủ động và chi phí</td>
+</tr>
+<tr>
+<td>Bộ dữ liệu công khai</td>
+<td>Đánh giá bộ chấm (nguồn 4)</td>
+<td>Tải thủ công</td>
+<td>Theo thỏa thuận license</td>
+<td>Chỉ bộ có quyền thương mại (F21, §16)</td>
+</tr>
+<tr>
 <td>Object storage</td>
 <td>Ảnh biểu đồ Task 1, audio ghi âm, audio TTS đã cache</td>
 <td>S3-compatible</td>
@@ -2342,6 +2928,41 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>provider, model, token, chi phí, latency, trạng thái</td>
 <td>Không lưu toàn văn bài</td>
 </tr>
+<tr>
+<td><code>official_result</code></td>
+<td>user, ngày thi, dạng thi, band S/W (L/R/overall tùy chọn), hash mã phiếu, trạng thái xác minh, consent hiệu chỉnh, nguồn (1/3/cohort)</td>
+<td>Ảnh phiếu điểm lưu tạm, xóa ≤ 7 ngày</td>
+</tr>
+<tr>
+<td><code>calibration_pair</code></td>
+<td>official_result, các attempt đầu vào, khoảng cách ngày, tập (hiệu chỉnh/holdout)</td>
+<td>Loại khi rút consent</td>
+</tr>
+<tr>
+<td><code>calibration_model</code></td>
+<td>version, kỹ năng, rubric version, tham số, báo cáo MAE theo mức band, trạng thái công bố</td>
+<td>Không chứa dữ liệu cá nhân</td>
+</tr>
+<tr>
+<td><code>prediction</code></td>
+<td>user, kỹ năng, khoảng band, calibration version, attempt đầu vào, thời điểm</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>cohort</code>, <code>cohort_member</code></td>
+<td>lịch, ngày thi mục tiêu, % hoàn thành, trạng thái cọc</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>deposit</code></td>
+<td>số tiền, trạng thái (đã nộp/đã hoàn/không hoàn/đổi credit), lý do</td>
+<td>Liên kết <code>payment_order</code></td>
+</tr>
+<tr>
+<td><code>dataset_registry</code></td>
+<td>tên, nguồn, license, cờ thương mại, file thỏa thuận</td>
+<td>F21</td>
+</tr>
 </tbody>
 </table></div>
 <blockquote class="note">
@@ -2371,6 +2992,16 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>Log vận hành AI (không có nội dung bài)</td>
 <td>90 ngày <span class="tag tag-prop">Đề xuất</span></td>
 <td>Xóa</td>
+</tr>
+<tr>
+<td>Ảnh phiếu điểm</td>
+<td>≤ 7 ngày sau khi xác minh/từ chối</td>
+<td>Xóa vĩnh viễn</td>
+</tr>
+<tr>
+<td>Kết quả thi (con số) và cặp hiệu chỉnh</td>
+<td>Đến khi người dùng rút consent, xóa dữ liệu hoặc xóa tài khoản</td>
+<td>Xóa; loại khỏi lần hiệu chỉnh kế tiếp</td>
 </tr>
 <tr>
 <td>Giao dịch thanh toán</td>
@@ -2412,7 +3043,32 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <tr>
 <td>Người chưa thành niên (P2)</td>
 <td>✅</td>
-<td>Thông báo viết cho độ tuổi người dùng, tối thiểu hóa dữ liệu; cơ chế đồng ý của cha mẹ/người giám hộ theo quy định — bắt buộc trước R5 (SAT), rà soát cho R1</td>
+<td>Thông báo viết cho độ tuổi người dùng, tối thiểu hóa dữ liệu; cơ chế đồng ý của cha mẹ/người giám hộ theo quy định — bắt buộc trước R4 (SAT), rà soát cho R1 (đặc biệt với phiếu điểm và đặt cọc)</td>
+</tr>
+<tr>
+<td>Kết quả thi thật &amp; phiếu điểm</td>
+<td>✅</td>
+<td>Consent riêng cho mục đích hiệu chỉnh; tối thiểu hóa (che ảnh, số giấy tờ; xóa ảnh ≤ 7 ngày); quyền rút consent — <strong><span class="tag tag-tbd">TBD-12</span></strong></td>
+</tr>
+<tr>
+<td>Bảo mật đề thi</td>
+<td>✅</td>
+<td>Không thu thập nội dung câu hỏi đề thi thật (FR-167)</td>
+</tr>
+<tr>
+<td>License bộ dữ liệu</td>
+<td>✅</td>
+<td>Đa số bộ phù hợp là phi thương mại (§16); chỉ dùng khi có quyền thương mại (F21)</td>
+</tr>
+<tr>
+<td>Quảng cáo độ chính xác</td>
+<td>✅</td>
+<td>Chỉ công bố số liệu đo được, kèm N và ngày (FR-174) — <strong><span class="tag tag-tbd">TBD-18</span></strong></td>
+</tr>
+<tr>
+<td>Đặt cọc &amp; cam kết hoàn tiền</td>
+<td>✅</td>
+<td>Cần xác định khung pháp lý phù hợp trước khi bật FR-184 và FR-175 — <strong><span class="tag tag-tbd">TBD-18</span></strong></td>
 </tr>
 <tr>
 <td>Bảo vệ người tiêu dùng / thương mại điện tử</td>
@@ -2466,14 +3122,27 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>90 trong 3 tháng</td>
 <td>Khớp chu kỳ ôn thi</td>
 </tr>
+<tr>
+<td><strong>Cohort 8 tuần</strong></td>
+<td>199.000đ <span class="tag tag-prop">Đề xuất</span> + cọc 100.000đ hoàn lại (FR-184)</td>
+<td>Premium trong 8 tuần</td>
+<td>Lợi thế C; nguồn dữ liệu chất lượng cao cho A</td>
+</tr>
+<tr>
+<td>Cam kết theo kết quả (R1.5)</td>
+<td><code>TBD</code></td>
+<td>—</td>
+<td>Chỉ bật khi O8 đạt (FR-175)</td>
+</tr>
 </tbody>
 </table></div>
+<p><strong>Chi phí phần thưởng dữ liệu (FR-165):</strong> chi phí biên của 2 tháng Premium chủ yếu là chi phí AI thực dùng. Chiến dịch nguồn 1 tốn khoảng 5.000–10.000đ chi phí AI cho bài thi thử của mỗi người; 300 cặp ≈ 1,5–3 triệu đồng <span class="tag tag-prop">Đề xuất</span>.</p>
 <p><strong>Công thức theo dõi (O4):</strong>
 <code>AI cost ratio = Σ(credit đã dùng theo loại × chi phí trung bình/credit của loại đó) ÷ doanh thu thuần</code> — mục tiêu ≤ 30%. Theo dõi riêng Speaking và Writing.</p>
 <hr />
 <h2 id="14-lỗi-đặc-trưng-của-người-việt-danh-sách-khởi-đầu">14. Lỗi đặc trưng của người Việt — danh sách khởi đầu</h2>
 <blockquote class="note">
-<p>Đây là <strong>giả thuyết ban đầu</strong> dựa trên các lỗi phổ biến của người học tiếng Anh có tiếng mẹ đẻ là tiếng Việt. Phải kiểm chứng và tinh chỉnh bằng eval set Speaking/Writing (FR-091) và người review có chuyên môn (<span class="tag tag-tbd">TBD-13</span>) trước tuần 8.</p>
+<p>Đây là <strong>giả thuyết ban đầu</strong> dựa trên các lỗi phổ biến của người học tiếng Anh có tiếng mẹ đẻ là tiếng Việt. Phải kiểm chứng và tinh chỉnh bằng eval set Speaking/Writing (FR-091) và người review có chuyên môn (<span class="tag tag-tbd">TBD-13</span>) trước tuần 9.</p>
 </blockquote>
 <div class="table-wrap"><table>
 <thead>
@@ -2623,7 +3292,183 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <p><code>SAT (15–17 tuổi) → IELTS (17–22) → TOEIC (20–25)</code> — một tài khoản, một ví credit, lịch sử học liên tục qua nhiều năm.</p>
 <h3 id="15-3-gate-mở-kỳ-thi-mới-xem-5-1">15.3 Gate mở kỳ thi mới — xem §5.1.</h3>
 <hr />
-<h2 id="16-risks-mitigations">16. Risks &amp; Mitigations</h2>
+<h2 id="16-chiến-lược-dữ-liệu-hiệu-chỉnh">16. Chiến lược dữ liệu &amp; hiệu chỉnh</h2>
+<blockquote class="note">
+<p>Dữ liệu cần có: <strong>cặp "bài thi thử trên hệ thống ↔ band thật"</strong> của cùng một người, trong thời gian gần nhau. Dữ liệu này không mua hay cào được, phải tự tạo ra.</p>
+</blockquote>
+<h3 id="16-1-trình-tự-founder-duyệt">16.1 Trình tự (Founder duyệt)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Bước</th>
+<th>Nguồn</th>
+<th>Mục đích</th>
+<th>Được dùng để</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 (tuần 1–3)</td>
+<td><strong>Nguồn 4 — dữ liệu công khai</strong> + eval set tự xây</td>
+<td>Kiểm tra và làm vững bộ chấm trước khi mở beta</td>
+<td>Đánh giá nội bộ bộ chấm; <strong>không</strong> hiệu chỉnh theo band IELTS</td>
+</tr>
+<tr>
+<td>2 (tuần 10)</td>
+<td>Open beta</td>
+<td>Có người dùng và bài thi thử</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3 (từ tuần 10)</td>
+<td><strong>Nguồn 1 — người vừa thi xong</strong> (luồng FR-166)</td>
+<td>Tạo cặp dữ liệu nhanh, không phải chờ người học đi thi</td>
+<td><strong>Hiệu chỉnh</strong> dự đoán band thật</td>
+</tr>
+<tr>
+<td>4 (từ tuần 12)</td>
+<td>Cohort (F19)</td>
+<td>Cặp chất lượng cao, có lịch sử 8 tuần</td>
+<td>Hiệu chỉnh, lâu dài</td>
+</tr>
+<tr>
+<td>Sau</td>
+<td>Nguồn 3 — trung tâm/giáo viên</td>
+<td>Mở rộng số cặp theo lớp</td>
+<td>Hiệu chỉnh + cửa vào B2B</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="16-2-nguồn-4-bộ-dữ-liệu-công-khai-tra-cứu-09-2026">16.2 Nguồn 4 — bộ dữ liệu công khai (tra cứu 09/2026)</h3>
+<p>⚠️ <strong>Phát hiện quan trọng:</strong> đa số bộ dữ liệu phù hợp chỉ cho phép <strong>dùng phi thương mại</strong>. Với một sản phẩm thu phí, việc dùng các bộ này kể cả để đánh giá nội bộ có rủi ro vi phạm license. Cách hiểu thận trọng: <strong>không dùng khi chưa có license thương mại</strong> (xác nhận với luật sư, <span class="tag tag-tbd">TBD-15</span>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Bộ dữ liệu</th>
+<th>Nội dung</th>
+<th>Người Việt?</th>
+<th>License</th>
+<th>Dùng được?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>speechocean762</strong></td>
+<td>5.000 câu tiếng Anh, điểm phát âm mức âm/từ/câu do 5 chuyên gia chấm</td>
+<td>Không (người nói tiếng Trung)</td>
+<td><strong>CC BY 4.0</strong> — cho phép thương mại</td>
+<td>✅ Kiểm tra bộ chấm phát âm của speech provider (A5)</td>
+</tr>
+<tr>
+<td>L2-ARCTIC</td>
+<td>Giọng tiếng Anh của 24 người, <strong>có 4 người Việt</strong>, có chú thích lỗi phát âm</td>
+<td><strong>Có</strong></td>
+<td>CC BY-NC 4.0</td>
+<td>❌ Cần xin license thương mại</td>
+</tr>
+<tr>
+<td>Speak &amp; Improve Corpus 2025 (Cambridge)</td>
+<td>~315 giờ nói, nhãn CEFR</td>
+<td>Nhiều L1</td>
+<td>Phi thương mại, không chia sẻ, cần duyệt</td>
+<td>❌ Cần xin license thương mại</td>
+</tr>
+<tr>
+<td>Write &amp; Improve Corpus 2024 (Cambridge)</td>
+<td>23.000+ bài viết, nhãn CEFR; tiếng Việt là một trong các L1 phổ biến</td>
+<td><strong>Có</strong></td>
+<td>Theo thỏa thuận license — cần đọc</td>
+<td>⚠️ Kiểm tra điều khoản</td>
+</tr>
+<tr>
+<td>ICNALE</td>
+<td>Bài nói và viết của sinh viên châu Á, có module gồm Việt Nam</td>
+<td><strong>Có</strong></td>
+<td>CC BY-NC-ND 3.0</td>
+<td>❌ Cần xin license thương mại</td>
+</tr>
+<tr>
+<td>ELLIPSE</td>
+<td>~6.500 bài viết học sinh ELL tại Mỹ, điểm phân tích</td>
+<td>Không rõ</td>
+<td>CC BY-NC-SA 4.0</td>
+<td>❌ Cần xin license thương mại</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Hệ quả cho bước 1:</strong>
+1. Dùng ngay <strong>speechocean762</strong> để đánh giá speech provider.
+2. <strong>Gửi yêu cầu license thương mại</strong> cho L2-ARCTIC, Cambridge (S&amp;I, W&amp;I), ICNALE ngay tuần 1 (<span class="tag tag-tbd">TBD-15</span>); có thể không được hoặc mất phí.
+3. <strong>Tự xây eval set</strong> từ tình nguyện viên người Việt có consent (≥ 30 bản ghi Speaking, ≥ 40 bài Writing, FR-091). Đây là nguồn chắc chắn nhất của bước 1.
+4. Nhãn CEFR ≠ band IELTS: dữ liệu nguồn 4 chỉ kiểm tra bộ chấm có phân biệt đúng trình độ hay không, <strong>không</strong> dùng để khẳng định band.</p>
+<p>Nguồn: <a href="https://www.openslr.org/101/">speechocean762 — OpenSLR</a> · <a href="https://psi.engr.tamu.edu/l2-arctic-corpus-docs/">L2-ARCTIC — Texas A&amp;M</a> · <a href="https://researchdatasets.cambridge.org/datasets/speak-and-improve-corpus-2025">Speak &amp; Improve Corpus 2025</a> · <a href="https://researchdatasets.cambridge.org/datasets/write-and-improve-corpus-2024">Write &amp; Improve Corpus 2024</a> · <a href="https://language.sakura.ne.jp/icnale/">ICNALE</a> · <a href="https://github.com/scrosseye/ELLIPSE-Corpus">ELLIPSE — GitHub</a></p>
+<h3 id="16-3-nguồn-1-người-vừa-thi-xong">16.3 Nguồn 1 — người vừa thi xong</h3>
+<ul>
+<li><strong>Kênh mời:</strong> nhóm Facebook IELTS Việt Nam (văn hóa khoe điểm sau khi thi). Chỉ <strong>đăng lời mời</strong>; không cào bài đăng hay ảnh phiếu điểm người khác đã đăng.</li>
+<li><strong>Lời mời mẫu:</strong> "Vừa thi IELTS xong? Làm 1 bài thi thử 30 phút, gửi phiếu điểm, nhận 2 tháng Premium."</li>
+<li><strong>Điều kiện cặp hợp lệ:</strong> bài thi thử trong vòng 28 ngày trước hoặc sau ngày thi (FR-163); khoảng cách ngày được ghi làm biến trong hiệu chỉnh.</li>
+<li><strong>Kiểm chứng A7 ở tuần 1:</strong> đăng lời mời thử vào 2–3 nhóm; ≥ 20 người đồng ý → tiếp tục; &lt; 5 → xem lại phần thưởng hoặc hướng đi.</li>
+</ul>
+<h3 id="16-4-cần-bao-nhiêu-cặp-ước-tính-thô-tính-lại-khi-có-dữ-liệu">16.4 Cần bao nhiêu cặp (ước tính thô, tính lại khi có dữ liệu)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mốc</th>
+<th>Số cặp/kỹ năng</th>
+<th>Được làm gì</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>~50</td>
+<td>Hiệu chỉnh nội bộ lần đầu</td>
+<td>Không công bố gì</td>
+</tr>
+<tr>
+<td>~100 holdout</td>
+<td>Ước lượng MAE với độ chính xác khoảng ±0,1</td>
+<td><strong>Công bố độ chính xác</strong> (FR-174)</td>
+</tr>
+<tr>
+<td>~200–300, trải đều các mức 5.0–7.5</td>
+<td>Hiệu chỉnh riêng từng mức band</td>
+<td><strong>Bật cam kết hoàn tiền</strong> cho mức đạt ngưỡng (FR-175)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="16-5-rủi-ro-riêng-của-dữ-liệu">16.5 Rủi ro riêng của dữ liệu</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rủi ro</th>
+<th>Giảm thiểu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phiếu điểm giả để lấy thưởng</td>
+<td>Thưởng chỉ sau khi làm bài thi thử; hash mã phiếu; cờ bất thường; duyệt tay giai đoạn đầu (FR-163, FR-164)</td>
+</tr>
+<tr>
+<td>Chỉ người điểm cao mới gửi (thiên lệch)</td>
+<td>Thưởng như nhau mọi mức band; theo dõi phân bố; báo cáo theo mức band (FR-173)</td>
+</tr>
+<tr>
+<td>Khoảng cách ngày làm sai lệch</td>
+<td>Giới hạn 28 ngày; khoảng cách là biến hiệu chỉnh</td>
+</tr>
+<tr>
+<td>Bộ chấm thay đổi làm hỏng hiệu chỉnh</td>
+<td>Rubric/model cố định (FR-076); đổi thì hiệu chỉnh lại (FR-176)</td>
+</tr>
+<tr>
+<td>Rò rỉ dữ liệu phiếu điểm</td>
+<td>Che thông tin trước khi tải, mã hóa, xóa ≤ 7 ngày (NFR-S10)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="17-risks-mitigations">17. Risks &amp; Mitigations</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -2689,14 +3534,14 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>Founder solo trễ tiến độ (Speaking làm tăng khối lượng)</td>
 <td>High</td>
 <td>High</td>
-<td>Writing chỉ dựng lõi ở tuần 2–4; Should nằm cuối timeline; thứ tự cắt scope ở §17 (có thể cắt Writing Task 1 trước khi cắt Speaking)</td>
+<td>Writing chỉ dựng lõi ở tuần 4–5; Should nằm cuối timeline; thứ tự cắt scope ở §18 (cắt Writing Task 1 trước lõi A + C)</td>
 </tr>
 <tr>
 <td>R9</td>
 <td>Người dùng không trả tiền (sai giả thuyết)</td>
 <td>Med</td>
 <td>High</td>
-<td>Beta kín tuần 8, bán từ tuần 9; đo O6; gate ở tuần 12 quyết định tiếp tục/pivot</td>
+<td>Open beta + bán từ tuần 10; đo O6; quyết định tiếp tục/điều chỉnh ở tuần 16</td>
 </tr>
 <tr>
 <td>R10</td>
@@ -2707,10 +3552,10 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 </tr>
 <tr>
 <td>R11</td>
-<td>Người học thấy ChatGPT (kể cả chế độ giọng nói) "đủ dùng"</td>
-<td>Med</td>
+<td>Người học thấy ChatGPT (kể cả chế độ giọng nói) "đủ dùng" để luyện</td>
 <td>High</td>
-<td>Định vị theo 5 điểm khác biệt ở §2.7; landing page trình diễn chấm phát âm (FR-096); đo O6</td>
+<td>High</td>
+<td>Không cạnh tranh ở tính năng luyện; cạnh tranh bằng dự đoán band thật (A) và cohort (C) (§2.7); đo O6</td>
 </tr>
 <tr>
 <td>R12</td>
@@ -2740,10 +3585,45 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>High</td>
 <td>Kiểm tra ở tuần 1; cache TTS; điều chỉnh credit trước khi bán</td>
 </tr>
+<tr>
+<td>R16</td>
+<td>License phi thương mại chặn nguồn 4</td>
+<td>High</td>
+<td>Med</td>
+<td>speechocean762 (CC BY) + eval set tự xây; xin license thương mại (<span class="tag tag-tbd">TBD-15</span>)</td>
+</tr>
+<tr>
+<td>R17</td>
+<td>Quá ít người gửi phiếu điểm</td>
+<td>Med</td>
+<td>High</td>
+<td>Kiểm chứng A7 ở tuần 1; điều chỉnh phần thưởng; cohort gắn hoàn cọc với gửi phiếu điểm</td>
+</tr>
+<tr>
+<td>R18</td>
+<td>Dự đoán lệch nhiều khi đã công bố</td>
+<td>Med</td>
+<td>High</td>
+<td>Chỉ công bố khi đủ holdout; hiển thị N và MAE thật; theo dõi liên tục sau công bố</td>
+</tr>
+<tr>
+<td>R19</td>
+<td>Đặt cọc/hoàn tiền vướng pháp lý</td>
+<td>Med</td>
+<td>Med</td>
+<td>Chỉ bật sau khi pháp lý duyệt (<span class="tag tag-tbd">TBD-18</span>); cohort vẫn chạy được khi không có cọc</td>
+</tr>
+<tr>
+<td>R20</td>
+<td>ChatGPT/đối thủ cũng thu thập điểm thật</td>
+<td>Low</td>
+<td>High</td>
+<td>Đi trước về dữ liệu người Việt; công bố sớm con số thật; cohort tạo cộng đồng</td>
+</tr>
 </tbody>
 </table></div>
 <hr />
-<h2 id="17-roadmap-12-tuần">17. Roadmap 12 tuần</h2>
+<h2 id="18-roadmap-16-tuần">18. Roadmap 16 tuần</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -2755,48 +3635,60 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td>M0 — Nền tảng &amp; kiểm chứng speech</td>
-<td>Schema đề/rubric/taxonomy, data model §11.1, Docker Compose, CI; kiểm tra A1 (AI provider), <strong>A5 (speech provider: chất lượng với giọng Việt + chi phí/bài thi)</strong>, A2 (payment)</td>
-<td>App/API chạy local; có danh sách provider Lớp A; <strong>chi phí Speaking đo được ≤ 5.000đ/bài thi</strong> hoặc có phương án điều chỉnh</td>
+<td>1–3</td>
+<td><strong>P0 — Nguồn 4 &amp; nền tảng</strong></td>
+<td>F21 dataset registry; đánh giá speech provider bằng speechocean762; gửi yêu cầu license (<span class="tag tag-tbd">TBD-15</span>); tuyển tình nguyện viên xây eval set; kiểm tra A1, A5, A2; <strong>đăng lời mời thử kiểm chứng A7</strong>; data model §11.1</td>
+<td>Có danh sách provider Lớp A; chi phí Speaking ≤ 5.000đ/bài thi; eval set ≥ 30 Speaking + ≥ 40 Writing; A7 có kết quả</td>
 </tr>
 <tr>
-<td>2–4</td>
-<td>M1 — Lõi hệ thống qua Writing Task 2</td>
-<td>F1, F3 (Task 2), F4, F9 (cơ bản), Error Memory cơ bản, eval set Writing v1</td>
-<td>Đăng nhập → viết → reload → nộp → report có bằng chứng; O1(b)(c) đạt trên eval set Writing</td>
+<td>4–5</td>
+<td>M1 — Lõi + Writing Task 2</td>
+<td>F1, F3 (Task 2), F4, F9 cơ bản</td>
+<td>O1(b)(c) đạt trên eval set Writing</td>
 </tr>
 <tr>
-<td>5–7</td>
-<td>M2 — <strong>Speaking</strong></td>
-<td>F13 (Part 1–3, kiểm tra micro, lưu local/upload lại), F14 (transcript, chấm phát âm, Fluency từ audio), taxonomy lỗi người Việt v1 (§14), eval set Speaking</td>
-<td>Thi đủ 3 Part → report ≤ 120s (p95); Pronunciation chỉ từ phân tích audio; ghi âm chạy trên ma trận thiết bị <span class="tag tag-tbd">TBD-14</span>; alpha nội bộ 5 người</td>
+<td>6–8</td>
+<td>M2 — Speaking</td>
+<td>F13, F14, taxonomy lỗi người Việt v1 (§14)</td>
+<td>Thi đủ 3 Part → report ≤ 120s (p95); ghi âm chạy trên ma trận <span class="tag tag-tbd">TBD-14</span>; O1(b) đạt trên eval set Speaking</td>
 </tr>
 <tr>
-<td>8</td>
-<td>M3 — Beta kín (miễn phí)</td>
-<td>F2 diagnostic, F5 Redo/Rewrite/Retest, F15 nhãn lỗi người Việt, F8 credit; tuyển 20–50 beta tester</td>
-<td>O1 đo được cho cả hai kỹ năng; không có lỗi mất bản ghi</td>
+<td>9</td>
+<td>M3 — Dự đoán &amp; thu thập</td>
+<td>F16 (trạng thái "chưa hiệu chỉnh"), F17 + luồng "Vừa thi xong", F8 credit + xác nhận chuyển khoản thủ công, F2</td>
+<td>Luồng gửi phiếu điểm → duyệt → thưởng chạy đầu-cuối; ảnh tự xóa ≤ 7 ngày</td>
 </tr>
 <tr>
-<td>9–10</td>
-<td>M4 — <strong>Bắt đầu bán</strong></td>
-<td>Xác nhận chuyển khoản thủ công (FR-064), Writing Task 1, insight xuyên kỹ năng (FR-122), FR-096 "đọc thử 3 câu", landing page theo §2.7</td>
-<td>Thanh toán đầu tiên thành công; O6 bắt đầu được đo</td>
+<td>10</td>
+<td><strong>M4 — Open beta + bắt đầu bán</strong></td>
+<td>Landing page theo §2.7; chiến dịch nguồn 1</td>
+<td>Thanh toán đầu tiên; cặp dữ liệu đầu tiên được xác minh</td>
 </tr>
 <tr>
 <td>11–12</td>
-<td>M5 — Vận hành, đo &amp; quyết định</td>
-<td>F10 đầy đủ, FR-074 trần chi phí, xóa dữ liệu + xóa audio 30 ngày, backup/restore; đo O1–O6; phỏng vấn beta</td>
-<td>Diễn tập restore thành công; <strong>Gate R2</strong></td>
+<td>M5 — Cohort</td>
+<td>F19 (chưa có cọc nếu <span class="tag tag-tbd">TBD-18</span> chưa xong), F20 qua email, F18 trang dữ liệu hiệu chỉnh</td>
+<td><strong>Cohort #1 khai giảng tuần 12</strong></td>
+</tr>
+<tr>
+<td>13–16</td>
+<td>M6 — Hoàn thiện &amp; đo</td>
+<td>F5, Writing Task 1, F10 đầy đủ, FR-074 trần chi phí, backup/restore; hiệu chỉnh nội bộ lần đầu khi ≥ 50 cặp/kỹ năng</td>
+<td>Đo O1–O7; quyết định tiếp tục/điều chỉnh</td>
+</tr>
+<tr>
+<td>Tháng 5–9</td>
+<td>M7 — Công bố &amp; cam kết</td>
+<td>Cohort #2–#3; ≥ 300 cặp/kỹ năng; công bố độ chính xác (FR-174); R1.5 khi O8 đạt</td>
+<td>O8 đạt → bật FR-175 theo từng mức band</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>Thứ tự cắt scope nếu trễ:</strong> FR-098 referral → FR-097 email → FR-095 chia sẻ report → F6/FR-124 drill → FR-057 biểu đồ tiến bộ → tự động hóa thanh toán (giữ xác nhận thủ công) → <strong>Writing Task 1</strong> (giữ Task 2) → FR-122 insight xuyên kỹ năng.</p>
-<p><strong>Không cắt Speaking</strong> (F13, F14): đây là lý do sản phẩm tồn tại so với ChatGPT.</p>
-<p><strong>Không cắt:</strong> bảo mật &amp; cách ly dữ liệu, nhãn band không chính thức, validate bằng chứng, autosave/lưu bản ghi, credit ở backend, xác minh thanh toán, phân loại dữ liệu Lớp A, không suy ra phát âm từ transcript, xóa audio sau 30 ngày, quyền nội dung.</p>
+<p><strong>Thứ tự cắt scope nếu trễ:</strong> FR-098 referral → FR-095 chia sẻ report → F6/FR-124 drill → FR-057 biểu đồ tiến bộ → FR-122 insight xuyên kỹ năng → tự động hóa thanh toán (giữ xác nhận thủ công) → <strong>Writing Task 1</strong> (giữ Task 2) → kênh Zalo (giữ email) → đặt cọc (cohort vẫn chạy không cọc).</p>
+<p><strong>Không cắt:</strong> F16 dự đoán, F17 thu thập kết quả, F18 hiệu chỉnh, F19 cohort cơ bản, Speaking (F13, F14) — đây là lõi của lợi thế A + C.</p>
+<p><strong>Cũng không cắt:</strong> bảo mật &amp; cách ly dữ liệu, nhãn band không chính thức và nhãn trạng thái hiệu chỉnh, validate bằng chứng, autosave/lưu bản ghi, credit ở backend, xác minh thanh toán, phân loại dữ liệu Lớp A, không suy ra phát âm từ transcript, xóa audio sau 30 ngày, consent &amp; xóa ảnh phiếu điểm, kiểm tra license dữ liệu, quyền nội dung.</p>
 <hr />
-<h2 id="18-open-issues-tbd">18. Open Issues (TBD)</h2>
+<h2 id="19-open-issues-tbd">19. Open Issues (TBD)</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -2808,8 +3700,8 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <tbody>
 <tr>
 <td>TBD-01</td>
-<td>Phân khúc beta (P1/P2/P3) và <strong>duyệt các ngưỡng <span class="tag tag-prop">Đề xuất</span></strong> (KPI, credit, giá gói 3 tháng, NFR)</td>
-<td>Trước tuần 8</td>
+<td>Phân khúc beta (P1/P2/P3) và <strong>duyệt các ngưỡng <span class="tag tag-prop">Đề xuất</span></strong> (KPI, credit, giá gói, cohort, phần thưởng, NFR)</td>
+<td>Trước tuần 9</td>
 </tr>
 <tr>
 <td>TBD-02</td>
@@ -2834,12 +3726,12 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <tr>
 <td>TBD-06</td>
 <td>Chính sách hoàn tiền</td>
-<td>Trước tuần 9</td>
+<td>Trước tuần 10</td>
 </tr>
 <tr>
 <td>TBD-07</td>
 <td>Payment provider, điều kiện pháp lý, phí</td>
-<td>Tuần 1 (kiểm tra), tuần 8 (tích hợp)</td>
+<td>Tuần 1 (kiểm tra), tuần 12 (tích hợp tự động)</td>
 </tr>
 <tr>
 <td>TBD-08</td>
@@ -2859,27 +3751,47 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <tr>
 <td>TBD-11</td>
 <td>Quy trình support và định nghĩa mức độ nghiêm trọng</td>
-<td>Trước tuần 8</td>
+<td>Trước tuần 10</td>
 </tr>
 <tr>
 <td>TBD-12</td>
-<td>Rà soát pháp lý: dữ liệu cá nhân, <strong>ghi âm giọng nói</strong>, chuyển dữ liệu ra nước ngoài, người chưa thành niên, điều khoản, lưu chứng từ</td>
-<td>Trước beta kín (tuần 8) cho phần ghi âm; trước public launch cho phần còn lại</td>
+<td>Rà soát pháp lý: dữ liệu cá nhân, <strong>ghi âm giọng nói</strong>, <strong>phiếu điểm</strong>, chuyển dữ liệu ra nước ngoài, người chưa thành niên, điều khoản, lưu chứng từ</td>
+<td>Trước open beta (tuần 10)</td>
 </tr>
 <tr>
 <td>TBD-13</td>
 <td>Người review có chuyên môn cho danh sách lỗi đặc trưng của người Việt (§14) và eval set Speaking</td>
-<td>Tuần 5</td>
+<td>Tuần 3</td>
 </tr>
 <tr>
 <td>TBD-14</td>
 <td>Ma trận trình duyệt/thiết bị hỗ trợ ghi âm, định dạng/codec audio, thời lượng tối đa</td>
-<td>Tuần 5</td>
+<td>Tuần 6</td>
+</tr>
+<tr>
+<td>TBD-15</td>
+<td>License thương mại cho bộ dữ liệu nguồn 4 (L2-ARCTIC, Cambridge S&amp;I/W&amp;I, ICNALE…) và xác nhận pháp lý về việc dùng bộ phi thương mại</td>
+<td>Gửi yêu cầu tuần 1; kết luận tuần 3</td>
+</tr>
+<tr>
+<td>TBD-16</td>
+<td>Kênh nhắn tin chủ động (Zalo OA hoặc thay thế): chính sách, chi phí, điều kiện đăng ký</td>
+<td>Tuần 8</td>
+</tr>
+<tr>
+<td>TBD-17</td>
+<td>Phần thưởng và điều kiện cặp dữ liệu hợp lệ (mức thưởng, cửa sổ 28 ngày)</td>
+<td>Tuần 9</td>
+</tr>
+<tr>
+<td>TBD-18</td>
+<td>Pháp lý cho đặt cọc cohort, cam kết hoàn tiền theo kết quả, và quảng cáo độ chính xác</td>
+<td>Đặt cọc: trước tuần 12; hoàn tiền: trước R1.5</td>
 </tr>
 </tbody>
 </table></div>
 <hr />
-<h2 id="19-traceability-matrix">19. Traceability Matrix</h2>
+<h2 id="20-traceability-matrix">20. Traceability Matrix</h2>
 <blockquote class="note">
 <p>Test Case ID được đặt chỗ; nội dung test viết ở giai đoạn phát triển. Status: Todo.</p>
 </blockquote>
@@ -3020,11 +3932,60 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>TC-155 – TC-158</td>
 <td>Todo</td>
 </tr>
+<tr>
+<td>BR-022</td>
+<td>FR-150–FR-155, FR-182</td>
+<td>NFR-P07, NFR-U04</td>
+<td>TC-160 – TC-166</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-023</td>
+<td>FR-160–FR-167</td>
+<td>NFR-S10, NFR-S11</td>
+<td>TC-170 – TC-178</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-024</td>
+<td>FR-152, FR-170–FR-174, FR-176</td>
+<td>—</td>
+<td>TC-180 – TC-186</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-025</td>
+<td>FR-195–FR-197</td>
+<td>—</td>
+<td>TC-190 – TC-192</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-026</td>
+<td>FR-180–FR-183, FR-185, FR-186</td>
+<td>—</td>
+<td>TC-195 – TC-200</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-027</td>
+<td>FR-190–FR-193</td>
+<td>—</td>
+<td>TC-205 – TC-208</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-028</td>
+<td>FR-184, FR-185</td>
+<td>—</td>
+<td>TC-210 – TC-212</td>
+<td>Todo</td>
+</tr>
 </tbody>
 </table></div>
-<p><strong>Kiểm tra orphan:</strong> mọi FR trong §8 đều trace về ≥ 1 BR; mọi BR in-scope đều có ≥ 1 FR. BR-017 – BR-019 là Won't, không có FR ở R1.</p>
+<p><strong>Kiểm tra orphan:</strong> mọi FR trong §8 đều trace về ≥ 1 BR; mọi BR in-scope đều có ≥ 1 FR. BR-017 – BR-019 là Won't, không có FR ở R1. BR-029 (Won't ở R1) có FR-175 được xây sẵn công tắc nhưng khóa cho tới R1.5.</p>
 <hr />
-<h2 id="20-glossary">20. Glossary</h2>
+<h2 id="21-glossary">21. Glossary</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -3070,6 +4031,38 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 <td>Cảnh báo khi cùng một gốc lỗi (<code>root_cause</code>) xuất hiện ở cả Speaking và Writing</td>
 </tr>
 <tr>
+<td>Band thật / dự đoán band</td>
+<td>Dự đoán band khi thi thật, được hiệu chỉnh bằng kết quả thi thật (khác với band ước lượng theo rubric)</td>
+</tr>
+<tr>
+<td>Cặp dữ liệu</td>
+<td>Bài thi thử trên hệ thống và band thật của cùng người, trong khoảng ≤ 28 ngày</td>
+</tr>
+<tr>
+<td>Hiệu chỉnh (calibration)</td>
+<td>Điều chỉnh ánh xạ từ band ước lượng sang band thật dựa trên cặp dữ liệu</td>
+</tr>
+<tr>
+<td>MAE</td>
+<td>Sai số tuyệt đối trung bình giữa dự đoán và band thật</td>
+</tr>
+<tr>
+<td>Holdout</td>
+<td>Tập cặp dữ liệu giữ riêng để đo sai số, không dùng để hiệu chỉnh</td>
+</tr>
+<tr>
+<td>Cohort</td>
+<td>Nhóm học 8 tuần có ngày thi mục tiêu và lộ trình chung</td>
+</tr>
+<tr>
+<td>Phiếu điểm (TRF)</td>
+<td>Test Report Form — phiếu kết quả IELTS chính thức</td>
+</tr>
+<tr>
+<td>Nguồn 1 / 3 / 4</td>
+<td>Người vừa thi xong / trung tâm–giáo viên / bộ dữ liệu công khai (§16)</td>
+</tr>
+<tr>
 <td>Retest</td>
 <td>Làm đề tương đương để kiểm tra lỗi lặp lại đã được sửa hay chưa</td>
 </tr>
@@ -3096,7 +4089,7 @@ Speaking là tính năng chính trong thông điệp bán hàng. Không định 
 </tbody>
 </table></div>
 <hr />
-<h2 id="21-approval">21. Approval</h2>
+<h2 id="22-approval">22. Approval</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
