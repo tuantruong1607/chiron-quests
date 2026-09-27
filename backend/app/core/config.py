@@ -31,6 +31,12 @@ class Settings(BaseSettings):
     DATABASE_URL: PostgresDsn
     REDIS_URL: str = "redis://localhost:6379/0"
     AI_DAILY_BUDGET_VND: int = 200000
+    # When true, ai_gateway resolves every route to FakeAdapter (no real LLM
+    # SDK calls) using the latency window below. Real adapters land in a
+    # later task; this lets staging/tests exercise the gateway safely.
+    AI_FAKE_PROVIDER: bool = False
+    AI_FAKE_LATENCY_MIN_S: float = 10.0
+    AI_FAKE_LATENCY_MAX_S: float = 40.0
     TURNSTILE_SECRET: str = ""
     TURNSTILE_SITE_KEY: str = ""
     ALERT_EMAIL: EmailStr | None = None

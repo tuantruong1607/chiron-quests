@@ -5,6 +5,10 @@ from pydantic import EmailStr
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship, SQLModel
 
+# Register each module's own SQLModel tables here so `SQLModel.metadata`
+# (used by Alembic autogenerate, see app/alembic/env.py) picks them up.
+from app.modules.ai_gateway.models import AIRequestLog  # noqa: E402, F401
+
 
 def get_datetime_utc() -> datetime:
     return datetime.now(UTC)

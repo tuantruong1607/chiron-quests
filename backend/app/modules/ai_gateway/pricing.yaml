@@ -1,0 +1,8 @@
+# Per-model pricing in VND per 1,000,000 tokens. Real provider prices land
+# in Task 13; `fake-grader` uses small non-zero prices so budget-reservation
+# tests exercise real (if tiny) VND amounts.
+models:
+  fake-grader:
+    input_vnd_per_1m: 5000
+    output_vnd_per_1m: 15000
+    cached_input_vnd_per_1m: 2500

@@ -1,0 +1,21 @@
+# AI gateway routing table (versioned in this repo per spec §4.1: each
+# rubric_version pins one model - changing the model means a new rubric
+# version plus a re-run of the eval).
+#
+# Task 13 will add real providers (anthropic/openai/google); for now only
+# `fake` (the local, no-network FakeAdapter) is registered.
+tasks:
+  writing_grade:
+    rubric_version: writing-v1
+    prompt_version: writing-p1
+    active_calibration: writing-c0
+    few_shot_ids: []
+    provider: fake
+    model: fake-grader
+    params: {}
+    data_class: A
+
+providers:
+  fake:
+    no_training: true
+    terms_evidence: "n/a — local fake adapter"
