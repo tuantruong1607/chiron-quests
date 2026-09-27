@@ -184,7 +184,7 @@ async def _attempt(
         await breaker.record_result(provider, success=False)
         if normalized.kind not in RETRYABLE_KINDS or attempt >= MAX_RETRIES:
             return None, normalized, attempt
-        if await breaker.is_open(provider):
+        if await breaker.is_open(provider, trial_ttl_s=TIMEOUT_S + 10):
             return None, normalized, attempt
         await _sleep(_BACKOFFS_S[attempt])
         attempt += 1
@@ -277,6 +277,17 @@ async def _write_log(
     await run_sync(lambda: _insert_log_row(row))
 
 
+async def _release_trials(route: TaskRoute) -> None:
+    """Release any half-open trial claim left dangling on `route`'s primary
+    or fallback provider by a call that never reached `record_result` for
+    that attempt (budget refused, an adapter lookup failure, or a
+    cancellation) - see `breaker.release_trial`. Harmless no-op for
+    whichever provider (if any) had no trial claimed."""
+    await breaker.release_trial(route.provider)
+    if route.fallback is not None:
+        await breaker.release_trial(route.fallback.provider)
+
+
 async def _settle_and_log(
     *,
     req: AIRequest,
@@ -329,7 +340,7 @@ async def complete(req: AIRequest) -> AIResult:
     schema_dict = req.response_schema.model_json_schema()
 
     use_fallback_initial = False
-    if await breaker.is_open(route.provider):
+    if await breaker.is_open(route.provider, trial_ttl_s=TIMEOUT_S + 10):
         if route.fallback is None:
             # Nothing was reserved yet, so there's nothing to settle - just
             # record the refusal.
@@ -363,6 +374,7 @@ async def complete(req: AIRequest) -> AIResult:
     estimated_cost = _estimate_cost(model, req)
 
     if not await reserve_budget(estimated_cost, day):
+        await _release_trials(route)
         await _write_log(
             task_key=req.task_key,
             data_class=req.data_class,
@@ -423,23 +435,30 @@ async def complete(req: AIRequest) -> AIResult:
         error = exc
     except anyio.get_cancelled_exc_class():
         latency_ms = int((anyio.current_time() - started) * 1000)
-        await _settle_and_log(
-            req=req,
-            route=route,
-            estimated_cost=estimated_cost,
-            actual_cost=actual_cost,
-            day=day,
-            provider=provider,
-            model=model,
-            input_tokens=input_tokens,
-            output_tokens=output_tokens,
-            cached_tokens=cached_tokens,
-            latency_ms=latency_ms,
-            status="error",
-            error_type="cancelled",
-            retry_count=retries,
-            fallback=fallback_flag,
-        )
+        # anyio cancellation is level-triggered: the cancel scope that
+        # raised this is still active, so an unshielded `await` right here
+        # would be cancelled again immediately, before settling, alerting
+        # or logging ever ran. Shield this cleanup, then re-raise so the
+        # cancellation itself still propagates to the caller.
+        with anyio.CancelScope(shield=True):
+            await _release_trials(route)
+            await _settle_and_log(
+                req=req,
+                route=route,
+                estimated_cost=estimated_cost,
+                actual_cost=actual_cost,
+                day=day,
+                provider=provider,
+                model=model,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                cached_tokens=cached_tokens,
+                latency_ms=latency_ms,
+                status="error",
+                error_type="cancelled",
+                retry_count=retries,
+                fallback=fallback_flag,
+            )
         raise
     except Exception as exc:  # normalize any unexpected bug
         error = AIError("server", str(exc))
@@ -447,6 +466,7 @@ async def complete(req: AIRequest) -> AIResult:
     latency_ms = int((anyio.current_time() - started) * 1000)
 
     if error is not None:
+        await _release_trials(route)
         await _settle_and_log(
             req=req,
             route=route,

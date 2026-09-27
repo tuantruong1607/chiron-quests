@@ -54,14 +54,25 @@ async def _load(provider: str) -> _State:
     return _State(**json.loads(raw))
 
 
-async def is_open(provider: str) -> bool:
+async def is_open(provider: str, *, trial_ttl_s: float = OPEN_COOLDOWN_S) -> bool:
     """True if a call to `provider` should be blocked right now.
 
     Once `OPEN_COOLDOWN_S` has passed since the breaker opened, exactly one
-    caller is let through as a half-open trial: claiming the trial is an
-    atomic `SET NX` on a short-lived Redis key, so every other concurrent
-    caller still sees the breaker as open (this function keeps returning
-    True for them) until the trial's outcome is recorded.
+    caller is let through as a half-open trial: **calling this function can
+    itself claim that trial** - claiming is an atomic `SET NX` on a
+    short-lived Redis key, so every other concurrent caller still sees the
+    breaker as open (this function keeps returning True for them) until the
+    trial's outcome is recorded via `record_result`, or the claim's TTL
+    expires.
+
+    `trial_ttl_s` should exceed the caller's own timeout for the call it's
+    about to make (e.g. the gateway's `TIMEOUT_S` plus a margin) - otherwise
+    a trial call still in flight near that timeout could outlive its own
+    claim and let a second trial start concurrently. If a caller claims a
+    trial (gets `False` back) but then never calls `record_result` for that
+    same attempt - because, say, it aborts for an unrelated reason - it
+    must call `release_trial(provider)` itself so the claim doesn't sit
+    blocking every other caller for the rest of its TTL.
     """
     state = await _load(provider)
     if state.state != "open":
@@ -71,9 +82,20 @@ async def is_open(provider: str) -> bool:
     client = get_redis()
     claimed = await cast(
         "Awaitable[bool | None]",
-        client.set(_trial_key(provider), "1", nx=True, ex=int(OPEN_COOLDOWN_S)),
+        client.set(_trial_key(provider), "1", nx=True, ex=int(trial_ttl_s)),
     )
     return not bool(claimed)
+
+
+async def release_trial(provider: str) -> None:
+    """Release `provider`'s half-open trial claim, if any (a harmless no-op
+    if none was claimed). Call this on any path that claimed permission to
+    call `provider` (i.e. got `False` from `is_open`) but never reaches
+    `record_result` for that same attempt - budget refused, an adapter
+    lookup failure, or a cancellation - so an abandoned claim doesn't block
+    every other caller for the rest of its TTL."""
+    client = get_redis()
+    await client.delete(_trial_key(provider))
 
 
 # KEYS: 1=state key, 2=trial key. ARGV: 1=success ("1"/"0"), 2=moment,

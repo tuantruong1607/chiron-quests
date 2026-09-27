@@ -1,5 +1,6 @@
 from datetime import date
 
+import anyio
 import pytest
 from pydantic import BaseModel
 from sqlmodel import Session, select
@@ -461,6 +462,51 @@ async def test_usage_summary_empty_outside_range(redis, install_fake_adapter) ->
     yesterday = date(2000, 1, 1)
     rows = await service.usage_summary(yesterday, yesterday)
     assert rows == []
+
+
+async def test_cancellation_settles_budget_and_logs(
+    redis, install_fake_adapter, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A cancellation mid-call (e.g. the HTTP request that triggered
+    `complete()` disconnects) must still refund the reservation and write
+    exactly one log row - the settle/alert/log inside the cancellation
+    handler must run under a shielded scope, since anyio cancellation is
+    level-triggered and would otherwise cancel that cleanup's first await
+    right back out again."""
+    install_fake_adapter(latency_s=(1.0, 1.0))
+    # The gateway's own timeout must not be what fires first here.
+    monkeypatch.setattr(service, "TIMEOUT_S", 60.0)
+    day = vn_today()
+
+    with anyio.move_on_after(0.05):
+        await service.complete(req(correlation_id="cancel-1"))
+
+    assert await budget_used(day) == 0
+    assert _count_logs("cancel-1") == 1
+    row = _last_log("cancel-1")
+    assert row.status == "error"
+    assert row.error_type == "cancelled"
+
+
+async def test_half_open_trial_released_after_budget_refused(
+    redis, install_fake_adapter, clock, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A call that claims the half-open trial but then aborts before ever
+    attempting the provider (budget refused here) must release that claim,
+    so the very next call isn't told the breaker is still open for no
+    reason."""
+    install_fake_adapter()
+    for _ in range(3):
+        await breaker.record_result("fake", success=False)
+    clock.advance(60)  # cooldown elapsed: the next is_open() claims the trial
+
+    monkeypatch.setattr(settings, "AI_DAILY_BUDGET_VND", 0)
+    with pytest.raises(AIError) as exc_info:
+        await service.complete(req(correlation_id="trial-release-1"))
+    assert exc_info.value.kind == "budget"
+
+    # Released, not left dangling for its full TTL.
+    assert await breaker.is_open("fake") is False
 
 
 def _pricing_with_fallback():

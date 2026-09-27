@@ -131,3 +131,35 @@ async def test_breaker_record_result_is_atomic_under_concurrency(redis, clock) -
     assert await breaker._load("p") == breaker._State(
         state="open", fail_count=3, streak_start=clock.t, opened_at=clock.t
     )
+
+
+async def test_release_trial_lets_the_next_caller_claim_it(redis, clock) -> None:
+    for _ in range(3):
+        await breaker.record_result("p", success=False)
+    clock.advance(60)
+
+    assert await breaker.is_open("p") is False  # claims the trial
+    assert await breaker.is_open("p") is True  # blocked: trial already held
+
+    await breaker.release_trial("p")
+    assert await breaker.is_open("p") is False  # claimable again immediately
+
+
+async def test_release_trial_is_a_no_op_when_nothing_was_claimed(redis, clock) -> None:
+    await breaker.release_trial("p")  # closed breaker, no trial key at all
+    assert await breaker.is_open("p") is False
+
+
+async def test_trial_ttl_can_exceed_the_default_cooldown(redis, clock) -> None:
+    """`trial_ttl_s` is meant to be set to the caller's own call timeout
+    plus a margin (e.g. TIMEOUT_S + 10 > OPEN_COOLDOWN_S's default 60s), so
+    a slow trial call can't outlive its own claim and let a second trial
+    start concurrently."""
+    for _ in range(3):
+        await breaker.record_result("p", success=False)
+    clock.advance(60)
+
+    assert await breaker.is_open("p", trial_ttl_s=70.0) is False  # claims it
+    # Still held by the first claim well past the *default* 60s window.
+    clock.advance(65)
+    assert await breaker.is_open("p") is True
