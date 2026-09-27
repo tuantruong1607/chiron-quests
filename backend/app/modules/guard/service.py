@@ -1,8 +1,10 @@
 """Guard module public entry point.
 
-Exposes daily-rotating IP hashing, stable visitor hashing, and Turnstile
-CAPTCHA verification. Other modules must import this module only via
-``app.modules.guard.service`` per the module-boundary rule.
+Exposes daily-rotating IP hashing, stable visitor hashing, Turnstile CAPTCHA
+verification, per-day submission/success limits, the IP blocklist, AI
+budget reservation with threshold alerts, and hourly spike detection. Other
+modules must import this module only via ``app.modules.guard.service`` per
+the module-boundary rule.
 """
 
 import hashlib
@@ -10,9 +12,39 @@ import hmac
 from datetime import date
 
 from app.core.config import settings
+from app.modules.guard.alerts import send_alert
+from app.modules.guard.budget import (
+    budget_used,
+    maybe_send_budget_alert,
+    reserve_budget,
+    settle_budget,
+)
 from app.modules.guard.captcha import verify_captcha
+from app.modules.guard.limits import (
+    LimitDecision,
+    block_ip_hash,
+    is_blocked,
+    record_success,
+    reserve_submission,
+    submissions_spike,
+)
 
-__all__ = ["hash_ip", "hash_visitor", "verify_captcha"]
+__all__ = [
+    "hash_ip",
+    "hash_visitor",
+    "verify_captcha",
+    "LimitDecision",
+    "reserve_submission",
+    "record_success",
+    "block_ip_hash",
+    "is_blocked",
+    "submissions_spike",
+    "reserve_budget",
+    "settle_budget",
+    "budget_used",
+    "maybe_send_budget_alert",
+    "send_alert",
+]
 
 
 def _hmac_hex(key: bytes, msg: str) -> str:
