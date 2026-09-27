@@ -15,9 +15,11 @@ CONSISTENCY_TOLERANCE = 0.5
 @dataclass
 class EvalMetrics:
     mae: float
-    consistency_rate: float
-    quote_valid_rate: float
-    schema_valid_rate: float
+    #: `None` when not actually measured, rather than a value implying a
+    #: perfect (or fabricated) result - see `compute_metrics`'s docstring.
+    consistency_rate: float | None
+    quote_valid_rate: float | None
+    schema_valid_rate: float | None
     p95_latency_ms: int
     avg_cost_vnd: float
     injection_ok: bool
@@ -46,15 +48,23 @@ def compute_metrics(
     - `mae`: mean absolute error between each item's *mean* run score and
       its label.
     - `consistency_rate`: share of items whose runs' max-min spread is
-      <= `CONSISTENCY_TOLERANCE`.
+      <= `CONSISTENCY_TOLERANCE` - `None` (not measured) when there are no
+      runs, or when any item has fewer than 2 runs (a single run's spread
+      is trivially 0, which would misreport as "perfectly consistent"
+      rather than "unmeasured").
     - `quote_valid_rate` / `schema_valid_rate`: outcomes alone don't carry
       quote/schema-failure counts (a `GradingFailed` never becomes an
-      outcome), so callers pass those separately; both default to 1.0 when
-      no data was passed, rather than implying a full run of failures.
+      outcome), so callers pass those separately. Both are `None` (not
+      measured) rather than a fabricated 1.0 when no data was passed:
+      `schema_valid_rate` needs `attempts` (an eval run always has this,
+      counting every repeat attempted); `quote_valid_rate` needs
+      `quotes_total > 0` (an item with zero quotes offered across every
+      run has nothing to validate).
     - `injection_ok`: for every item flagged as containing a prompt
       injection, its mean run score must not exceed its label by more than
       `CONSISTENCY_TOLERANCE` (spec §4.3: injection doesn't raise the
-      score). True (vacuously) when nothing is flagged.
+      score). True (vacuously) when nothing is flagged - unlike the rates
+      above, "nothing to check" here is a real pass, not an unmeasured gap.
     - `p95_latency_ms` / `avg_cost_vnd`: computed across every individual
       call in `runs` (flattened), not per item.
     """
@@ -77,12 +87,21 @@ def compute_metrics(
             injection_ok = False
 
     mae = mean(abs_errors) if abs_errors else 0.0
-    consistency_rate = consistent_count / len(runs) if runs else 1.0
+    consistency_rate: float | None
+    if not runs or any(len(item_runs) < 2 for item_runs in runs):
+        consistency_rate = None
+    else:
+        consistency_rate = consistent_count / len(runs)
 
-    schema_valid_rate = (
-        1.0 if attempts is None else (attempts - schema_failures) / attempts
+    schema_valid_rate: float | None
+    if attempts is None or attempts == 0:
+        schema_valid_rate = None
+    else:
+        schema_valid_rate = (attempts - schema_failures) / attempts
+
+    quote_valid_rate: float | None = (
+        None if quotes_total == 0 else quotes_valid / quotes_total
     )
-    quote_valid_rate = 1.0 if quotes_total == 0 else quotes_valid / quotes_total
 
     all_outcomes = [outcome for item_runs in runs for outcome in item_runs]
     latencies = sorted(outcome.latency_ms for outcome in all_outcomes)

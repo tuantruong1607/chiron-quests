@@ -28,7 +28,14 @@ PII_LABELS: dict[str, str] = {
 #: "+84.912.345.678". Greedy reps can swallow one trailing separator
 #: character (the last optional `[\s.-]?` before a non-digit) - `_sub_phone`
 #: below trims that back off the match instead of consuming it.
-_PHONE_RE = re.compile(r"(\+84|0)(\d[\s.-]?){8,10}")
+#:
+#: `(?<!\d)` on the left keeps this from starting mid-digit-run (e.g.
+#: matching only the tail "00 000 000" out of a longer non-phone number
+#: like "100 000 000 000"). `0(?!0)` on the bare-"0" branch keeps it from
+#: starting on a double-zero, which no real VN number does (mobile/landline
+#: prefixes are 0[2,3,5,7-9], never 00) - so a plain run of grouped zeroes
+#: like "000 000 000" is never mistaken for a phone number either.
+_PHONE_RE = re.compile(r"(?<!\d)(\+84|0(?!0))(\d[\s.-]?){8,10}")
 _EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 #: Standalone 9- or 12-digit sequence (CMND/CCCD numbers). Digit boundaries
 #: on both sides so this never eats into a longer digit run, and (applied

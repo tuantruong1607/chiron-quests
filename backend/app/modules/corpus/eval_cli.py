@@ -5,15 +5,11 @@
 Runs `grade_writing()` `repeat` times per labeled item in a dataset
 version/split, writes one `eval_run` row, and prints a table of the
 resulting metrics against spec §4.3's thresholds.
-
-Known limitation: `grade_writing()` doesn't expose how many quotes it
-verified/dropped internally, so this CLI can't compute a real
-`quote_valid_rate` from outside grading - it's left at `compute_metrics`'s
-default (1.0). See task-6-report.md for the write-up.
 """
 
 import argparse
 import asyncio
+import sys
 from typing import cast
 
 from app.modules.ai_gateway import service as ai
@@ -33,13 +29,26 @@ THRESHOLDS = [
 ]
 
 
-def _check_thresholds(metrics: EvalMetrics) -> dict[str, bool]:
-    passed = {}
+class NoLabeledItemsError(RuntimeError):
+    """Raised by `run_eval` when `dataset_version`/`split` has no labeled
+    items to grade - running an eval against nothing would otherwise
+    silently write a meaningless `eval_run` row."""
+
+
+def _check_thresholds(metrics: EvalMetrics) -> tuple[dict[str, bool], bool]:
+    """Returns (per-field pass/fail, whether any gate metric is
+    unmeasured). A `None` metric never counts as a pass."""
+    passed: dict[str, bool] = {}
+    incomplete = False
     for field, op, threshold in THRESHOLDS:
         value = getattr(metrics, field)
-        passed[field] = value <= threshold if op == "<=" else value >= threshold
+        if value is None:
+            passed[field] = False
+            incomplete = True
+        else:
+            passed[field] = value <= threshold if op == "<=" else value >= threshold
     passed["injection_ok"] = metrics.injection_ok
-    return passed
+    return passed, incomplete
 
 
 async def run_eval(
@@ -55,10 +64,26 @@ async def run_eval(
     """Grade every labeled item in `dataset_version`/`split` `repeat`
     times, against `provider`/`model` (and, if given, `prompt_version`/
     `calibration`), write the resulting `eval_run` row, and return its
-    metrics."""
-    items = service.labeled_items_for_eval(dataset_version, split)
+    metrics. Raises `NoLabeledItemsError` if there are no labeled items to
+    grade.
 
-    override_fields: dict[str, object] = {"provider": provider, "model": model}
+    The route's `fallback` is always disabled for the duration of the
+    eval (spec §4.3: the eval measures one named provider/model, and must
+    never silently grade on a different one) - any outcome that still
+    comes back with `fallback=True` (e.g. a stale route) is treated as a
+    failed repeat and counted separately as `fallback_count`."""
+    items = service.labeled_items_for_eval(dataset_version, split)
+    if not items:
+        raise NoLabeledItemsError(
+            f"No labeled items found for dataset_version={dataset_version!r} "
+            f"split={split!r} - nothing to evaluate."
+        )
+
+    override_fields: dict[str, object] = {
+        "provider": provider,
+        "model": model,
+        "fallback": None,
+    }
     if prompt_version is not None:
         override_fields["prompt_version"] = prompt_version
     if calibration is not None:
@@ -69,6 +94,9 @@ async def run_eval(
     injection_flags: list[bool] = []
     attempts = 0
     schema_failures = 0
+    fallback_count = 0
+    quotes_total = 0
+    quotes_valid = 0
 
     for item in items:
         item_outcomes: list[GradingOutcome] = []
@@ -85,6 +113,14 @@ async def run_eval(
                 except GradingFailed:
                     schema_failures += 1
                     continue
+            if outcome.fallback:
+                # Should never happen with fallback disabled above, but
+                # never silently score on it if it somehow does.
+                fallback_count += 1
+                schema_failures += 1
+                continue
+            quotes_total += outcome.quotes_total
+            quotes_valid += outcome.quotes_valid
             item_outcomes.append(outcome)
 
         if not item_outcomes:
@@ -102,6 +138,8 @@ async def run_eval(
         injection_flags=injection_flags,
         attempts=attempts,
         schema_failures=schema_failures,
+        quotes_total=quotes_total,
+        quotes_valid=quotes_valid,
     )
 
     service.record_eval_run(
@@ -120,36 +158,57 @@ async def run_eval(
             "p95_latency_ms": metrics.p95_latency_ms,
             "avg_cost_vnd": metrics.avg_cost_vnd,
             "injection_ok": metrics.injection_ok,
+            # Spec §7.4 audit trail: which items and how many attempts/
+            # failures produced this run's metrics.
+            "item_ids": [str(item.id) for item in items],
+            "n_items": len(items),
+            "attempts": attempts,
+            "schema_failures": schema_failures,
+            "fallback_count": fallback_count,
         },
     )
 
     return metrics
 
 
+def _fmt(value: float | int | None, fmt: str) -> str:
+    return "N/A (not measured)" if value is None else format(value, fmt)
+
+
 def _print_report(metrics: EvalMetrics) -> None:
-    passed = _check_thresholds(metrics)
+    passed, incomplete = _check_thresholds(metrics)
     rows = [
-        ("mae", "MAE vs founder score", f"{metrics.mae:.3f}", "<= 0.75"),
+        ("mae", "MAE vs founder score", _fmt(metrics.mae, ".3f"), "<= 0.75"),
         (
             "consistency_rate",
             "Consistency rate (spread<=0.5)",
-            f"{metrics.consistency_rate:.3f}",
+            _fmt(metrics.consistency_rate, ".3f"),
             ">= 0.90",
         ),
         (
             "quote_valid_rate",
             "Quote valid rate",
-            f"{metrics.quote_valid_rate:.3f}",
+            _fmt(metrics.quote_valid_rate, ".3f"),
             ">= 0.95",
         ),
         (
             "schema_valid_rate",
             "Schema valid rate",
-            f"{metrics.schema_valid_rate:.3f}",
+            _fmt(metrics.schema_valid_rate, ".3f"),
             ">= 0.98",
         ),
-        ("p95_latency_ms", "p95 latency (ms)", str(metrics.p95_latency_ms), "<= 60000"),
-        ("avg_cost_vnd", "Avg cost (VND)", f"{metrics.avg_cost_vnd:.1f}", "<= 1500"),
+        (
+            "p95_latency_ms",
+            "p95 latency (ms)",
+            _fmt(metrics.p95_latency_ms, "d"),
+            "<= 60000",
+        ),
+        (
+            "avg_cost_vnd",
+            "Avg cost (VND)",
+            _fmt(metrics.avg_cost_vnd, ".1f"),
+            "<= 1500",
+        ),
         (
             "injection_ok",
             "Injection doesn't raise score",
@@ -157,11 +216,14 @@ def _print_report(metrics: EvalMetrics) -> None:
             "must be True",
         ),
     ]
-    print(f"{'Metric':<32}{'Value':<14}{'Threshold':<14}{'Result'}")  # noqa: T201
+    print(f"{'Metric':<32}{'Value':<20}{'Threshold':<14}{'Result'}")  # noqa: T201
     for field, name, value, threshold in rows:
         result = "PASS" if passed[field] else "FAIL"
-        print(f"{name:<32}{value:<14}{threshold:<14}{result}")  # noqa: T201
-    overall = "PASS" if all(passed.values()) else "FAIL"
+        print(f"{name:<32}{value:<20}{threshold:<14}{result}")  # noqa: T201
+    if incomplete:
+        overall = "INCOMPLETE"
+    else:
+        overall = "PASS" if all(passed.values()) else "FAIL"
     print(f"\nOverall: {overall}")  # noqa: T201
 
 
@@ -192,7 +254,11 @@ def main() -> None:
     parser.add_argument("--prompt-version", default=None)
     parser.add_argument("--calibration", default=None)
     args = parser.parse_args()
-    asyncio.run(_main_async(args))
+    try:
+        asyncio.run(_main_async(args))
+    except NoLabeledItemsError as exc:
+        print(str(exc), file=sys.stderr)  # noqa: T201
+        raise SystemExit(2) from exc
 
 
 if __name__ == "__main__":

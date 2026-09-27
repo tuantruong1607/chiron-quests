@@ -77,6 +77,13 @@ class GradingOutcome:
     fallback: bool
     latency_ms: int
     cost_vnd: int
+    #: Quote-verification counts, summed across every attempt that reached
+    #: `verify_quotes()` (schema-valid, criteria-valid responses only) -
+    #: Task 6's `eval_cli` needs these to compute a real `quote_valid_rate`
+    #: (spec §4.3), since only the already-filtered valid issues survive
+    #: on `issues` above.
+    quotes_total: int = 0
+    quotes_valid: int = 0
 
 
 def _has_valid_criteria_keys(output: WritingGradeOutput) -> bool:
@@ -110,6 +117,8 @@ async def grade_writing(
 
     total_cost_vnd = 0
     total_latency_ms = 0
+    total_quotes_total = 0
+    total_quotes_valid = 0
     provider = route.provider
     model = route.model
     fallback = False
@@ -151,6 +160,8 @@ async def grade_writing(
             raise GradingFailed(reason="bad_criteria")
 
         valid_issues, _dropped = verify_quotes(essay, output.issues)
+        total_quotes_total += len(output.issues)
+        total_quotes_valid += len(valid_issues)
         if output.issues and not valid_issues:
             if attempt <= MAX_CONTENT_RETRIES:
                 continue
@@ -173,4 +184,6 @@ async def grade_writing(
             fallback=fallback,
             latency_ms=total_latency_ms,
             cost_vnd=total_cost_vnd,
+            quotes_total=total_quotes_total,
+            quotes_valid=total_quotes_valid,
         )

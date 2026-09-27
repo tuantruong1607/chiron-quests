@@ -107,7 +107,15 @@ def override_route(task_key: str, **fields: object) -> Iterator[None]:
     the task's current route (from an existing override, if one is already
     active, otherwise from `routing.yaml`) via `TaskRoute.model_copy`, e.g.
     `override_route("writing_grade", provider="openai", model="gpt-x")`.
-    Restores the previous override (or its absence) on exit."""
+    Restores the previous override (or its absence) on exit. Raises
+    `ValueError` for any field name `TaskRoute` doesn't have (a typo here
+    would otherwise silently do nothing via `model_copy`, since
+    `update=...` doesn't validate its keys)."""
+    unknown = set(fields) - set(TaskRoute.model_fields)
+    if unknown:
+        raise ValueError(
+            f"override_route: unknown TaskRoute field(s) {sorted(unknown)}"
+        )
     base = task_config(task_key)
     new_overrides = dict(_route_overrides.get() or {})
     new_overrides[task_key] = base.model_copy(update=fields)

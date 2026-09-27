@@ -83,6 +83,8 @@ async def test_grade_writing_happy_path(fake_gateway: FakeGateway) -> None:
     assert outcome.latency_ms == 100
     assert len(outcome.issues) == 1
     assert len(outcome.criteria) == 4
+    assert outcome.quotes_total == 1
+    assert outcome.quotes_valid == 1
 
 
 async def test_grade_returns_at_most_three_issues(fake_gateway: FakeGateway) -> None:
@@ -136,6 +138,11 @@ async def test_grade_succeeds_after_one_bad_quote_retry(
     # raised AIError (no AIResult at all) would be excluded.
     assert outcome.cost_vnd == 10 + 10
     assert outcome.latency_ms == 100 + 100
+    # The first attempt's 1 invalid quote and the retry's 1 valid quote
+    # both count toward the totals - summed across every attempt that
+    # reached quote verification, not just the one that finally succeeded.
+    assert outcome.quotes_total == 1 + 1
+    assert outcome.quotes_valid == 0 + 1
 
 
 async def test_zero_issues_from_model_is_valid_no_retry(
@@ -146,6 +153,8 @@ async def test_zero_issues_from_model_is_valid_no_retry(
 
     assert fake_gateway.calls == 1
     assert outcome.issues == []
+    assert outcome.quotes_total == 0
+    assert outcome.quotes_valid == 0
 
 
 async def test_schema_error_retries_then_succeeds(fake_gateway: FakeGateway) -> None:

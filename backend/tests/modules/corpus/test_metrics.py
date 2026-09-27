@@ -30,10 +30,18 @@ def test_metrics_mae_and_consistency():
     assert m.consistency_rate == 0.5
 
 
-def test_metrics_defaults_quote_and_schema_rates_to_1_when_no_data():
+def test_metrics_rates_are_none_when_not_measured():
+    # Single run per item: consistency can't be measured either (a spread
+    # of exactly one run is trivially 0, not a real "consistent" result).
     m = compute_metrics([6.0], runs=[[o(6.0)]])
-    assert m.quote_valid_rate == 1.0
-    assert m.schema_valid_rate == 1.0
+    assert m.quote_valid_rate is None
+    assert m.schema_valid_rate is None
+    assert m.consistency_rate is None
+
+
+def test_metrics_consistency_rate_measured_when_every_item_has_2plus_runs():
+    m = compute_metrics([6.0, 5.0], runs=[[o(6.0), o(6.0)], [o(5.0), o(5.5)]])
+    assert m.consistency_rate == 1.0
 
 
 def test_metrics_schema_valid_rate_uses_attempts_and_failures():

@@ -47,6 +47,14 @@ def test_override_route_unknown_task_raises_no_route():
     assert exc_info.value.kind == "no_route"
 
 
+def test_override_route_rejects_unknown_field_name():
+    with pytest.raises(ValueError):
+        with service.override_route("writing_grade", providr="typo"):
+            pass
+    # The typo'd override must never have taken effect.
+    assert service.task_config("writing_grade").provider != "typo"
+
+
 async def test_complete_uses_overridden_route(redis, install_fake_adapter) -> None:
     install_fake_adapter(provider="overridden")
     from app.modules.ai_gateway.types import AIRequest

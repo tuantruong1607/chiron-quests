@@ -40,3 +40,16 @@ def test_redact_longest_span_wins_when_overlapping():
         [PiiSpan(text="Nam", kind="name"), PiiSpan(text="Nam Nguyen", kind="name")],
     )
     assert out == "Contact Mr [TÊN] today"
+
+
+def test_redact_phone_regex_does_not_match_sequential_years():
+    # A left digit-boundary keeps the phone regex from starting mid-run,
+    # and no VN number starts "00" - a plain sequence of 4-digit years must
+    # never be mistaken for a phone number.
+    out = redact("Timeline: 1990 2000 2010", [])
+    assert out == "Timeline: 1990 2000 2010"
+
+
+def test_redact_phone_regex_does_not_match_grouped_zeroes():
+    out = redact("Amount: 100 000 000 000 VND", [])
+    assert out == "Amount: 100 000 000 000 VND"

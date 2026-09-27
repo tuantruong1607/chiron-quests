@@ -27,12 +27,16 @@ __all__ = [
     "add_item",
     "add_item_and_get_id",
     "add_label",
+    "build_item",
+    "build_label",
+    "bulk_add_items_and_labels",
     "mark_thumbs_down",
     "delete_by_code",
     "purge_expired",
     "labeled_items_for_eval",
     "record_eval_run",
     "LabeledItem",
+    "is_valid_score",
 ]
 
 #: Sources that require consent before storage get a delete code (spec
@@ -47,8 +51,12 @@ _CONSENTED_SOURCES: frozenset[str] = frozenset({"free_check", "paid_user"})
 #: Items older than this are purged (spec §5.1: "24 tháng").
 RETENTION_DAYS = 730
 
-#: Valid human-label scores: 0-10 inclusive, in steps of 0.5.
-_VALID_SCORES = {round(i * 0.5, 1) for i in range(21)}
+
+def is_valid_score(score: float) -> bool:
+    """0-10 inclusive, in steps of 0.5. `(score * 2).is_integer()` rejects
+    anything not landing exactly on a half-step (e.g. 5.04), which a naive
+    `round(score, 1) in {...0.5 steps...}` would silently accept."""
+    return 0 <= score <= 10 and (score * 2).is_integer()
 
 
 def _hash_code(code: str) -> str:
@@ -59,13 +67,42 @@ def _outcome_to_dict(outcome: GradingOutcome) -> dict[str, object]:
     """`GradingOutcome` is a plain dataclass whose `criteria`/`issues`/
     `pii_spans` are pydantic models - `dataclasses.asdict` alone would
     leave those as non-JSON-serializable objects inside the dict, so each
-    is dumped with `model_dump()` explicitly."""
+    is dumped with `model_dump()` explicitly.
+
+    Spec §5.3: nothing raw goes into storage. `issues[].quote` is a
+    verbatim excerpt of the (unredacted) essay by construction
+    (`verify_quotes` requires it), and `pii_spans[].text` is by definition
+    the PII itself - both are redacted/stripped here, never stored as-is:
+    - Every string field on `criteria`/`issues` (`comment_vi`, `quote`,
+      `explanation_vi`, `suggestion`) is run through `redact()` with
+      `outcome.pii_spans`, so any PII the model happened to quote or
+      comment on is replaced by its label, exactly as it is in
+      `prompt_redacted`/`essay_redacted`.
+    - `pii_spans` is stored as a plain list of `kind` strings (e.g.
+      `["name", "phone"]`) - never `text` - just enough to audit that PII
+      was reported and redacted, without keeping a second unredacted copy
+      of it in `ai_result`."""
+    spans = outcome.pii_spans
+
+    def _r(text: str) -> str:
+        return redact(text, spans)
+
     return {
         "raw_score": outcome.raw_score,
         "score": outcome.score,
-        "criteria": [c.model_dump() for c in outcome.criteria],
-        "issues": [i.model_dump() for i in outcome.issues],
-        "pii_spans": [p.model_dump() for p in outcome.pii_spans],
+        "criteria": [
+            {**c.model_dump(), "comment_vi": _r(c.comment_vi)} for c in outcome.criteria
+        ],
+        "issues": [
+            {
+                **i.model_dump(),
+                "quote": _r(i.quote),
+                "explanation_vi": _r(i.explanation_vi),
+                "suggestion": _r(i.suggestion),
+            }
+            for i in outcome.issues
+        ],
+        "pii_kinds": [span.kind for span in spans],
         "rubric_version": outcome.rubric_version,
         "prompt_version": outcome.prompt_version,
         "calibration_version": outcome.calibration_version,
@@ -112,7 +149,7 @@ def add_item(
     return delete_code
 
 
-def add_item_and_get_id(
+def build_item(
     source: Source,
     task_type: TaskType,
     prompt: str,
@@ -123,9 +160,11 @@ def add_item_and_get_id(
     split: Split = "unassigned",
     dataset_version: str | None = None,
     is_injection: bool = False,
-) -> tuple[uuid.UUID, str | None]:
-    """Same as `add_item`, but also returns the created item's id -
-    `import_cli` needs it right away to attach the imported label."""
+) -> tuple[TrainingCorpusItem, str | None]:
+    """Build a (not yet persisted) `TrainingCorpusItem` plus its delete
+    code, with no DB access - the pure half of `add_item_and_get_id`, split
+    out so `import_cli` can build every row's item/label pair up front and
+    insert them all in one transaction (nothing partially imported)."""
     pii_spans = outcome.pii_spans if outcome is not None else []
     prompt_redacted = redact(prompt, pii_spans)
     essay_redacted = redact(essay, pii_spans)
@@ -146,6 +185,69 @@ def add_item_and_get_id(
         model=outcome.model if outcome is not None else None,
         check_id=check_id,
         delete_code_hash=delete_code_hash,
+        split=split,
+        dataset_version=dataset_version,
+        is_injection=is_injection,
+    )
+    # `id` has a `default_factory`, so it already exists on this
+    # not-yet-persisted instance - a caller (e.g. `build_label` below) can
+    # use it immediately, before this item is ever added to a session.
+    return item, delete_code
+
+
+def build_label(
+    item_id: uuid.UUID,
+    labeler: str,
+    criteria_scores: dict[str, float],
+    overall_score: float,
+    issue_verdicts: list[bool] | None,
+    missed_issues: str,
+    notes: str,
+) -> HumanLabel:
+    """Build a (not yet persisted) `HumanLabel` - the pure half of
+    `add_label`. Every criteria score and the overall score must be in
+    [0, 10] in steps of 0.5, raising `ValueError` otherwise. Does not check
+    that `item_id` exists (no DB access at all) - `add_label` does that
+    check itself before persisting; a caller building a batch up front
+    (`import_cli`) is responsible for `item_id` actually referring to an
+    item it's about to insert in the same transaction."""
+    for score in [*criteria_scores.values(), overall_score]:
+        if not is_valid_score(score):
+            raise ValueError(f"score {score} must be in [0, 10] in steps of 0.5")
+
+    return HumanLabel(
+        item_id=item_id,
+        labeler=labeler,
+        criteria_scores=criteria_scores,
+        overall_score=overall_score,
+        issue_verdicts=issue_verdicts,
+        missed_issues=missed_issues,
+        notes=notes,
+    )
+
+
+def add_item_and_get_id(
+    source: Source,
+    task_type: TaskType,
+    prompt: str,
+    essay: str,
+    outcome: GradingOutcome | None,
+    check_id: uuid.UUID | None = None,
+    *,
+    split: Split = "unassigned",
+    dataset_version: str | None = None,
+    is_injection: bool = False,
+) -> tuple[uuid.UUID, str | None]:
+    """Same as `add_item`, but also returns the created item's id -
+    callers that need it right away (e.g. to attach a label) don't have to
+    re-query for it."""
+    item, delete_code = build_item(
+        source,
+        task_type,
+        prompt,
+        essay,
+        outcome,
+        check_id,
         split=split,
         dataset_version=dataset_version,
         is_injection=is_injection,
@@ -172,25 +274,46 @@ def add_label(
     overall score must be in [0, 10] in steps of 0.5, and `item_id` must
     name an existing `training_corpus_item` - either violation raises
     `ValueError`."""
-    for score in [*criteria_scores.values(), overall_score]:
-        if round(score, 1) not in _VALID_SCORES:
-            raise ValueError(f"score {score} must be in [0, 10] in steps of 0.5")
+    label = build_label(
+        item_id,
+        labeler,
+        criteria_scores,
+        overall_score,
+        issue_verdicts,
+        missed_issues,
+        notes,
+    )
 
     with Session(engine) as session:
         item = session.get(TrainingCorpusItem, item_id)
         if item is None:
             raise ValueError(f"no training_corpus_item with id {item_id}")
 
-        label = HumanLabel(
-            item_id=item_id,
-            labeler=labeler,
-            criteria_scores=criteria_scores,
-            overall_score=overall_score,
-            issue_verdicts=issue_verdicts,
-            missed_issues=missed_issues,
-            notes=notes,
-        )
         session.add(label)
+        session.commit()
+
+
+def bulk_add_items_and_labels(
+    pairs: list[tuple[TrainingCorpusItem, HumanLabel]],
+) -> None:
+    """Insert every (item, label) pair in one transaction - all of them
+    persist, or (on any DB error) none do. Callers (`import_cli`) are
+    expected to have already validated every row with `build_item`/
+    `build_label` before calling this, so a failure here is a genuine DB
+    problem, not a data problem this function should partially recover
+    from."""
+    if not pairs:
+        return
+    with Session(engine) as session:
+        for item, _label in pairs:
+            session.add(item)
+        # Flush items first (still inside this one transaction - nothing
+        # is committed yet) so every label's FK target row actually exists
+        # before its insert, regardless of how the unit-of-work would
+        # otherwise batch/order cross-table inserts.
+        session.flush()
+        for _item, label in pairs:
+            session.add(label)
         session.commit()
 
 

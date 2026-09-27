@@ -1,8 +1,9 @@
 import json
 
+import pytest
 from sqlmodel import Session, select
 
-from app.modules.corpus.import_cli import run_import
+from app.modules.corpus.import_cli import ImportValidationError, run_import
 from app.modules.corpus.models import HumanLabel, TrainingCorpusItem
 
 
@@ -80,11 +81,79 @@ def test_import_cli_rejects_synthetic_source_with_bad_score(tmp_path):
             }
         ],
     )
-    try:
+    with pytest.raises(ImportValidationError):
         run_import(
             str(jsonl_path), source="synthetic", split="test", dataset_version="v0"
         )
-    except ValueError:
-        pass
-    else:
-        raise AssertionError("expected ValueError for a non-half-step score")
+
+
+def test_import_cli_bad_line_3_of_3_writes_zero_rows(tmp_path, db: Session):
+    """Atomicity: validation happens for every line before anything is
+    written, and the whole batch inserts in one transaction - a bad line
+    anywhere (including the last one) must leave zero rows behind, never
+    the first two lines' items/labels as orphaned partial state."""
+
+    def good_row(i: int) -> dict:
+        return {
+            "task_type": "task1",
+            "prompt": f"Prompt {i}",
+            "essay": f"Essay {i}",
+            "label": {
+                "criteria_scores": {"task_fulfilment": 6.0},
+                "overall_score": 6.0,
+                "notes": "",
+            },
+        }
+
+    bad_row = {
+        "task_type": "task1",
+        "prompt": "Prompt 3",
+        "essay": "Essay 3",
+        "label": {
+            "criteria_scores": {"task_fulfilment": 6.0},
+            "overall_score": 5.04,  # not a half-step
+            "notes": "",
+        },
+    }
+
+    jsonl_path = tmp_path / "bad_third_line.jsonl"
+    _write_jsonl(jsonl_path, [good_row(1), good_row(2), bad_row])
+
+    with pytest.raises(ImportValidationError) as exc_info:
+        run_import(
+            str(jsonl_path), source="volunteer", split="test", dataset_version="v0"
+        )
+    assert exc_info.value.line_number == 3
+
+    assert db.exec(select(TrainingCorpusItem)).all() == []
+    assert db.exec(select(HumanLabel)).all() == []
+
+
+def test_import_cli_bad_json_names_line_number(tmp_path):
+    jsonl_path = tmp_path / "bad_json.jsonl"
+    jsonl_path.write_text('{"task_type": "task1"\n')  # missing closing brace
+    with pytest.raises(ImportValidationError) as exc_info:
+        run_import(
+            str(jsonl_path), source="volunteer", split="test", dataset_version="v0"
+        )
+    assert exc_info.value.line_number == 1
+
+
+def test_import_cli_missing_required_key_names_line_number(tmp_path):
+    jsonl_path = tmp_path / "missing_key.jsonl"
+    _write_jsonl(
+        jsonl_path,
+        [
+            {
+                "task_type": "task1",
+                "prompt": "P",
+                # "essay" missing
+                "label": {"criteria_scores": {}, "overall_score": 6.0},
+            }
+        ],
+    )
+    with pytest.raises(ImportValidationError) as exc_info:
+        run_import(
+            str(jsonl_path), source="volunteer", split="test", dataset_version="v0"
+        )
+    assert exc_info.value.line_number == 1

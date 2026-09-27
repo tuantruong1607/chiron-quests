@@ -1,4 +1,5 @@
 import hashlib
+import json
 import uuid
 from datetime import UTC, datetime, timedelta
 
@@ -7,7 +8,7 @@ from sqlmodel import Session, select
 
 from app.modules.corpus import service
 from app.modules.corpus.models import HumanLabel, TrainingCorpusItem
-from app.modules.grading.service import GradingOutcome, PiiSpan
+from app.modules.grading.service import CriterionScore, GradingOutcome, Issue, PiiSpan
 
 P = "Write about your hometown."
 ESSAY_WITH_NAME = "My name is Nam and I live in Hanoi. Call me at 0912 345 678."
@@ -88,6 +89,55 @@ def test_add_item_stores_ai_result_and_none_outcome(db: Session):
     assert item2.rubric_version is None
 
 
+def test_add_item_redacts_pii_out_of_ai_result(db: Session):
+    """Critical fix: `ai_result` must never carry raw PII, whether via
+    `pii_spans[].text` or a quote/comment that echoes the essay's PII
+    verbatim (spec §5.3)."""
+    essay = "My name is Nam and I live in Hanoi. Call me at 0912 345 678."
+    outcome_with_pii = GradingOutcome(
+        raw_score=6.0,
+        score=6.0,
+        criteria=[
+            CriterionScore(
+                key="task_fulfilment",
+                score=6.0,
+                comment_vi="Nam viet ve Hanoi kha tot.",
+            )
+        ],
+        issues=[
+            Issue(
+                quote="My name is Nam",
+                explanation_vi="Nam nen dung thoi hien tai.",
+                suggestion="goi cho Nam qua 0912 345 678",
+            )
+        ],
+        pii_spans=[PiiSpan(text="Nam", kind="name")],
+        rubric_version="writing-v1",
+        prompt_version="writing-p1",
+        calibration_version="writing-c0",
+        provider="fake",
+        model="fake-grader",
+        fallback=False,
+        latency_ms=1000,
+        cost_vnd=100,
+    )
+    service.add_item("volunteer", "task1", P, essay, outcome_with_pii)
+    item = latest_item(db)
+    assert item is not None
+
+    dumped = json.dumps(item.ai_result)
+    for leaked in ("Nam", "0912 345 678", "0912345678"):
+        assert leaked not in dumped
+        assert leaked not in item.prompt_redacted
+        assert leaked not in item.essay_redacted
+    assert item.ai_result is not None
+    assert item.ai_result["pii_kinds"] == ["name"]
+    assert "text" not in json.dumps(item.ai_result["pii_kinds"])
+    assert "[TÊN]" in item.ai_result["issues"][0]["quote"]
+    assert "[SĐT]" in item.ai_result["issues"][0]["suggestion"]
+    assert "[TÊN]" in item.ai_result["criteria"][0]["comment_vi"]
+
+
 def test_add_item_stores_check_id(db: Session):
     check_id = uuid.uuid4()
     service.add_item(
@@ -116,6 +166,18 @@ def test_add_label_valid(db: Session):
     assert label.overall_score == 6.5
     assert label.criteria_scores == {"task_fulfilment": 6.5, "organization": 7.0}
     assert label.issue_verdicts == [True, False]
+
+
+def test_is_valid_score_rejects_5_04_but_accepts_half_steps():
+    # A naive `round(score, 1) in {0, 0.5, ..., 10}` would accept 5.04
+    # (rounds to 5.0) - `(score * 2).is_integer()` must not.
+    assert service.is_valid_score(5.04) is False
+    assert service.is_valid_score(5.0) is True
+    assert service.is_valid_score(5.5) is True
+    assert service.is_valid_score(0.0) is True
+    assert service.is_valid_score(10.0) is True
+    assert service.is_valid_score(10.5) is False
+    assert service.is_valid_score(-0.5) is False
 
 
 def test_add_label_rejects_score_not_multiple_of_half(db: Session):
