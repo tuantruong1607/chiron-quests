@@ -3,7 +3,7 @@
 > Chuẩn IIBA BABOK v3 (Agile Perspective) + cấu trúc SRS (BRD + FRD + NFR).
 > Thay thế PRD v1.0 – v1.2. Lợi thế cạnh tranh chuyển từ **tính năng AI** (ChatGPT đã làm tốt, xem §2.7)
 > sang hai thứ ChatGPT về cấu trúc không có: **(A) dự đoán band được hiệu chỉnh bằng điểm thi thật của người Việt**
-> và **(C) cohort có cam kết, chủ động đồng hành đến ngày thi**. Speaking + Writing là công cụ đo.
+> và **(C) cohort có cam kết, chủ động đồng hành đến ngày thi**. Đủ 4 kỹ năng (Listening, Reading, Speaking, Writing) là công cụ đo, để dự đoán cả **band overall**.
 
 ---
 
@@ -12,7 +12,7 @@
 | Field | Value |
 |---|---|
 | Document ID | PRD-2026-001 |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Draft — chờ Founder duyệt |
 | Owner | Founder (kiêm Sponsor / Product Owner / BA / Developer) |
 | Created | 2026-09-27 (v1.0) |
@@ -35,6 +35,17 @@
 | 1.1 | 2026-09-27 | BA (Claude) + Founder | Xem bảng "Thay đổi so với v1.0" bên dưới |
 | 1.2 | 2026-09-27 | BA (Claude) + Founder | Release 1 = Speaking + Writing; định vị cạnh tranh với ChatGPT; xem bảng "Thay đổi so với v1.1" |
 | 2.0 | 2026-09-27 | BA (Claude) + Founder | Định vị "Band thật" (A) + Cohort cam kết (C); chiến lược dữ liệu nguồn 4 → open beta → hiệu chỉnh bằng nguồn 1; xem bảng "Thay đổi so với v1.2" |
+| 2.1 | 2026-09-27 | BA (Claude) + Founder | Thêm Listening & Reading **trước open beta**; đề do AI soạn + người duyệt (không crawl); dự đoán band overall; roadmap 22 tuần; xem bảng "Thay đổi so với v2.0" |
+
+### Thay đổi so với v2.0 (Founder duyệt 2026-09-27)
+
+| # | Hạng mục | v2.0 | v2.1 | Lý do |
+|---|---|---|---|---|
+| 1 | Kỹ năng trong R1 | Speaking + Writing | **Thêm Listening + Reading** (Academic), trước open beta | Người học quan tâm band **overall**; L/R chấm theo đáp án nên dễ dự đoán nhất |
+| 2 | Nguồn đề L/R | — | **AI soạn + người duyệt**; audio Listening bằng TTS nhiều giọng; **không crawl** đề trên mạng, không dùng đề sách có bản quyền hay đề thi thật do thí sinh nhớ lại (FR-215) | Crawl = vi phạm bản quyền/bảo mật đề; phá uy tín "band thật"; đề crawl có đáp án sai và độ khó không rõ |
+| 3 | Dự đoán | Speaking, Writing | + **Listening, Reading và overall** | Hoàn thiện lợi thế A |
+| 4 | Quy đổi band L/R | — | **Bảng quy đổi riêng cho từng đề**, khởi đầu bằng bảng tham chiếu, hiệu chỉnh bằng thống kê câu hỏi và cặp điểm thật (F24) | Đề tự soạn có độ khó khác đề thật |
+| 5 | Roadmap | Open beta tuần 10 | **Open beta tuần 16**; roadmap 22 tuần | Founder chọn có L/R trước open beta |
 
 ### Thay đổi so với v1.2 (Founder duyệt 2026-09-27)
 
@@ -93,9 +104,10 @@ Nền tảng web (responsive + PWA) giúp người học IELTS Academic tại Vi
 - **Dự đoán band thật (A):** từ các bài thi thử trên hệ thống, dự đoán band Speaking và Writing khi thi thật, kèm khoảng sai số. Dự đoán được hiệu chỉnh bằng các cặp "bài thi thử + phiếu điểm thật" do người dùng tự nguyện gửi.
 - **Cohort cam kết (C):** nhóm học 8 tuần có ngày thi mục tiêu, được nhắc luyện chủ động mỗi ngày, có đặt cọc hoàn lại khi hoàn thành.
 
-Công cụ đo là hai kỹ năng sản sinh:
+Công cụ đo là đủ 4 kỹ năng:
 - **Speaking:** thi thử Part 1 → 2 → 3 với giám khảo AI, đúng thời gian như phòng thi → report theo 4 tiêu chí, **phát âm được chấm bằng phân tích audio**, chỉ ra **lỗi đặc trưng của người Việt**.
 - **Writing:** nộp Task 1/Task 2 → report theo 4 tiêu chí, gắn bằng chứng trong bài.
+- **Listening & Reading:** bài thi đủ 40 câu mỗi kỹ năng, đúng thời gian, chấm theo đáp án, quy đổi band theo bảng riêng của từng đề. Đề do AI soạn và được người duyệt; audio Listening bằng TTS nhiều giọng.
 
 Cả hai kỹ năng dùng chung **Error Memory**: hệ thống ghi nhớ lỗi lặp lại, kể cả lỗi xuất hiện ở cả nói và viết → người học **làm lại / làm đề tương đương** → **kiểm chứng lỗi đã được sửa hay chưa**.
 
@@ -114,7 +126,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 ## 2. Business Context (BACCM)
 
 ### 2.1 Change
-Xây mới một sản phẩm luyện thi có lợi thế dựa trên **dữ liệu điểm thật** và **cam kết đồng hành**, dùng Speaking + Writing làm công cụ đo. Trình tự: chuẩn bị bộ chấm bằng dữ liệu công khai hợp lệ (nguồn 4) → open beta tuần 10 → hiệu chỉnh dự đoán bằng kết quả thi thật (nguồn 1) → bật cam kết theo kết quả khi đủ dữ liệu.
+Xây mới một sản phẩm luyện thi có lợi thế dựa trên **dữ liệu điểm thật** và **cam kết đồng hành**, dùng đủ 4 kỹ năng làm công cụ đo. Trình tự: chuẩn bị bộ chấm bằng dữ liệu công khai hợp lệ (nguồn 4) và xây kho đề L/R → open beta tuần 16 → hiệu chỉnh dự đoán bằng kết quả thi thật (nguồn 1) → bật cam kết theo kết quả khi đủ dữ liệu.
 
 ### 2.2 Need (giả thuyết cần kiểm chứng trong beta)
 
@@ -142,7 +154,7 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 |---|---|
 | Nhân lực | Founder solo |
 | Ngân sách phát triển ban đầu | < 10.000.000 VNĐ |
-| Thời gian | Nguồn 4 tuần 1–3; open beta + bắt đầu bán tuần 10; chiến dịch nguồn 1 từ tuần 10; cohort đầu tiên tuần 12; cam kết hoàn tiền chỉ bật khi đạt ngưỡng dữ liệu (dự kiến tháng 6–9) |
+| Thời gian | Nguồn 4 tuần 1–3; L/R tuần 9–14; open beta + bắt đầu bán tuần 16; chiến dịch nguồn 1 từ tuần 16; cohort đầu tiên tuần 18; cam kết hoàn tiền chỉ bật khi đạt ngưỡng dữ liệu (dự kiến tháng 8–11) |
 | Tech stack | Next.js + TypeScript, FastAPI + Python, PostgreSQL, VPS, Docker Compose |
 | Thị trường | Việt Nam, UI tiếng Việt, nội dung đề bằng tiếng Anh |
 | Pháp lý | Bảo vệ dữ liệu cá nhân (xem §12); người dùng có thể là người chưa thành niên |
@@ -188,15 +200,16 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 | # | Objective | KPI / Success Metric | Deadline |
 |---|---|---|---|
-| O1 | Chứng minh chất lượng feedback đủ dùng | (a) Tỉ lệ đánh giá 👍 trên report ≥ 70% (đo riêng Speaking và Writing); (b) chấm lại cùng một bài trong eval set: chênh lệch overall band ≤ 0,5 ở ≥ 90% bài; (c) 0 trường hợp trích dẫn bằng chứng không có trong bài/transcript | Tuần 9 (trước open beta) |
-| O2 | Chứng minh learning loop | ≥ 30% người đã nhận report có thực hiện Redo/Rewrite hoặc Retest trong 14 ngày | Tuần 16 |
-| O3 | Chứng minh sẵn sàng trả tiền | ≥ 10 người trả phí **và** tỉ lệ chuyển đổi ≥ 3% trên người dùng hoạt động (≥ 1 bài nộp) trong 30 ngày | Tuần 16 |
-| O4 | Unit economics dương | Chi phí AI ≤ 30% doanh thu thuần/người trả phí; chi phí trung bình ≤ 1.500đ/lượt Writing và ≤ 5.000đ/bài thi Speaking đủ 3 Part | Tuần 16 |
-| O5 | Activation & retention | ≥ 60% người đăng ký nộp bài đầu tiên trong 7 ngày; ≥ 20% người dùng hoạt động quay lại ở tuần thứ 4 | Tuần 16 |
-| O6 | Chứng minh "Band thật" là lý do mua | ≥ 50% người trả phí đã xem Dự đoán band trước khi thanh toán; ≥ 50% người trả lời khảo sát chọn dự đoán band hoặc cohort là lý do chính | Tuần 16 |
-| O7 | Thu thập dữ liệu điểm thật (nguồn 1 + cohort) | ≥ 50 cặp hợp lệ/kỹ năng trước tuần 16; ≥ 300 cặp/kỹ năng trước tháng 6 | Tuần 16 / tháng 6 |
-| O8 | Độ chính xác dự đoán | Sai số tuyệt đối trung bình (MAE) ≤ 0,5 band trên ≥ 100 cặp kiểm tra/kỹ năng không dùng để hiệu chỉnh | Tháng 6–9 |
+| O1 | Chứng minh chất lượng feedback đủ dùng | (a) Tỉ lệ đánh giá 👍 trên report ≥ 70% (đo riêng từng kỹ năng); (b) chấm lại cùng một bài trong eval set: chênh lệch overall band ≤ 0,5 ở ≥ 90% bài; (c) 0 trường hợp trích dẫn bằng chứng không có trong bài/transcript | Tuần 15 (trước open beta) |
+| O2 | Chứng minh learning loop | ≥ 30% người đã nhận report có thực hiện Redo/Rewrite hoặc Retest trong 14 ngày | Tuần 22 |
+| O3 | Chứng minh sẵn sàng trả tiền | ≥ 10 người trả phí **và** tỉ lệ chuyển đổi ≥ 3% trên người dùng hoạt động (≥ 1 bài nộp) trong 30 ngày | Tuần 22 |
+| O4 | Unit economics dương | Chi phí AI ≤ 30% doanh thu thuần/người trả phí; chi phí trung bình ≤ 1.500đ/lượt Writing và ≤ 5.000đ/bài thi Speaking đủ 3 Part | Tuần 22 |
+| O5 | Activation & retention | ≥ 60% người đăng ký nộp bài đầu tiên trong 7 ngày; ≥ 20% người dùng hoạt động quay lại ở tuần thứ 4 | Tuần 22 |
+| O6 | Chứng minh "Band thật" là lý do mua | ≥ 50% người trả phí đã xem Dự đoán band trước khi thanh toán; ≥ 50% người trả lời khảo sát chọn dự đoán band hoặc cohort là lý do chính | Tuần 22 |
+| O7 | Thu thập dữ liệu điểm thật (nguồn 1 + cohort) | ≥ 50 cặp hợp lệ/kỹ năng trước tuần 22; ≥ 300 cặp/kỹ năng trước tháng 8 | Tuần 22 / tháng 8 |
+| O8 | Độ chính xác dự đoán | Sai số tuyệt đối trung bình (MAE) ≤ 0,5 band trên ≥ 100 cặp kiểm tra/kỹ năng không dùng để hiệu chỉnh | Tháng 8–11 |
 | O9 | Cohort | ≥ 60% thành viên hoàn thành ≥ 80% lộ trình; ≥ 70% thành viên đã thi gửi phiếu điểm | Sau cohort thứ 2 |
+| O10 | Chất lượng đề L/R | 100% đề publish qua quality gate L/R (§11.3); ≤ 2% câu hỏi bị báo lỗi đáp án được xác nhận sau khi publish; mỗi đề dùng cho dự đoán có ≥ 50 lượt làm để kiểm tra thống kê `[Đề xuất]` | Tuần 22 |
 
 **Lưu ý:** 300 lượt đăng ký (mục tiêu v1.0) được giữ làm chỉ số theo dõi acquisition, **không** dùng làm tiêu chí thành công.
 
@@ -224,9 +237,9 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 | Release | Nội dung | Điều kiện mở (Gate) | Thời điểm |
 |---|---|---|---|
-| **R1 — IELTS Lab "Band thật"** | Speaking Part 1–3 + Writing Task 1/2 làm công cụ đo; Dự đoán band; thu thập & hiệu chỉnh bằng điểm thật; Cohort cam kết + nhắc học; credit & thanh toán | — | Tuần 1–16 (roadmap §18) |
-| R1.5 — Cam kết theo kết quả | Hoàn tiền nếu điểm thật thấp hơn dự đoán quá ngưỡng | **O8 đạt** + rà soát pháp lý (TBD-18) | Dự kiến tháng 6–9 |
-| R2 — Listening/Reading + Full mock Academic | Chấm khách quan theo answer key, full mock 4 kỹ năng; dự đoán overall band | O1, O3, O4, O6 đạt; có nguồn nội dung hợp pháp | Sau R1 |
+| **R1 — IELTS Lab "Band thật"** | Đủ 4 kỹ năng Academic làm công cụ đo (Listening, Reading, Speaking Part 1–3, Writing Task 1/2); dự đoán band từng kỹ năng + overall; thu thập & hiệu chỉnh bằng điểm thật; Cohort cam kết + nhắc học; credit & thanh toán | — | Tuần 1–22 (roadmap §18) |
+| R1.5 — Cam kết theo kết quả | Hoàn tiền nếu điểm thật thấp hơn dự đoán quá ngưỡng | **O8 đạt** + rà soát pháp lý (TBD-18) | Dự kiến tháng 8–11 |
+| ~~R2 — Listening/Reading~~ | Đã gộp vào R1 ở v2.1 | — | — |
 | R3 — TOEIC Listening & Reading | 7 Part, bảng quy đổi điểm, drill từ vựng | IELTS: conversion ≥ 3%, AI cost ≤ 30% doanh thu, W4 retention đạt O5 `[Đề xuất]` | Sau R2 |
 | R4 — SAT (Digital) | Adaptive theo module, Math (LaTeX, máy tính), luồng đồng ý của phụ huynh | R3 đạt gate tương đương; rà soát pháp lý cho người chưa thành niên | Sau R3 |
 
@@ -250,10 +263,12 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 - ✅ **Thu thập kết quả thi thật** tự nguyện, có phần thưởng, xác minh và bảo vệ dữ liệu (F17)
 - ✅ **Hiệu chỉnh** và công bố sai số đo được (F18)
 - ✅ **Cohort 8 tuần** có ngày thi mục tiêu, đặt cọc hoàn lại (F19) và **nhắc học chủ động** (F20)
+- ✅ **Listening & Reading Academic** đủ 40 câu mỗi kỹ năng, đề AI soạn + người duyệt, bảng quy đổi band riêng từng đề (F22–F24)
+- ✅ **Full mock 4 kỹ năng** liền mạch (Listening → Reading → Writing, Speaking làm riêng như thi thật)
 
 ### 5.3 Out-of-Scope (R1)
 
-- ❌ Listening, Reading, full mock — R2
+- ❌ Listening/Reading dạng General Training
 - ❌ General Training Task 1 (letter) — có thể thêm sau vì dùng chung engine
 - ❌ TOEIC, SAT — R3/R4
 - ❌ Hội thoại Speaking tự do ngoài cấu trúc bài thi, luyện giọng bản ngữ theo vùng miền
@@ -263,7 +278,7 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 - ❌ Marketplace gia sư, social feed, hồ sơ công khai
 - ❌ Cam kết hoàn tiền theo kết quả — chỉ bật ở R1.5 khi O8 đạt
 - ❌ Chứng nhận điểm; tuyên bố tương đương giám khảo
-- ❌ Dự đoán band Listening, Reading và overall — R2
+- ❌ Crawl hoặc nhập đề từ sách có bản quyền, website luyện thi, hay đề thi thật do thí sinh nhớ lại (FR-215)
 - ❌ Huấn luyện foundation model; dữ liệu người dùng chỉ dùng cho hiệu chỉnh khi có consent riêng (FR-171)
 - ❌ Thu thập hoặc lưu nội dung câu hỏi của đề thi thật
 - ❌ Cào dữ liệu từ mạng xã hội
@@ -297,12 +312,12 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 | BR-014 | Hệ thống NÊN gửi email nhắc học cho người opt-in | S | Retention | O5 |
 | BR-015 | Hệ thống CÓ THỂ có referral có chống lạm dụng | C | Tăng trưởng | O3 |
 | BR-016 | Người học PHẢI luyện được Speaking Part 1–3 trong môi trường mô phỏng phòng thi và nhận report theo 4 tiêu chí, trong đó phát âm được đánh giá bằng phân tích audio | M | **Tính năng chính**, lý do không dùng ChatGPT | O1, O6, N5, N6 |
-| BR-017 | Listening/Reading + full mock | W | Chuyển sang R2 | — |
+| BR-017 | Người học PHẢI làm được bài Listening và Reading Academic đủ 40 câu, đúng thời gian, chấm theo đáp án và quy đổi band theo bảng riêng của từng đề | M | Cần cho dự đoán overall (A) | O6, O8 |
 | BR-018 | TOEIC, SAT | W | R3/R4 | — |
 | BR-019 | Upload tài liệu, AI Companion, gamification nâng cao | W | Rủi ro bản quyền / không phải cốt lõi | — |
 | BR-020 | Hệ thống PHẢI nhận diện và giải thích các lỗi đặc trưng của người Việt trong phát âm và ngữ pháp | M | Khác biệt so với feedback chung chung của AI tổng quát | O6, N5 |
 | BR-021 | Hệ thống NÊN chỉ ra lỗi xuất hiện ở cả Speaking và Writing (insight xuyên kỹ năng) | S | Chỉ có được khi một hệ thống thấy cả hai kỹ năng | O2 |
-| BR-022 | Hệ thống PHẢI dự đoán band Speaking và Writing khi thi thật, kèm khoảng sai số và nêu rõ đã/chưa được hiệu chỉnh | M | **Lợi thế A** | O6, O8, N7 |
+| BR-022 | Hệ thống PHẢI dự đoán band Listening, Reading, Speaking, Writing và overall khi thi thật, kèm khoảng sai số và nêu rõ đã/chưa được hiệu chỉnh | M | **Lợi thế A** | O6, O8, N7 |
 | BR-023 | Hệ thống PHẢI cho phép người dùng tự nguyện gửi kết quả thi thật, có consent riêng, xác minh chống gian lận và phần thưởng | M | Nguồn dữ liệu cho A | O7 |
 | BR-024 | Hệ thống PHẢI hiệu chỉnh dự đoán bằng dữ liệu điểm thật và chỉ công bố độ chính xác bằng số liệu đo được | M | Tuyên bố trung thực, tránh quảng cáo sai | O8 |
 | BR-025 | Mọi bộ dữ liệu bên ngoài PHẢI được đăng ký kèm license; chỉ bộ có quyền dùng thương mại mới được đưa vào phát triển/đánh giá sản phẩm | M | Rủi ro pháp lý (đa số bộ dữ liệu phù hợp là phi thương mại, §16) | §12 |
@@ -310,18 +325,19 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 | BR-027 | Hệ thống NÊN chủ động nhắc học mỗi ngày qua kênh người học dùng (email, Zalo nếu khả thi) | S | ChatGPT chỉ phản hồi khi được hỏi | O5, O9 |
 | BR-028 | Cohort NÊN có đặt cọc hoàn lại khi hoàn thành lộ trình và gửi phiếu điểm | S | Cơ chế cam kết; cần rà soát pháp lý | O9, O7 |
 | BR-029 | Hoàn tiền theo kết quả thi thật | W | Chỉ bật ở R1.5 khi O8 đạt | — |
+| BR-030 | Đề Listening/Reading PHẢI do hệ thống tự soạn (AI + người duyệt) hoặc có quyền sử dụng; KHÔNG crawl, KHÔNG dùng đề có bản quyền hay đề thi thật | M | Pháp lý và uy tín của "band thật" | O10, §12 |
 
 ### MoSCoW Distribution (R1)
 
 | Priority | Count | % in-scope |
 |---|---|---|
-| Must | 17 | 68% |
-| Should | 7 | 28% |
+| Must | 19 | 70% |
+| Should | 7 | 26% |
 | Could | 1 | 4% |
-| **Total in-scope** | **25** | **100%** |
-| Won't (R1) | 4 | — |
+| **Total in-scope** | **27** | **100%** |
+| Won't (R1) | 3 | — |
 
-> ⚠️ Must chiếm 67% số BR, và Speaking làm tăng effort đáng kể. Theo quy tắc 60/40, **effort** của nhóm Must nên ≤ 60% capacity; §18 đưa các BR Should về cuối timeline và liệt kê thứ tự cắt scope.
+> ⚠️ Must chiếm 70% số BR; Speaking và kho đề L/R làm tăng effort đáng kể. Theo quy tắc 60/40, **effort** của nhóm Must nên ≤ 60% capacity; §18 đưa các BR Should về cuối timeline và liệt kê thứ tự cắt scope.
 
 ---
 
@@ -458,7 +474,7 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 | FR-041 | Hệ thống PHẢI đánh dấu lỗi "lặp lại" khi cùng error tag xuất hiện ở ≥ 2 bài khác nhau | BR-002 | AC-F5-1 |
 | FR-042 | Rewrite (Writing) / Redo (Speaking): người học PHẢI làm lại được bài/câu trả lời đã chấm; hệ thống PHẢI so sánh bản gốc và bản làm lại, chỉ rõ lỗi nào đã sửa/chưa sửa | BR-002 | AC-F5-2 |
 | FR-043 | Retest: hệ thống PHẢI gợi ý đề tương đương (cùng kỹ năng, cùng task type/Part, cùng chủ đề/dạng) nhắm vào lỗi lặp lại | BR-002 | AC-F5-3 |
-| FR-044 | Ngân hàng đề R1 PHẢI đủ để Retest: ≥ 30 đề Writing Task 2, ≥ 15 đề Task 1, ≥ 20 chủ đề Speaking Part 1 (mỗi chủ đề 4–5 câu), ≥ 30 cue card Part 2 kèm câu hỏi Part 3 `[Đề xuất]`, đã qua quality gate §11.3 | BR-002, BR-016 | Đếm trong admin |
+| FR-044 | Ngân hàng đề R1 PHẢI đủ để Retest: ≥ 30 đề Writing Task 2, ≥ 15 đề Task 1, ≥ 20 chủ đề Speaking Part 1 (mỗi chủ đề 4–5 câu), ≥ 30 cue card Part 2 kèm câu hỏi Part 3, ≥ 6 bộ Listening và ≥ 6 bộ Reading trước open beta (≥ 12 mỗi loại trước tuần 22) `[Đề xuất]`, đã qua quality gate §11.3 | BR-002, BR-016, BR-017 | Đếm trong admin |
 | FR-045 | Báo cáo tiến bộ PHẢI chỉ so sánh các report chấm cùng rubric version và cùng model chấm chính (xem FR-076) | BR-006 | AC-F5-4 |
 
 - **AC-F5-1** — Given người học mắc lỗi "subject–verb agreement" ở 2 bài khác nhau, When report thứ hai hoàn tất, Then Error Memory hiển thị lỗi này là "lặp lại 2 lần" kèm liên kết tới cả 2 bài.
@@ -502,7 +518,7 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 - Trường hợp xấu nhất, dùng hết 30 credit cho Speaking: 10 bài thi × 5.000đ = 50.000đ, vẫn dưới doanh thu (≈ 75%).
 - Dùng hết 30 credit cho Writing: 30 × 1.500đ = 45.000đ (≈ 67%).
 - Mức dùng trung bình ~30–40% → chi phí ≈ 15.000–20.000đ ≈ 22–30% doanh thu, đạt O4.
-- Nếu A5 cho thấy chi phí Speaking > 5.000đ/bài thi, phải tăng credit/Part hoặc giảm credit/tháng trước khi bán (tuần 9).
+- Nếu A5 cho thấy chi phí Speaking > 5.000đ/bài thi, phải tăng credit/Part hoặc giảm credit/tháng trước khi bán (tuần 16).
 
 | ID | Functional Requirement | Source BR | AC |
 |---|---|---|---|
@@ -635,14 +651,14 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 | ID | Functional Requirement | Source BR | AC |
 |---|---|---|---|
-| FR-150 | Hệ thống PHẢI hiển thị dự đoán band **Speaking** và **Writing** riêng biệt dưới dạng khoảng (VD: 6.0–6.5); KHÔNG dự đoán Listening, Reading, overall trong R1 | BR-022 | AC-F16-1 |
-| FR-151 | Dự đoán CHỈ dựa trên bài làm Exam Mode đủ điều kiện: Speaking đủ 3 Part; Writing có Task 2 (Task 1 nếu có); ≥ 2 bài thi thử mỗi kỹ năng trong 14 ngày gần nhất `[Đề xuất]` | BR-022 | AC-F16-2 |
+| FR-150 | Hệ thống PHẢI hiển thị dự đoán band **Listening, Reading, Speaking, Writing** riêng biệt và **overall** dưới dạng khoảng (VD: 6.0–6.5); overall chỉ hiển thị khi cả 4 kỹ năng có dự đoán | BR-022 | AC-F16-1 |
+| FR-151 | Dự đoán CHỈ dựa trên bài làm Exam Mode đủ điều kiện: Listening/Reading là bài đủ 40 câu trên đề đã hiệu chỉnh bảng quy đổi (FR-222); Speaking đủ 3 Part; Writing có Task 2 (Task 1 nếu có); ≥ 2 bài thi thử mỗi kỹ năng trong 14 ngày gần nhất `[Đề xuất]` | BR-022 | AC-F16-2 |
 | FR-152 | Trước khi calibration model đạt điều kiện công bố (FR-174), nhãn PHẢI là "Ước lượng AI — **chưa được hiệu chỉnh** bằng điểm thật" và không hiển thị con số sai số; sau khi đạt: "Dự đoán band thật X–Y · sai số trung bình Z trên N kết quả thật · cập nhật ngày D" | BR-022, BR-024 | AC-F16-3 |
 | FR-153 | Mỗi dự đoán PHẢI lưu rubric version, calibration model version và danh sách bài làm đầu vào | BR-022, BR-006 | Metadata có trong DB |
 | FR-154 | Bài chấm bằng model dự phòng (FR-069) KHÔNG được dùng làm đầu vào dự đoán | BR-006, BR-022 | Bài fallback bị loại |
 | FR-155 | Hệ thống NÊN hiển thị "Sẵn sàng đi thi?" so sánh dự đoán với band mục tiêu (FR-010) và gợi ý số tuần luyện thêm | BR-022 | Hiển thị khi có band mục tiêu |
 
-- **AC-F16-1** — Given người học có đủ bài thi thử hợp lệ, When mở trang Dự đoán, Then thấy 2 khoảng band riêng cho Speaking và Writing, không có overall.
+- **AC-F16-1** — Given người học có đủ bài thi thử hợp lệ cả 4 kỹ năng, When mở trang Dự đoán, Then thấy 4 khoảng band riêng và 1 khoảng band overall; nếu thiếu một kỹ năng thì overall không hiển thị và hệ thống chỉ rõ kỹ năng còn thiếu.
 - **AC-F16-2** — Given người học mới chỉ có 1 bài Speaking Part 1, When mở trang Dự đoán, Then hệ thống không đưa dự đoán Speaking và chỉ rõ còn thiếu gì ("cần 2 bài thi đủ 3 Part trong 14 ngày").
 - **AC-F16-3** — Given calibration model chưa đạt FR-174, When hiển thị dự đoán, Then nhãn là "chưa được hiệu chỉnh" và không có chữ "sai số".
 
@@ -650,13 +666,13 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 | ID | Functional Requirement | Source BR | AC |
 |---|---|---|---|
-| FR-160 | Người dùng PHẢI gửi được kết quả thi: ngày thi, dạng thi (Academic/GT, máy/giấy), band Speaking và Writing (bắt buộc); band Listening, Reading, overall (tùy chọn, dùng cho R2) | BR-023 | Form validate band 0–9, bước 0,5 |
+| FR-160 | Người dùng PHẢI gửi được kết quả thi: ngày thi, dạng thi (Academic/GT, máy/giấy), band Listening, Reading, Speaking, Writing và overall | BR-023 | Form validate band 0–9, bước 0,5 |
 | FR-161 | Người dùng PHẢI tải ảnh phiếu điểm để xác minh; hệ thống PHẢI hướng dẫn che ảnh chân dung và số giấy tờ trước khi tải; ảnh tự xóa ≤ 7 ngày sau khi xác minh hoặc từ chối | BR-023, BR-005 | AC-F17-1 |
 | FR-162 | Hệ thống PHẢI lấy **consent riêng** (tách khỏi điều khoản chung) cho việc dùng kết quả để hiệu chỉnh; người dùng rút consent được bất cứ lúc nào | BR-023, BR-005 | AC-F17-2 |
 | FR-163 | Hệ thống PHẢI chống gửi trùng bằng mã phiếu điểm (lưu dạng hash); một cặp chỉ hợp lệ khi có bài thi thử đủ điều kiện trong khoảng **28 ngày trước hoặc sau ngày thi** `[Đề xuất]`, và ghi lại khoảng cách ngày | BR-023 | AC-F17-3 |
 | FR-164 | Admin PHẢI duyệt được từng kết quả (chờ duyệt / đã xác minh / từ chối kèm lý do) và thấy cờ bất thường (VD: band thật lệch ≥ 2 so với ước lượng) | BR-023 | Trang Verification trong admin |
 | FR-165 | Phần thưởng PHẢI cấp sau khi xác minh: 2 tháng Premium `[Đề xuất]`, **như nhau cho mọi mức band** | BR-023 | Credit cộng tự động sau khi "đã xác minh" |
-| FR-166 | Hệ thống PHẢI có luồng **"Vừa thi xong"** (nguồn 1): đăng ký → thi thử Speaking đủ 3 Part + Writing Task 2 (Task 1 tùy chọn), không trừ credit → gửi kết quả | BR-023 | AC-F17-4 |
+| FR-166 | Hệ thống PHẢI có luồng **"Vừa thi xong"** (nguồn 1): đăng ký → thi thử Speaking đủ 3 Part + Writing Task 2 (Task 1 tùy chọn), không trừ credit → gửi kết quả; Listening + Reading tùy chọn, có thưởng thêm 1 tháng Premium `[Đề xuất]` | BR-023 | AC-F17-4 |
 | FR-167 | Hệ thống KHÔNG được hỏi, nhận hoặc lưu nội dung câu hỏi của đề thi thật; form không có ô nhập tự do về đề thi | BR-023 | Kiểm tra form & review |
 
 - **AC-F17-1** — Given admin đã xác minh kết quả lúc T, When đến T + 7 ngày, Then ảnh phiếu điểm bị xóa khỏi storage và chỉ còn các con số đã nhập.
@@ -686,7 +702,7 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 |---|---|---|---|
 | FR-180 | Admin PHẢI tạo được cohort: ngày bắt đầu, 8 tuần, sĩ số tối đa, khoảng ngày thi mục tiêu | BR-026 | Trang Cohort trong admin |
 | FR-181 | Người học PHẢI đăng ký cohort kèm ngày thi dự kiến và band mục tiêu | BR-026 | Form bắt buộc 2 trường |
-| FR-182 | Lộ trình PHẢI có 1 nhiệm vụ/ngày ≤ 20 phút `[Đề xuất]` và 1 bài thi thử đủ (Speaking 3 Part + Writing) mỗi 2 tuần để cập nhật dự đoán (F16) | BR-026, BR-022 | AC-F19-1 |
+| FR-182 | Lộ trình PHẢI có 1 nhiệm vụ/ngày ≤ 20 phút `[Đề xuất]` và 1 bài thi thử đủ 4 kỹ năng mỗi 2 tuần (được chia nhiều ngày trong cùng tuần) để cập nhật dự đoán (F16) | BR-026, BR-022 | AC-F19-1 |
 | FR-183 | Hệ thống PHẢI hiển thị % hoàn thành cá nhân; bảng tiến độ nhóm NÊN có, ẩn danh mặc định, hiện tên khi người học opt-in | BR-026 | Bảng tiến độ ẩn danh mặc định |
 | FR-184 | Cohort NÊN có đặt cọc 100.000đ `[Đề xuất]`, hoàn lại khi (a) hoàn thành ≥ 80% nhiệm vụ **và** (b) gửi kết quả thi thật hợp lệ (F17) trong 30 ngày sau ngày thi; điều khoản hiển thị trước khi nộp cọc; người học chọn nhận lại tiền hoặc đổi thành credit — **chỉ bật sau khi pháp lý duyệt (TBD-18)** | BR-028 | AC-F19-2 |
 | FR-185 | Người học PHẢI cập nhật được ngày thi; điều kiện hoàn cọc tính theo ngày mới, lùi tối đa 60 ngày `[Đề xuất]` | BR-026, BR-028 | Lịch sử thay đổi ngày thi được lưu |
@@ -717,11 +733,59 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 - **AC-F21-1** — Given bộ ELLIPSE được đăng ký với license CC BY-NC-SA, When chạy eval có chọn bộ này, Then pipeline dừng và báo "cần license thương mại".
 
+### 8.22 Feature F22 — Listening & Reading: làm bài (Priority: M)
+
+| ID | Functional Requirement | Source BR | AC |
+|---|---|---|---|
+| FR-200 | Listening PHẢI có 4 phần, tổng 40 câu; Reading PHẢI có 3 bài đọc, tổng 40 câu, 60 phút; cấu trúc và thời gian lưu trong metadata đề | BR-017 | AC-F22-1 |
+| FR-201 | Dạng câu hỏi bắt buộc: Multiple Choice (1 và nhiều đáp án), Form/Note/Table/Sentence/Summary Completion (có giới hạn số từ), True/False/Not Given, Yes/No/Not Given, Matching Headings, Matching Information/Features | BR-017 | Mỗi dạng có renderer và chấm tự động |
+| FR-202 | Dạng câu hỏi NÊN có: Map/Plan/Diagram Labelling, Short-answer Questions | BR-017 | — |
+| FR-203 | Exam Mode Listening PHẢI phát audio **một lần**, không tua, không dừng; audio PHẢI được tải đủ trước khi bắt đầu để mất mạng không làm gián đoạn | BR-017, BR-008 | AC-F22-2 |
+| FR-204 | Practice Mode Listening PHẢI cho phép tua, nghe lại, xem transcript sau khi nộp | BR-017 | Nút tua và transcript chỉ có ở Practice Mode |
+| FR-205 | Chấm tự động PHẢI hỗ trợ biến thể đáp án được chấp nhận, không phân biệt hoa/thường, và quy tắc giới hạn số từ ("NO MORE THAN TWO WORDS"); đáp án vượt giới hạn tính sai | BR-017 | AC-F22-3 |
+| FR-206 | Sau khi nộp, người học PHẢI xem đáp án đúng, giải thích và vị trí bằng chứng trong bài đọc/transcript | BR-017 | Bấm câu hỏi → highlight đoạn chứa đáp án |
+| FR-207 | Autosave và khôi phục bài L/R PHẢI theo FR-023, FR-024; Listening bị gián đoạn trong Exam Mode được đánh dấu "không đủ điều kiện dự đoán" | BR-008, BR-022 | AC-F22-4 |
+| FR-208 | Lỗi L/R PHẢI được gắn error tag theo dạng câu hỏi và kỹ năng con (VD: "bẫy paraphrase", "không nghe được số", "sai chính tả đáp án") vào Error Memory | BR-002 | Error Memory có nhóm L/R |
+| FR-209 | Chấm L/R KHÔNG trừ credit; Free được làm 1 bộ Listening + 1 bộ Reading, Premium làm toàn bộ kho đề `[Đề xuất]` | BR-003 | Kiểm tra entitlement |
+
+- **AC-F22-1** — Given đề Reading đủ điều kiện publish, When người học bắt đầu Exam Mode, Then đồng hồ 60 phút chạy, có 3 bài đọc và 40 câu, tự nộp khi hết giờ.
+- **AC-F22-2** — Given người học mất mạng ở phút 12 của Listening Exam Mode, When audio đang phát, Then audio tiếp tục phát (đã tải trước) và câu trả lời được lưu local.
+- **AC-F22-3** — Given đáp án chuẩn "train station" với giới hạn "NO MORE THAN TWO WORDS", When người học điền "the train station", Then câu được chấm sai; When điền "Train Station", Then chấm đúng.
+- **AC-F22-4** — Given người học đóng tab giữa Listening Exam Mode, When mở lại, Then bài được lưu nhưng gắn nhãn "không đủ điều kiện dự đoán" và người học được mời làm lại đề khác.
+
+### 8.23 Feature F23 — Quy trình soạn đề L/R (Priority: M)
+
+| ID | Functional Requirement | Source BR | AC |
+|---|---|---|---|
+| FR-210 | Đề L/R PHẢI được tạo qua quy trình: AI soạn nháp (bài đọc/kịch bản nghe + câu hỏi + đáp án + giải thích) → kiểm tra tự động → người duyệt → pilot → publish | BR-030 | Trạng thái đề: draft / reviewed / pilot / published |
+| FR-211 | Bài đọc PHẢI là văn bản gốc do AI viết hoặc dựa trên nguồn có quyền sử dụng đã đăng ký (F21); lưu provenance cho từng bài | BR-030, BR-025 | Đề thiếu provenance không publish được |
+| FR-212 | Audio Listening PHẢI tạo bằng TTS có quyền dùng thương mại (TBD-19), nhiều giọng (Anh, Úc, Bắc Mỹ…), có hội thoại nhiều người; audio được tạo một lần và cache | BR-017, BR-030 | Mỗi đề có ≥ 2 giọng khác nhau |
+| FR-213 | Kiểm tra tự động PHẢI xác nhận: mỗi đáp án xuất hiện đúng trong bài đọc/transcript; đáp án tuân thủ giới hạn số từ; câu hỏi đúng thứ tự xuất hiện (khi dạng câu hỏi yêu cầu); không có hai đáp án cùng đúng ở câu trắc nghiệm một đáp án | BR-030 | AC-F23-1 |
+| FR-214 | Người duyệt PHẢI hoàn thành checklist (đáp án duy nhất, phương án nhiễu hợp lý, độ dài bài đọc theo chuẩn, audio rõ, đúng tốc độ) trước khi chuyển sang pilot | BR-030 | Checklist bắt buộc trong admin |
+| FR-215 | Hệ thống và quy trình KHÔNG được crawl hoặc nhập đề từ sách có bản quyền, website luyện thi, hay đề thi thật do thí sinh nhớ lại; công cụ import từ chối đề không có provenance hợp lệ | BR-030 | AC-F23-2 |
+| FR-216 | Người học PHẢI báo lỗi được từng câu hỏi; câu có lỗi đáp án được xác nhận thì sửa và chấm lại cho mọi bài đã làm | BR-030, BR-009 | AC-F23-3 |
+
+- **AC-F23-1** — Given AI soạn câu Completion có đáp án "renewable energy" nhưng cụm này không có trong bài đọc, When chạy kiểm tra tự động, Then đề bị chặn ở trạng thái draft kèm lỗi cụ thể.
+- **AC-F23-2** — Given admin import một đề với provenance "website X", When validate, Then import bị từ chối.
+- **AC-F23-3** — Given câu 17 được xác nhận sai đáp án, When admin sửa, Then mọi bài đã làm đề đó được chấm lại và band quy đổi được cập nhật.
+
+### 8.24 Feature F24 — Bảng quy đổi band L/R theo từng đề (Priority: M)
+
+| ID | Functional Requirement | Source BR | AC |
+|---|---|---|---|
+| FR-220 | Mỗi đề L/R PHẢI có bảng quy đổi điểm thô (0–40) → band riêng, có version; bảng khởi đầu là bảng tham chiếu công khai (gần đúng) | BR-017 | Mỗi đề có bảng v1 |
+| FR-221 | Hệ thống PHẢI tính thống kê từng câu (tỉ lệ đúng, độ phân biệt) và từng đề (điểm trung bình so với các đề khác cùng nhóm người làm); gắn cờ câu quá dễ/quá khó hoặc có độ phân biệt âm | BR-017, BR-024 | Báo cáo item statistics trong admin |
+| FR-222 | Đề CHỈ được dùng cho dự đoán (F16) khi có ≥ 50 lượt làm Exam Mode `[Đề xuất]` và bảng quy đổi đã được điều chỉnh theo độ khó quan sát được; trước đó đề chỉ dùng để luyện, band hiển thị kèm nhãn "đề mới, chưa hiệu chỉnh" | BR-022, BR-024 | AC-F24-1 |
+| FR-223 | Khi có cặp điểm thật L/R (F17), bảng quy đổi PHẢI được hiệu chỉnh tiếp theo quy trình F18, tạo version mới | BR-024 | Version bảng quy đổi gắn với calibration model |
+
+- **AC-F24-1** — Given đề Listening #7 mới có 20 lượt làm, When người học làm đề này ở Exam Mode, Then band hiển thị có nhãn "đề mới, chưa hiệu chỉnh" và bài không được dùng làm đầu vào dự đoán.
+
+
 ---
 
 ## 9. Non-Functional Requirements
 
-> Các target có nhãn `[Đề xuất]` chờ duyệt trước tuần 9.
+> Các target có nhãn `[Đề xuất]` chờ duyệt trước tuần 15.
 
 ### 9.1 Performance
 
@@ -808,7 +872,7 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 |---|---|---|---|---|
 | Google OAuth | Đăng nhập | OAuth 2.0 / OIDC | Client ID + Secret | — |
 | AI provider(s) | Chấm bài (Lớp A), tạo nội dung (Lớp B/C) | HTTPS REST | API key (backend) | `TBD-04`; danh sách Lớp A phải có cam kết không huấn luyện |
-| Speech provider(s) | STT, chấm phát âm ở mức âm/từ (Lớp A); TTS giọng giám khảo và mẫu phát âm (Lớp B, cache lại) | HTTPS REST / streaming | API key (backend) | `TBD-04`; cùng yêu cầu Lớp A như AI provider |
+| Speech provider(s) | STT, chấm phát âm ở mức âm/từ (Lớp A); TTS giọng giám khảo, mẫu phát âm và **audio Listening** (Lớp B, cache lại) | HTTPS REST / streaming | API key (backend) | `TBD-04`; cùng yêu cầu Lớp A như AI provider; TTS phải cho phép dùng thương mại (`TBD-19`) |
 | Payment provider | Thu tiền | HTTPS REST + webhook | API key + chữ ký HMAC | `TBD-07`; ưu tiên VietQR / ví điện tử, thanh toán một lần |
 | Email provider | Xác thực, nhắc học, cảnh báo chi phí | HTTPS API / SMTP | API key | `TBD-09` |
 | Kênh nhắn tin chủ động | Nhắc học hằng ngày (F20) | Theo nhà cung cấp (VD: Zalo OA) | Theo nhà cung cấp | `TBD-16`; kiểm tra chính sách gửi tin chủ động và chi phí |
@@ -825,9 +889,9 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 |---|---|---|
 | `exam_family` | IELTS / TOEIC / SAT | R1 chỉ có IELTS |
 | `exam_variant` | Academic / General Training / TOEIC LR / Digital SAT | R1 chỉ có Academic |
-| `section`, `task_type` | Writing Task 1/2, Speaking Part 1/2/3 … | Cấu trúc section, thời gian (chuẩn bị, thời lượng nói) và luật điều hướng lưu trong metadata, không hard-code UI |
+| `section`, `task_type` | Listening Part 1–4, Reading Passage 1–3, Writing Task 1/2, Speaking Part 1/2/3 … | Cấu trúc section, thời gian (chuẩn bị, thời lượng nói, thời gian làm bài) và luật điều hướng (audio phát một lần) lưu trong metadata, không hard-code UI |
 | `item` (đề) | id, version, nội dung, dữ liệu biểu đồ (Task 1), độ khó, provenance, quyền sử dụng, cờ AI-generated, trạng thái review | Registry dạng câu hỏi mở rộng được (câu nhóm, ảnh, tự điền, LaTeX) |
-| `scoring_strategy` | rubric_ai (IELTS Writing), speech_rubric_ai (IELTS Speaking), answer_key, raw_to_band, raw_to_scaled (TOEIC), adaptive_module (SAT) | R1 triển khai rubric_ai và speech_rubric_ai |
+| `scoring_strategy` | rubric_ai (IELTS Writing), speech_rubric_ai (IELTS Speaking), answer_key + raw_to_band theo đề (IELTS L/R), raw_to_scaled (TOEIC), adaptive_module (SAT) | R1 triển khai rubric_ai, speech_rubric_ai, answer_key + raw_to_band |
 | `rubric_version` | tiêu chí, prompt version, model chấm chính, JSON schema version | Xem FR-076 |
 | `attempt` | user, item, mode, nội dung, version, trạng thái | — |
 | `recording` | attempt, câu hỏi, đường dẫn audio, thời lượng, trạng thái upload, hạn xóa | Tự xóa sau 30 ngày; transcript và kết quả giữ lại |
@@ -846,6 +910,9 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 | `cohort`, `cohort_member` | lịch, ngày thi mục tiêu, % hoàn thành, trạng thái cọc | — |
 | `deposit` | số tiền, trạng thái (đã nộp/đã hoàn/không hoàn/đổi credit), lý do | Liên kết `payment_order` |
 | `dataset_registry` | tên, nguồn, license, cờ thương mại, file thỏa thuận | F21 |
+| `conversion_table` | đề, version, ánh xạ 0–40 → band, trạng thái hiệu chỉnh | F24 |
+| `item_stats` | câu hỏi, số lượt, tỉ lệ đúng, độ phân biệt, cờ | F24 |
+| `content_review` | đề, người duyệt, checklist, kết quả kiểm tra tự động, trạng thái | F23 |
 
 > ⚠️ Chỉ đặt đúng tên và trường ở R1. Phần triển khai dùng chung thực sự làm khi bắt tay vào R4 (TOEIC), tránh trừu tượng hóa quá sớm.
 
@@ -863,7 +930,7 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 ### 11.3 Content Quality Gates (trước khi publish đề)
 
-1. Validate schema. 2. Kiểm tra dữ liệu biểu đồ khớp hình hiển thị (Task 1). 3. Nghe lại audio TTS câu hỏi Speaking. 4. Kiểm tra quyền sử dụng & provenance. 5. Review nội dung AI-generated. 6. Nội dung chưa chắc chắn giữ ở trạng thái draft.
+1. Validate schema. 2. Kiểm tra dữ liệu biểu đồ khớp hình hiển thị (Task 1). 3. Nghe lại audio TTS câu hỏi Speaking. 4. **L/R: kiểm tra tự động (FR-213), checklist người duyệt (FR-214), nghe lại toàn bộ audio Listening, pilot trước khi dùng cho dự đoán (FR-222).** 5. Kiểm tra quyền sử dụng & provenance; không có đề crawl (FR-215). 6. Review nội dung AI-generated. 7. Nội dung chưa chắc chắn giữ ở trạng thái draft.
 
 ---
 
@@ -876,6 +943,8 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 | Người chưa thành niên (P2) | ✅ | Thông báo viết cho độ tuổi người dùng, tối thiểu hóa dữ liệu; cơ chế đồng ý của cha mẹ/người giám hộ theo quy định — bắt buộc trước R4 (SAT), rà soát cho R1 (đặc biệt với phiếu điểm và đặt cọc) |
 | Kết quả thi thật & phiếu điểm | ✅ | Consent riêng cho mục đích hiệu chỉnh; tối thiểu hóa (che ảnh, số giấy tờ; xóa ảnh ≤ 7 ngày); quyền rút consent — **`TBD-12`** |
 | Bảo mật đề thi | ✅ | Không thu thập nội dung câu hỏi đề thi thật (FR-167) |
+| Nguồn đề L/R | ✅ | Chỉ đề tự soạn/có quyền; không crawl; không dùng sách đề có bản quyền hay đề thi thật do thí sinh nhớ lại (FR-215) |
+| Giọng TTS | ✅ | Điều khoản TTS phải cho phép phân phối audio trong sản phẩm thương mại (`TBD-19`) |
 | License bộ dữ liệu | ✅ | Đa số bộ phù hợp là phi thương mại (§16); chỉ dùng khi có quyền thương mại (F21) |
 | Quảng cáo độ chính xác | ✅ | Chỉ công bố số liệu đo được, kèm N và ngày (FR-174) — **`TBD-18`** |
 | Đặt cọc & cam kết hoàn tiền | ✅ | Cần xác định khung pháp lý phù hợp trước khi bật FR-184 và FR-175 — **`TBD-18`** |
@@ -890,8 +959,8 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 | Gói | Giá | Credit | Ghi chú |
 |---|---|---|---|
-| Free | 0đ | Diagnostic + 3 credit tổng `[Đề xuất]` | Đủ trải nghiệm vòng lặp chấm → rewrite |
-| Premium tháng | **69.000đ** | 30/tháng `[Đề xuất]` (VD: 10 bài thi Speaking đủ 3 Part, hoặc 30 bài Writing, hoặc kết hợp) | Không tự gia hạn trong R1 |
+| Free | 0đ | Diagnostic + 3 credit tổng `[Đề xuất]` + 1 bộ Listening + 1 bộ Reading | Đủ trải nghiệm vòng lặp chấm → rewrite và thấy dự đoán |
+| Premium tháng | **69.000đ** | 30/tháng `[Đề xuất]` (VD: 10 bài thi Speaking đủ 3 Part, hoặc 30 bài Writing, hoặc kết hợp); **Listening/Reading không tốn credit**, làm toàn bộ kho đề | Không tự gia hạn trong R1 |
 | Gói 3 tháng | 179.000đ `[Đề xuất]` | 90 trong 3 tháng | Khớp chu kỳ ôn thi |
 | **Cohort 8 tuần** | 199.000đ `[Đề xuất]` + cọc 100.000đ hoàn lại (FR-184) | Premium trong 8 tuần | Lợi thế C; nguồn dữ liệu chất lượng cao cho A |
 | Cam kết theo kết quả (R1.5) | `TBD` | — | Chỉ bật khi O8 đạt (FR-175) |
@@ -905,7 +974,7 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 ## 14. Lỗi đặc trưng của người Việt — danh sách khởi đầu
 
-> Đây là **giả thuyết ban đầu** dựa trên các lỗi phổ biến của người học tiếng Anh có tiếng mẹ đẻ là tiếng Việt. Phải kiểm chứng và tinh chỉnh bằng eval set Speaking/Writing (FR-091) và người review có chuyên môn (`TBD-13`) trước tuần 9.
+> Đây là **giả thuyết ban đầu** dựa trên các lỗi phổ biến của người học tiếng Anh có tiếng mẹ đẻ là tiếng Việt. Phải kiểm chứng và tinh chỉnh bằng eval set Speaking/Writing (FR-091) và người review có chuyên môn (`TBD-13`) trước tuần 15.
 
 | Nhóm | Lỗi | Ví dụ | Kỹ năng | `root_cause` (dùng cho insight xuyên kỹ năng) |
 |---|---|---|---|---|
@@ -953,10 +1022,10 @@ Sản phẩm gồm: (0) **dự đoán band thật** có khoảng sai số và **
 
 | Bước | Nguồn | Mục đích | Được dùng để |
 |---|---|---|---|
-| 1 (tuần 1–3) | **Nguồn 4 — dữ liệu công khai** + eval set tự xây | Kiểm tra và làm vững bộ chấm trước khi mở beta | Đánh giá nội bộ bộ chấm; **không** hiệu chỉnh theo band IELTS |
-| 2 (tuần 10) | Open beta | Có người dùng và bài thi thử | — |
-| 3 (từ tuần 10) | **Nguồn 1 — người vừa thi xong** (luồng FR-166) | Tạo cặp dữ liệu nhanh, không phải chờ người học đi thi | **Hiệu chỉnh** dự đoán band thật |
-| 4 (từ tuần 12) | Cohort (F19) | Cặp chất lượng cao, có lịch sử 8 tuần | Hiệu chỉnh, lâu dài |
+| 1 (tuần 1–3) | **Nguồn 4 — dữ liệu công khai** + eval set tự xây (kho đề L/R xây ở tuần 9–15) | Kiểm tra và làm vững bộ chấm trước khi mở beta | Đánh giá nội bộ bộ chấm; **không** hiệu chỉnh theo band IELTS |
+| 2 (tuần 16) | Open beta | Có người dùng và bài thi thử | — |
+| 3 (từ tuần 16) | **Nguồn 1 — người vừa thi xong** (luồng FR-166) | Tạo cặp dữ liệu nhanh, không phải chờ người học đi thi | **Hiệu chỉnh** dự đoán band thật |
+| 4 (từ tuần 18) | Cohort (F19) | Cặp chất lượng cao, có lịch sử 8 tuần | Hiệu chỉnh, lâu dài |
 | Sau | Nguồn 3 — trung tâm/giáo viên | Mở rộng số cặp theo lớp | Hiệu chỉnh + cửa vào B2B |
 
 ### 16.2 Nguồn 4 — bộ dữ liệu công khai (tra cứu 09/2026)
@@ -1019,7 +1088,7 @@ Nguồn: [speechocean762 — OpenSLR](https://www.openslr.org/101/) · [L2-ARCTI
 | R6 | Vi phạm bản quyền đề | Low | High | Tự biên soạn, biểu đồ tự tạo, provenance, hoãn upload |
 | R7 | Chậm onboarding payment provider | Med | Med | Xác nhận chuyển khoản thủ công có audit log (FR-064); kiểm tra điều kiện ở tuần 1 |
 | R8 | Founder solo trễ tiến độ (Speaking làm tăng khối lượng) | High | High | Writing chỉ dựng lõi ở tuần 4–5; Should nằm cuối timeline; thứ tự cắt scope ở §18 (cắt Writing Task 1 trước lõi A + C) |
-| R9 | Người dùng không trả tiền (sai giả thuyết) | Med | High | Open beta + bán từ tuần 10; đo O6; quyết định tiếp tục/điều chỉnh ở tuần 16 |
+| R9 | Người dùng không trả tiền (sai giả thuyết) | Med | High | Open beta + bán từ tuần 16; đo O6; quyết định tiếp tục/điều chỉnh ở tuần 22 |
 | R10 | Người chưa thành niên | Med | Med | Tối thiểu hóa dữ liệu, thông báo viết cho độ tuổi người dùng, rà soát pháp lý trước public launch |
 | R11 | Người học thấy ChatGPT (kể cả chế độ giọng nói) "đủ dùng" để luyện | High | High | Không cạnh tranh ở tính năng luyện; cạnh tranh bằng dự đoán band thật (A) và cohort (C) (§2.7); đo O6 |
 | R12 | Chấm phát âm không chính xác với giọng người Việt | Med | High | Xác minh speech provider ở tuần 1 (A5) và eval set Speaking (FR-091); chỉ hiện lỗi phát âm có độ tin cậy trên ngưỡng; nút báo sai |
@@ -1031,25 +1100,32 @@ Nguồn: [speechocean762 — OpenSLR](https://www.openslr.org/101/) · [L2-ARCTI
 | R18 | Dự đoán lệch nhiều khi đã công bố | Med | High | Chỉ công bố khi đủ holdout; hiển thị N và MAE thật; theo dõi liên tục sau công bố |
 | R19 | Đặt cọc/hoàn tiền vướng pháp lý | Med | Med | Chỉ bật sau khi pháp lý duyệt (TBD-18); cohort vẫn chạy được khi không có cọc |
 | R20 | ChatGPT/đối thủ cũng thu thập điểm thật | Low | High | Đi trước về dữ liệu người Việt; công bố sớm con số thật; cohort tạo cộng đồng |
+| R21 | Đề L/R do AI soạn có đáp án sai hoặc mơ hồ | Med | High | Kiểm tra tự động (FR-213), checklist duyệt (FR-214), pilot + thống kê câu hỏi (FR-221), báo lỗi và chấm lại (FR-216) |
+| R22 | Sản xuất đề L/R chiếm quá nhiều thời gian của Founder | High | High | Mục tiêu tối thiểu 6 bộ mỗi loại trước beta; có thể giảm còn 4 (§18); cân nhắc cộng tác viên duyệt (TBD-20) |
+| R23 | Độ khó đề tự soạn khác đề thật làm lệch dự đoán L/R | Med | High | Bảng quy đổi riêng từng đề, chỉ dùng đề đã pilot cho dự đoán (FR-222), hiệu chỉnh bằng cặp điểm thật (FR-223) |
+| R24 | Áp lực dùng đề crawl để có nhiều đề nhanh | Med | High | Cấm trong quy trình và công cụ import (FR-215); provenance bắt buộc |
 
 ---
 
-## 18. Roadmap 16 tuần
+## 18. Roadmap 22 tuần
 
 | Tuần | Milestone | Deliverables | Pass criteria |
 |---|---|---|---|
-| 1–3 | **P0 — Nguồn 4 & nền tảng** | F21 dataset registry; đánh giá speech provider bằng speechocean762; gửi yêu cầu license (TBD-15); tuyển tình nguyện viên xây eval set; kiểm tra A1, A5, A2; **đăng lời mời thử kiểm chứng A7**; data model §11.1 | Có danh sách provider Lớp A; chi phí Speaking ≤ 5.000đ/bài thi; eval set ≥ 30 Speaking + ≥ 40 Writing; A7 có kết quả |
+| 1–3 | **P0 — Nguồn 4 & nền tảng** | F21 dataset registry; đánh giá speech provider bằng speechocean762; gửi yêu cầu license (TBD-15); tuyển tình nguyện viên xây eval set; kiểm tra A1, A5, A2; chọn TTS (TBD-19); **đăng lời mời thử kiểm chứng A7**; data model §11.1 | Có danh sách provider Lớp A; chi phí Speaking ≤ 5.000đ/bài thi; eval set ≥ 30 Speaking + ≥ 40 Writing; A7 có kết quả |
 | 4–5 | M1 — Lõi + Writing Task 2 | F1, F3 (Task 2), F4, F9 cơ bản | O1(b)(c) đạt trên eval set Writing |
 | 6–8 | M2 — Speaking | F13, F14, taxonomy lỗi người Việt v1 (§14) | Thi đủ 3 Part → report ≤ 120s (p95); ghi âm chạy trên ma trận `TBD-14`; O1(b) đạt trên eval set Speaking |
-| 9 | M3 — Dự đoán & thu thập | F16 (trạng thái "chưa hiệu chỉnh"), F17 + luồng "Vừa thi xong", F8 credit + xác nhận chuyển khoản thủ công, F2 | Luồng gửi phiếu điểm → duyệt → thưởng chạy đầu-cuối; ảnh tự xóa ≤ 7 ngày |
-| 10 | **M4 — Open beta + bắt đầu bán** | Landing page theo §2.7; chiến dịch nguồn 1 | Thanh toán đầu tiên; cặp dữ liệu đầu tiên được xác minh |
-| 11–12 | M5 — Cohort | F19 (chưa có cọc nếu TBD-18 chưa xong), F20 qua email, F18 trang dữ liệu hiệu chỉnh | **Cohort #1 khai giảng tuần 12** |
-| 13–16 | M6 — Hoàn thiện & đo | F5, Writing Task 1, F10 đầy đủ, FR-074 trần chi phí, backup/restore; hiệu chỉnh nội bộ lần đầu khi ≥ 50 cặp/kỹ năng | Đo O1–O7; quyết định tiếp tục/điều chỉnh |
-| Tháng 5–9 | M7 — Công bố & cam kết | Cohort #2–#3; ≥ 300 cặp/kỹ năng; công bố độ chính xác (FR-174); R1.5 khi O8 đạt | O8 đạt → bật FR-175 theo từng mức band |
+| 9–11 | M3 — Listening & Reading engine | F22 (dạng câu hỏi bắt buộc, audio phát một lần, chấm tự động), F23 quy trình soạn đề + kiểm tra tự động, F24 bảng quy đổi v1 | Làm đủ 1 bộ L + 1 bộ R đầu-cuối; kiểm tra tự động bắt được lỗi đáp án cài sẵn |
+| 9–15 | Song song — Sản xuất đề | Soạn, duyệt, pilot với tình nguyện viên | **≥ 6 bộ Listening + ≥ 6 bộ Reading** published trước tuần 16 `[Đề xuất]` |
+| 12–13 | M4 — Dự đoán & thu thập | F16 (4 kỹ năng + overall, "chưa hiệu chỉnh"), F17 + luồng "Vừa thi xong", F8 credit + xác nhận chuyển khoản thủ công, F2, full mock | Luồng gửi phiếu điểm → duyệt → thưởng chạy đầu-cuối; ảnh tự xóa ≤ 7 ngày |
+| 14–15 | M5 — Ổn định & pháp lý | Hardening, landing page theo §2.7, rà soát TBD-12, backup/restore | Không còn lỗi critical; TBD-12 đã có kết luận |
+| 16 | **M6 — Open beta + bắt đầu bán** | Chiến dịch nguồn 1 | Thanh toán đầu tiên; cặp dữ liệu đầu tiên được xác minh |
+| 17–18 | M7 — Cohort | F19 (chưa có cọc nếu TBD-18 chưa xong), F20 qua email, F18 trang dữ liệu hiệu chỉnh | **Cohort #1 khai giảng tuần 18** |
+| 19–22 | M8 — Hoàn thiện & đo | F5, Writing Task 1, F10 đầy đủ, FR-074 trần chi phí; hiệu chỉnh bảng quy đổi L/R (FR-222) và hiệu chỉnh nội bộ lần đầu khi ≥ 50 cặp/kỹ năng; thêm đề đến ≥ 12 bộ mỗi loại | Đo O1–O7, O10; quyết định tiếp tục/điều chỉnh |
+| Tháng 6–11 | M9 — Công bố & cam kết | Cohort #2–#4; ≥ 300 cặp/kỹ năng; công bố độ chính xác (FR-174); R1.5 khi O8 đạt | O8 đạt → bật FR-175 theo từng mức band |
 
-**Thứ tự cắt scope nếu trễ:** FR-098 referral → FR-095 chia sẻ report → F6/FR-124 drill → FR-057 biểu đồ tiến bộ → FR-122 insight xuyên kỹ năng → tự động hóa thanh toán (giữ xác nhận thủ công) → **Writing Task 1** (giữ Task 2) → kênh Zalo (giữ email) → đặt cọc (cohort vẫn chạy không cọc).
+**Thứ tự cắt scope nếu trễ:** FR-098 referral → FR-095 chia sẻ report → F6/FR-124 drill → FR-057 biểu đồ tiến bộ → FR-122 insight xuyên kỹ năng → FR-202 dạng câu hỏi L/R bổ sung → tự động hóa thanh toán (giữ xác nhận thủ công) → **Writing Task 1** (giữ Task 2) → kênh Zalo (giữ email) → đặt cọc (cohort vẫn chạy không cọc) → **giảm số bộ đề L/R trước open beta xuống 4 mỗi loại**.
 
-**Không cắt:** F16 dự đoán, F17 thu thập kết quả, F18 hiệu chỉnh, F19 cohort cơ bản, Speaking (F13, F14) — đây là lõi của lợi thế A + C.
+**Không cắt:** F16 dự đoán, F17 thu thập kết quả, F18 hiệu chỉnh, F19 cohort cơ bản, Speaking (F13, F14), L/R engine và kiểm tra đáp án (F22, FR-213, FR-214) — đây là lõi của lợi thế A + C.
 
 **Cũng không cắt:** bảo mật & cách ly dữ liệu, nhãn band không chính thức và nhãn trạng thái hiệu chỉnh, validate bằng chứng, autosave/lưu bản ghi, credit ở backend, xác minh thanh toán, phân loại dữ liệu Lớp A, không suy ra phát âm từ transcript, xóa audio sau 30 ngày, consent & xóa ảnh phiếu điểm, kiểm tra license dữ liệu, quyền nội dung.
 
@@ -1059,24 +1135,26 @@ Nguồn: [speechocean762 — OpenSLR](https://www.openslr.org/101/) · [L2-ARCTI
 
 | ID | Nội dung | Hạn chốt |
 |---|---|---|
-| TBD-01 | Phân khúc beta (P1/P2/P3) và **duyệt các ngưỡng `[Đề xuất]`** (KPI, credit, giá gói, cohort, phần thưởng, NFR) | Trước tuần 9 |
-| TBD-02 | Tên thương hiệu chung | Trước landing page (tuần 5) |
+| TBD-01 | Phân khúc beta (P1/P2/P3) và **duyệt các ngưỡng `[Đề xuất]`** (KPI, credit, giá gói, cohort, phần thưởng, NFR) | Trước tuần 15 |
+| TBD-02 | Tên thương hiệu chung | Trước landing page (tuần 14) |
 | TBD-03 | Kênh tăng trưởng chính | Tuần 4 |
 | TBD-04 | AI provider/model Lớp A (chấm) và Lớp B/C; **speech provider** (STT, chấm phát âm, TTS) | Tuần 1 |
 | TBD-05 | Rubric mapping chi tiết (Writing tuần 2, Speaking tuần 5), JSON schema, taxonomy lỗi v1 | Tuần 2 / tuần 5 |
-| TBD-06 | Chính sách hoàn tiền | Trước tuần 10 |
-| TBD-07 | Payment provider, điều kiện pháp lý, phí | Tuần 1 (kiểm tra), tuần 12 (tích hợp tự động) |
+| TBD-06 | Chính sách hoàn tiền | Trước tuần 16 |
+| TBD-07 | Payment provider, điều kiện pháp lý, phí | Tuần 1 (kiểm tra), tuần 18 (tích hợp tự động) |
 | TBD-08 | Hình thức pháp lý của Founder (cá nhân/hộ kinh doanh/doanh nghiệp) để thu tiền | Tuần 1 |
-| TBD-09 | Email provider, lịch nhắc | Tuần 9 |
+| TBD-09 | Email provider, lịch nhắc | Tuần 17 |
 | TBD-10 | VPS/storage provider, trần chi phí hạ tầng, thời hạn backup | Tuần 1 |
-| TBD-11 | Quy trình support và định nghĩa mức độ nghiêm trọng | Trước tuần 10 |
-| TBD-12 | Rà soát pháp lý: dữ liệu cá nhân, **ghi âm giọng nói**, **phiếu điểm**, chuyển dữ liệu ra nước ngoài, người chưa thành niên, điều khoản, lưu chứng từ | Trước open beta (tuần 10) |
+| TBD-11 | Quy trình support và định nghĩa mức độ nghiêm trọng | Trước tuần 16 |
+| TBD-12 | Rà soát pháp lý: dữ liệu cá nhân, **ghi âm giọng nói**, **phiếu điểm**, chuyển dữ liệu ra nước ngoài, người chưa thành niên, điều khoản, lưu chứng từ | Trước open beta (tuần 16) |
 | TBD-13 | Người review có chuyên môn cho danh sách lỗi đặc trưng của người Việt (§14) và eval set Speaking | Tuần 3 |
 | TBD-14 | Ma trận trình duyệt/thiết bị hỗ trợ ghi âm, định dạng/codec audio, thời lượng tối đa | Tuần 6 |
 | TBD-15 | License thương mại cho bộ dữ liệu nguồn 4 (L2-ARCTIC, Cambridge S&I/W&I, ICNALE…) và xác nhận pháp lý về việc dùng bộ phi thương mại | Gửi yêu cầu tuần 1; kết luận tuần 3 |
-| TBD-16 | Kênh nhắn tin chủ động (Zalo OA hoặc thay thế): chính sách, chi phí, điều kiện đăng ký | Tuần 8 |
-| TBD-17 | Phần thưởng và điều kiện cặp dữ liệu hợp lệ (mức thưởng, cửa sổ 28 ngày) | Tuần 9 |
-| TBD-18 | Pháp lý cho đặt cọc cohort, cam kết hoàn tiền theo kết quả, và quảng cáo độ chính xác | Đặt cọc: trước tuần 12; hoàn tiền: trước R1.5 |
+| TBD-16 | Kênh nhắn tin chủ động (Zalo OA hoặc thay thế): chính sách, chi phí, điều kiện đăng ký | Tuần 16 |
+| TBD-17 | Phần thưởng và điều kiện cặp dữ liệu hợp lệ (mức thưởng, cửa sổ 28 ngày) | Tuần 12 |
+| TBD-18 | Pháp lý cho đặt cọc cohort, cam kết hoàn tiền theo kết quả, và quảng cáo độ chính xác | Đặt cọc: trước tuần 18; hoàn tiền: trước R1.5 |
+| TBD-19 | Nhà cung cấp TTS cho audio Listening: chất lượng giọng, đa giọng, **quyền dùng thương mại** audio | Tuần 3 |
+| TBD-20 | Người duyệt đề L/R (Founder hay cộng tác viên), định mức thời gian duyệt/bộ đề | Tuần 8 |
 
 ---
 
@@ -1087,14 +1165,14 @@ Nguồn: [speechocean762 — OpenSLR](https://www.openslr.org/101/) · [L2-ARCTI
 | BR-ID | FR-ID(s) | NFR-ID(s) | Test Case(s) | Status |
 |---|---|---|---|---|
 | BR-001 | FR-010, FR-011, FR-020, FR-021, FR-022, FR-026, FR-030–FR-036, FR-090, FR-092 | NFR-P01, NFR-U04 | TC-001 – TC-012 | Todo |
-| BR-002 | FR-012, FR-040–FR-044, FR-083 | — | TC-020 – TC-025 | Todo |
-| BR-003 | FR-011, FR-025, FR-027, FR-038, FR-039, FR-052, FR-060–FR-066, FR-071, FR-116 | NFR-S08 | TC-030 – TC-040 | Todo |
+| BR-002 | FR-012, FR-040–FR-044, FR-083, FR-208 | — | TC-020 – TC-025 | Todo |
+| BR-003 | FR-011, FR-025, FR-027, FR-038, FR-039, FR-052, FR-060–FR-066, FR-071, FR-116, FR-209 | NFR-S08 | TC-030 – TC-040 | Todo |
 | BR-004 | FR-051, FR-068, FR-070, FR-071, FR-074, FR-124 | NFR-COST01, NFR-COST02, NFR-COST03 | TC-045 – TC-049 | Todo |
 | BR-005 | FR-005, FR-006, FR-067, FR-073 | NFR-S06, NFR-S09 | TC-050 – TC-053 | Todo |
 | BR-006 | FR-013, FR-031, FR-036, FR-037, FR-045, FR-069, FR-072, FR-075, FR-076, FR-091, FR-111, FR-115, FR-117, FR-123 | NFR-M03 | TC-055 – TC-062 | Todo |
 | BR-007 | FR-001–FR-005, FR-084 | NFR-S01–NFR-S05, NFR-S07 | TC-065 – TC-072 | Todo |
-| BR-008 | FR-023–FR-025, FR-038, FR-068, FR-106–FR-108, FR-116 | NFR-P04, NFR-R02, NFR-R05, NFR-R06 | TC-075 – TC-079 | Todo |
-| BR-009 | FR-037, FR-073, FR-080–FR-082, FR-085, FR-090, FR-117 | NFR-R03, NFR-R04 | TC-080 – TC-085 | Todo |
+| BR-008 | FR-023–FR-025, FR-038, FR-068, FR-106–FR-108, FR-116, FR-203, FR-207 | NFR-P04, NFR-R02, NFR-R05, NFR-R06 | TC-075 – TC-079 | Todo |
+| BR-009 | FR-037, FR-073, FR-080–FR-082, FR-085, FR-090, FR-117, FR-216 | NFR-R03, NFR-R04 | TC-080 – TC-085 | Todo |
 | BR-010 | FR-040, §11.1 data model | NFR-PS02 | TC-088 – TC-089 | Todo |
 | BR-011 | FR-050–FR-052, FR-124 | — | TC-090 – TC-092 | Todo |
 | BR-012 | FR-055–FR-057 | NFR-U01 | TC-095 – TC-097 | Todo |
@@ -1104,15 +1182,17 @@ Nguồn: [speechocean762 — OpenSLR](https://www.openslr.org/101/) · [L2-ARCTI
 | BR-016 | FR-011, FR-044, FR-091, FR-100–FR-117 | NFR-P05, NFR-P06, NFR-R06, NFR-C04, NFR-S09 | TC-120 – TC-140 | Todo |
 | BR-020 | FR-096, FR-113, FR-120, FR-121, FR-124 | — | TC-145 – TC-150 | Todo |
 | BR-021 | FR-055, FR-122, FR-123 | — | TC-155 – TC-158 | Todo |
-| BR-022 | FR-150–FR-155, FR-182 | NFR-P07, NFR-U04 | TC-160 – TC-166 | Todo |
+| BR-022 | FR-150–FR-155, FR-182, FR-207, FR-222 | NFR-P07, NFR-U04 | TC-160 – TC-166 | Todo |
 | BR-023 | FR-160–FR-167 | NFR-S10, NFR-S11 | TC-170 – TC-178 | Todo |
-| BR-024 | FR-152, FR-170–FR-174, FR-176 | — | TC-180 – TC-186 | Todo |
-| BR-025 | FR-195–FR-197 | — | TC-190 – TC-192 | Todo |
+| BR-024 | FR-152, FR-170–FR-174, FR-176, FR-221–FR-223 | — | TC-180 – TC-186 | Todo |
+| BR-025 | FR-195–FR-197, FR-211 | — | TC-190 – TC-192 | Todo |
 | BR-026 | FR-180–FR-183, FR-185, FR-186 | — | TC-195 – TC-200 | Todo |
 | BR-027 | FR-190–FR-193 | — | TC-205 – TC-208 | Todo |
 | BR-028 | FR-184, FR-185 | — | TC-210 – TC-212 | Todo |
+| BR-017 | FR-044, FR-200–FR-206, FR-209, FR-212, FR-220–FR-223 | — | TC-220 – TC-235 | Todo |
+| BR-030 | FR-210, FR-211, FR-213–FR-216 | — | TC-240 – TC-246 | Todo |
 
-**Kiểm tra orphan:** mọi FR trong §8 đều trace về ≥ 1 BR; mọi BR in-scope đều có ≥ 1 FR. BR-017 – BR-019 là Won't, không có FR ở R1. BR-029 (Won't ở R1) có FR-175 được xây sẵn công tắc nhưng khóa cho tới R1.5.
+**Kiểm tra orphan:** mọi FR trong §8 đều trace về ≥ 1 BR; mọi BR in-scope đều có ≥ 1 FR. BR-018, BR-019 là Won't, không có FR ở R1. BR-029 (Won't ở R1) có FR-175 được xây sẵn công tắc nhưng khóa cho tới R1.5.
 
 ---
 
@@ -1137,6 +1217,9 @@ Nguồn: [speechocean762 — OpenSLR](https://www.openslr.org/101/) · [L2-ARCTI
 | Cohort | Nhóm học 8 tuần có ngày thi mục tiêu và lộ trình chung |
 | Phiếu điểm (TRF) | Test Report Form — phiếu kết quả IELTS chính thức |
 | Nguồn 1 / 3 / 4 | Người vừa thi xong / trung tâm–giáo viên / bộ dữ liệu công khai (§16) |
+| Bảng quy đổi (conversion table) | Ánh xạ điểm thô 0–40 của một đề L/R sang band, riêng cho từng đề |
+| Pilot | Giai đoạn đề mới được làm thử để đo độ khó trước khi dùng cho dự đoán |
+| Item statistics | Thống kê từng câu hỏi: tỉ lệ đúng, độ phân biệt |
 | Retest | Làm đề tương đương để kiểm tra lỗi lặp lại đã được sửa hay chưa |
 | Lớp A / B / C | Phân loại dữ liệu gửi tới AI provider (§8.9) |
 | Circuit breaker | Cơ chế tạm ngừng gọi provider đang lỗi và chuyển sang provider dự phòng |

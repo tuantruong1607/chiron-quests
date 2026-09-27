@@ -99,7 +99,7 @@ strong.ac { color:var(--accent); }
 <li><a href="#15-chiến-lược-đa-kỳ-thi">15. Chiến lược đa kỳ thi</a></li>
 <li><a href="#16-chiến-lược-dữ-liệu-hiệu-chỉnh">16. Chiến lược dữ liệu &amp; hiệu chỉnh</a></li>
 <li><a href="#17-risks-mitigations">17. Risks &amp; Mitigations</a></li>
-<li><a href="#18-roadmap-16-tuần">18. Roadmap 16 tuần</a></li>
+<li><a href="#18-roadmap-22-tuần">18. Roadmap 22 tuần</a></li>
 <li><a href="#19-open-issues-tbd">19. Open Issues (TBD)</a></li>
 <li><a href="#20-traceability-matrix">20. Traceability Matrix</a></li>
 <li><a href="#21-glossary">21. Glossary</a></li>
@@ -113,7 +113,7 @@ strong.ac { color:var(--accent); }
 <p>Chuẩn IIBA BABOK v3 (Agile Perspective) + cấu trúc SRS (BRD + FRD + NFR).
 Thay thế PRD v1.0 – v1.2. Lợi thế cạnh tranh chuyển từ <strong>tính năng AI</strong> (ChatGPT đã làm tốt, xem §2.7)
 sang hai thứ ChatGPT về cấu trúc không có: <strong>(A) dự đoán band được hiệu chỉnh bằng điểm thi thật của người Việt</strong>
-và <strong>(C) cohort có cam kết, chủ động đồng hành đến ngày thi</strong>. Speaking + Writing là công cụ đo.</p>
+và <strong>(C) cohort có cam kết, chủ động đồng hành đến ngày thi</strong>. Đủ 4 kỹ năng (Listening, Reading, Speaking, Writing) là công cụ đo, để dự đoán cả <strong>band overall</strong>.</p>
 </blockquote>
 <hr />
 <h2 id="document-control">Document Control</h2>
@@ -131,7 +131,7 @@ và <strong>(C) cohort có cam kết, chủ động đồng hành đến ngày t
 </tr>
 <tr>
 <td>Version</td>
-<td>2.0</td>
+<td>2.1</td>
 </tr>
 <tr>
 <td>Status</td>
@@ -200,6 +200,61 @@ và <strong>(C) cohort có cam kết, chủ động đồng hành đến ngày t
 <td>2026-09-27</td>
 <td>BA (Claude) + Founder</td>
 <td>Định vị "Band thật" (A) + Cohort cam kết (C); chiến lược dữ liệu nguồn 4 → open beta → hiệu chỉnh bằng nguồn 1; xem bảng "Thay đổi so với v1.2"</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>2026-09-27</td>
+<td>BA (Claude) + Founder</td>
+<td>Thêm Listening &amp; Reading <strong>trước open beta</strong>; đề do AI soạn + người duyệt (không crawl); dự đoán band overall; roadmap 22 tuần; xem bảng "Thay đổi so với v2.0"</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="thay-đổi-so-với-v2-0-founder-duyệt-2026-09-27">Thay đổi so với v2.0 (Founder duyệt 2026-09-27)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Hạng mục</th>
+<th>v2.0</th>
+<th>v2.1</th>
+<th>Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Kỹ năng trong R1</td>
+<td>Speaking + Writing</td>
+<td><strong>Thêm Listening + Reading</strong> (Academic), trước open beta</td>
+<td>Người học quan tâm band <strong>overall</strong>; L/R chấm theo đáp án nên dễ dự đoán nhất</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Nguồn đề L/R</td>
+<td>—</td>
+<td><strong>AI soạn + người duyệt</strong>; audio Listening bằng TTS nhiều giọng; <strong>không crawl</strong> đề trên mạng, không dùng đề sách có bản quyền hay đề thi thật do thí sinh nhớ lại (FR-215)</td>
+<td>Crawl = vi phạm bản quyền/bảo mật đề; phá uy tín "band thật"; đề crawl có đáp án sai và độ khó không rõ</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Dự đoán</td>
+<td>Speaking, Writing</td>
+<td>+ <strong>Listening, Reading và overall</strong></td>
+<td>Hoàn thiện lợi thế A</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Quy đổi band L/R</td>
+<td>—</td>
+<td><strong>Bảng quy đổi riêng cho từng đề</strong>, khởi đầu bằng bảng tham chiếu, hiệu chỉnh bằng thống kê câu hỏi và cặp điểm thật (F24)</td>
+<td>Đề tự soạn có độ khó khác đề thật</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Roadmap</td>
+<td>Open beta tuần 10</td>
+<td><strong>Open beta tuần 16</strong>; roadmap 22 tuần</td>
+<td>Founder chọn có L/R trước open beta</td>
 </tr>
 </tbody>
 </table></div>
@@ -412,9 +467,10 @@ và <strong>(C) cohort có cam kết, chủ động đồng hành đến ngày t
 <li><strong>Dự đoán band thật (A):</strong> từ các bài thi thử trên hệ thống, dự đoán band Speaking và Writing khi thi thật, kèm khoảng sai số. Dự đoán được hiệu chỉnh bằng các cặp "bài thi thử + phiếu điểm thật" do người dùng tự nguyện gửi.</li>
 <li><strong>Cohort cam kết (C):</strong> nhóm học 8 tuần có ngày thi mục tiêu, được nhắc luyện chủ động mỗi ngày, có đặt cọc hoàn lại khi hoàn thành.</li>
 </ul>
-<p>Công cụ đo là hai kỹ năng sản sinh:
+<p>Công cụ đo là đủ 4 kỹ năng:
 - <strong>Speaking:</strong> thi thử Part 1 → 2 → 3 với giám khảo AI, đúng thời gian như phòng thi → report theo 4 tiêu chí, <strong>phát âm được chấm bằng phân tích audio</strong>, chỉ ra <strong>lỗi đặc trưng của người Việt</strong>.
-- <strong>Writing:</strong> nộp Task 1/Task 2 → report theo 4 tiêu chí, gắn bằng chứng trong bài.</p>
+- <strong>Writing:</strong> nộp Task 1/Task 2 → report theo 4 tiêu chí, gắn bằng chứng trong bài.
+- <strong>Listening &amp; Reading:</strong> bài thi đủ 40 câu mỗi kỹ năng, đúng thời gian, chấm theo đáp án, quy đổi band theo bảng riêng của từng đề. Đề do AI soạn và được người duyệt; audio Listening bằng TTS nhiều giọng.</p>
 <p>Cả hai kỹ năng dùng chung <strong>Error Memory</strong>: hệ thống ghi nhớ lỗi lặp lại, kể cả lỗi xuất hiện ở cả nói và viết → người học <strong>làm lại / làm đề tương đương</strong> → <strong>kiểm chứng lỗi đã được sửa hay chưa</strong>.</p>
 <p><strong>Định vị:</strong> <em>"Biết trước điểm thật của bạn — và đi cùng bạn đến ngày thi."</em>
 Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band là <strong>ước lượng/dự đoán</strong>, không phải điểm chính thức. Chỉ được công bố độ chính xác dự đoán bằng số liệu thật đã đo (FR-174).</p>
@@ -428,7 +484,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <hr />
 <h2 id="2-business-context-baccm">2. Business Context (BACCM)</h2>
 <h3 id="2-1-change">2.1 Change</h3>
-<p>Xây mới một sản phẩm luyện thi có lợi thế dựa trên <strong>dữ liệu điểm thật</strong> và <strong>cam kết đồng hành</strong>, dùng Speaking + Writing làm công cụ đo. Trình tự: chuẩn bị bộ chấm bằng dữ liệu công khai hợp lệ (nguồn 4) → open beta tuần 10 → hiệu chỉnh dự đoán bằng kết quả thi thật (nguồn 1) → bật cam kết theo kết quả khi đủ dữ liệu.</p>
+<p>Xây mới một sản phẩm luyện thi có lợi thế dựa trên <strong>dữ liệu điểm thật</strong> và <strong>cam kết đồng hành</strong>, dùng đủ 4 kỹ năng làm công cụ đo. Trình tự: chuẩn bị bộ chấm bằng dữ liệu công khai hợp lệ (nguồn 4) và xây kho đề L/R → open beta tuần 16 → hiệu chỉnh dự đoán bằng kết quả thi thật (nguồn 1) → bật cam kết theo kết quả khi đủ dữ liệu.</p>
 <h3 id="2-2-need-giả-thuyết-cần-kiểm-chứng-trong-beta">2.2 Need (giả thuyết cần kiểm chứng trong beta)</h3>
 <div class="table-wrap"><table>
 <thead>
@@ -504,7 +560,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>Thời gian</td>
-<td>Nguồn 4 tuần 1–3; open beta + bắt đầu bán tuần 10; chiến dịch nguồn 1 từ tuần 10; cohort đầu tiên tuần 12; cam kết hoàn tiền chỉ bật khi đạt ngưỡng dữ liệu (dự kiến tháng 6–9)</td>
+<td>Nguồn 4 tuần 1–3; L/R tuần 9–14; open beta + bắt đầu bán tuần 16; chiến dịch nguồn 1 từ tuần 16; cohort đầu tiên tuần 18; cam kết hoàn tiền chỉ bật khi đạt ngưỡng dữ liệu (dự kiến tháng 8–11)</td>
 </tr>
 <tr>
 <td>Tech stack</td>
@@ -642,56 +698,62 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>O1</td>
 <td>Chứng minh chất lượng feedback đủ dùng</td>
-<td>(a) Tỉ lệ đánh giá 👍 trên report ≥ 70% (đo riêng Speaking và Writing); (b) chấm lại cùng một bài trong eval set: chênh lệch overall band ≤ 0,5 ở ≥ 90% bài; (c) 0 trường hợp trích dẫn bằng chứng không có trong bài/transcript</td>
-<td>Tuần 9 (trước open beta)</td>
+<td>(a) Tỉ lệ đánh giá 👍 trên report ≥ 70% (đo riêng từng kỹ năng); (b) chấm lại cùng một bài trong eval set: chênh lệch overall band ≤ 0,5 ở ≥ 90% bài; (c) 0 trường hợp trích dẫn bằng chứng không có trong bài/transcript</td>
+<td>Tuần 15 (trước open beta)</td>
 </tr>
 <tr>
 <td>O2</td>
 <td>Chứng minh learning loop</td>
 <td>≥ 30% người đã nhận report có thực hiện Redo/Rewrite hoặc Retest trong 14 ngày</td>
-<td>Tuần 16</td>
+<td>Tuần 22</td>
 </tr>
 <tr>
 <td>O3</td>
 <td>Chứng minh sẵn sàng trả tiền</td>
 <td>≥ 10 người trả phí <strong>và</strong> tỉ lệ chuyển đổi ≥ 3% trên người dùng hoạt động (≥ 1 bài nộp) trong 30 ngày</td>
-<td>Tuần 16</td>
+<td>Tuần 22</td>
 </tr>
 <tr>
 <td>O4</td>
 <td>Unit economics dương</td>
 <td>Chi phí AI ≤ 30% doanh thu thuần/người trả phí; chi phí trung bình ≤ 1.500đ/lượt Writing và ≤ 5.000đ/bài thi Speaking đủ 3 Part</td>
-<td>Tuần 16</td>
+<td>Tuần 22</td>
 </tr>
 <tr>
 <td>O5</td>
 <td>Activation &amp; retention</td>
 <td>≥ 60% người đăng ký nộp bài đầu tiên trong 7 ngày; ≥ 20% người dùng hoạt động quay lại ở tuần thứ 4</td>
-<td>Tuần 16</td>
+<td>Tuần 22</td>
 </tr>
 <tr>
 <td>O6</td>
 <td>Chứng minh "Band thật" là lý do mua</td>
 <td>≥ 50% người trả phí đã xem Dự đoán band trước khi thanh toán; ≥ 50% người trả lời khảo sát chọn dự đoán band hoặc cohort là lý do chính</td>
-<td>Tuần 16</td>
+<td>Tuần 22</td>
 </tr>
 <tr>
 <td>O7</td>
 <td>Thu thập dữ liệu điểm thật (nguồn 1 + cohort)</td>
-<td>≥ 50 cặp hợp lệ/kỹ năng trước tuần 16; ≥ 300 cặp/kỹ năng trước tháng 6</td>
-<td>Tuần 16 / tháng 6</td>
+<td>≥ 50 cặp hợp lệ/kỹ năng trước tuần 22; ≥ 300 cặp/kỹ năng trước tháng 8</td>
+<td>Tuần 22 / tháng 8</td>
 </tr>
 <tr>
 <td>O8</td>
 <td>Độ chính xác dự đoán</td>
 <td>Sai số tuyệt đối trung bình (MAE) ≤ 0,5 band trên ≥ 100 cặp kiểm tra/kỹ năng không dùng để hiệu chỉnh</td>
-<td>Tháng 6–9</td>
+<td>Tháng 8–11</td>
 </tr>
 <tr>
 <td>O9</td>
 <td>Cohort</td>
 <td>≥ 60% thành viên hoàn thành ≥ 80% lộ trình; ≥ 70% thành viên đã thi gửi phiếu điểm</td>
 <td>Sau cohort thứ 2</td>
+</tr>
+<tr>
+<td>O10</td>
+<td>Chất lượng đề L/R</td>
+<td>100% đề publish qua quality gate L/R (§11.3); ≤ 2% câu hỏi bị báo lỗi đáp án được xác nhận sau khi publish; mỗi đề dùng cho dự đoán có ≥ 50 lượt làm để kiểm tra thống kê <span class="tag tag-prop">Đề xuất</span></td>
+<td>Tuần 22</td>
 </tr>
 </tbody>
 </table></div>
@@ -789,21 +851,21 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tbody>
 <tr>
 <td><strong>R1 — IELTS Lab "Band thật"</strong></td>
-<td>Speaking Part 1–3 + Writing Task 1/2 làm công cụ đo; Dự đoán band; thu thập &amp; hiệu chỉnh bằng điểm thật; Cohort cam kết + nhắc học; credit &amp; thanh toán</td>
+<td>Đủ 4 kỹ năng Academic làm công cụ đo (Listening, Reading, Speaking Part 1–3, Writing Task 1/2); dự đoán band từng kỹ năng + overall; thu thập &amp; hiệu chỉnh bằng điểm thật; Cohort cam kết + nhắc học; credit &amp; thanh toán</td>
 <td>—</td>
-<td>Tuần 1–16 (roadmap §18)</td>
+<td>Tuần 1–22 (roadmap §18)</td>
 </tr>
 <tr>
 <td>R1.5 — Cam kết theo kết quả</td>
 <td>Hoàn tiền nếu điểm thật thấp hơn dự đoán quá ngưỡng</td>
 <td><strong>O8 đạt</strong> + rà soát pháp lý (<span class="tag tag-tbd">TBD-18</span>)</td>
-<td>Dự kiến tháng 6–9</td>
+<td>Dự kiến tháng 8–11</td>
 </tr>
 <tr>
-<td>R2 — Listening/Reading + Full mock Academic</td>
-<td>Chấm khách quan theo answer key, full mock 4 kỹ năng; dự đoán overall band</td>
-<td>O1, O3, O4, O6 đạt; có nguồn nội dung hợp pháp</td>
-<td>Sau R1</td>
+<td>~~R2 — Listening/Reading~~</td>
+<td>Đã gộp vào R1 ở v2.1</td>
+<td>—</td>
+<td>—</td>
 </tr>
 <tr>
 <td>R3 — TOEIC Listening &amp; Reading</td>
@@ -839,10 +901,12 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <li>✅ <strong>Thu thập kết quả thi thật</strong> tự nguyện, có phần thưởng, xác minh và bảo vệ dữ liệu (F17)</li>
 <li>✅ <strong>Hiệu chỉnh</strong> và công bố sai số đo được (F18)</li>
 <li>✅ <strong>Cohort 8 tuần</strong> có ngày thi mục tiêu, đặt cọc hoàn lại (F19) và <strong>nhắc học chủ động</strong> (F20)</li>
+<li>✅ <strong>Listening &amp; Reading Academic</strong> đủ 40 câu mỗi kỹ năng, đề AI soạn + người duyệt, bảng quy đổi band riêng từng đề (F22–F24)</li>
+<li>✅ <strong>Full mock 4 kỹ năng</strong> liền mạch (Listening → Reading → Writing, Speaking làm riêng như thi thật)</li>
 </ul>
 <h3 id="5-3-out-of-scope-r1">5.3 Out-of-Scope (R1)</h3>
 <ul>
-<li>❌ Listening, Reading, full mock — R2</li>
+<li>❌ Listening/Reading dạng General Training</li>
 <li>❌ General Training Task 1 (letter) — có thể thêm sau vì dùng chung engine</li>
 <li>❌ TOEIC, SAT — R3/R4</li>
 <li>❌ Hội thoại Speaking tự do ngoài cấu trúc bài thi, luyện giọng bản ngữ theo vùng miền</li>
@@ -852,7 +916,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <li>❌ Marketplace gia sư, social feed, hồ sơ công khai</li>
 <li>❌ Cam kết hoàn tiền theo kết quả — chỉ bật ở R1.5 khi O8 đạt</li>
 <li>❌ Chứng nhận điểm; tuyên bố tương đương giám khảo</li>
-<li>❌ Dự đoán band Listening, Reading và overall — R2</li>
+<li>❌ Crawl hoặc nhập đề từ sách có bản quyền, website luyện thi, hay đề thi thật do thí sinh nhớ lại (FR-215)</li>
 <li>❌ Huấn luyện foundation model; dữ liệu người dùng chỉ dùng cho hiệu chỉnh khi có consent riêng (FR-171)</li>
 <li>❌ Thu thập hoặc lưu nội dung câu hỏi của đề thi thật</li>
 <li>❌ Cào dữ liệu từ mạng xã hội</li>
@@ -991,10 +1055,10 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>BR-017</td>
-<td>Listening/Reading + full mock</td>
-<td><span class="pri pri-W" title="Won't">W</span></td>
-<td>Chuyển sang R2</td>
-<td>—</td>
+<td>Người học PHẢI làm được bài Listening và Reading Academic đủ 40 câu, đúng thời gian, chấm theo đáp án và quy đổi band theo bảng riêng của từng đề</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Cần cho dự đoán overall (A)</td>
+<td>O6, O8</td>
 </tr>
 <tr>
 <td>BR-018</td>
@@ -1026,7 +1090,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>BR-022</td>
-<td>Hệ thống PHẢI dự đoán band Speaking và Writing khi thi thật, kèm khoảng sai số và nêu rõ đã/chưa được hiệu chỉnh</td>
+<td>Hệ thống PHẢI dự đoán band Listening, Reading, Speaking, Writing và overall khi thi thật, kèm khoảng sai số và nêu rõ đã/chưa được hiệu chỉnh</td>
 <td><span class="pri pri-M" title="Must">M</span></td>
 <td><strong>Lợi thế A</strong></td>
 <td>O6, O8, N7</td>
@@ -1080,6 +1144,13 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <td>Chỉ bật ở R1.5 khi O8 đạt</td>
 <td>—</td>
 </tr>
+<tr>
+<td>BR-030</td>
+<td>Đề Listening/Reading PHẢI do hệ thống tự soạn (AI + người duyệt) hoặc có quyền sử dụng; KHÔNG crawl, KHÔNG dùng đề có bản quyền hay đề thi thật</td>
+<td><span class="pri pri-M" title="Must">M</span></td>
+<td>Pháp lý và uy tín của "band thật"</td>
+<td>O10, §12</td>
+</tr>
 </tbody>
 </table></div>
 <h3 id="moscow-distribution-r1">MoSCoW Distribution (R1)</h3>
@@ -1094,13 +1165,13 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tbody>
 <tr>
 <td>Must</td>
-<td>17</td>
-<td>68%</td>
+<td>19</td>
+<td>70%</td>
 </tr>
 <tr>
 <td>Should</td>
 <td>7</td>
-<td>28%</td>
+<td>26%</td>
 </tr>
 <tr>
 <td>Could</td>
@@ -1109,18 +1180,18 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td><strong>Total in-scope</strong></td>
-<td><strong>25</strong></td>
+<td><strong>27</strong></td>
 <td><strong>100%</strong></td>
 </tr>
 <tr>
 <td>Won't (R1)</td>
-<td>4</td>
+<td>3</td>
 <td>—</td>
 </tr>
 </tbody>
 </table></div>
 <blockquote class="note">
-<p>⚠️ Must chiếm 67% số BR, và Speaking làm tăng effort đáng kể. Theo quy tắc 60/40, <strong>effort</strong> của nhóm Must nên ≤ 60% capacity; §18 đưa các BR Should về cuối timeline và liệt kê thứ tự cắt scope.</p>
+<p>⚠️ Must chiếm 70% số BR; Speaking và kho đề L/R làm tăng effort đáng kể. Theo quy tắc 60/40, <strong>effort</strong> của nhóm Must nên ≤ 60% capacity; §18 đưa các BR Should về cuối timeline và liệt kê thứ tự cắt scope.</p>
 </blockquote>
 <hr />
 <h2 id="7-overall-description">7. Overall Description</h2>
@@ -1541,8 +1612,8 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>FR-044</td>
-<td>Ngân hàng đề R1 PHẢI đủ để Retest: ≥ 30 đề Writing Task 2, ≥ 15 đề Task 1, ≥ 20 chủ đề Speaking Part 1 (mỗi chủ đề 4–5 câu), ≥ 30 cue card Part 2 kèm câu hỏi Part 3 <span class="tag tag-prop">Đề xuất</span>, đã qua quality gate §11.3</td>
-<td>BR-002, BR-016</td>
+<td>Ngân hàng đề R1 PHẢI đủ để Retest: ≥ 30 đề Writing Task 2, ≥ 15 đề Task 1, ≥ 20 chủ đề Speaking Part 1 (mỗi chủ đề 4–5 câu), ≥ 30 cue card Part 2 kèm câu hỏi Part 3, ≥ 6 bộ Listening và ≥ 6 bộ Reading trước open beta (≥ 12 mỗi loại trước tuần 22) <span class="tag tag-prop">Đề xuất</span>, đã qua quality gate §11.3</td>
+<td>BR-002, BR-016, BR-017</td>
 <td>Đếm trong admin</td>
 </tr>
 <tr>
@@ -1673,7 +1744,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 - Trường hợp xấu nhất, dùng hết 30 credit cho Speaking: 10 bài thi × 5.000đ = 50.000đ, vẫn dưới doanh thu (≈ 75%).
 - Dùng hết 30 credit cho Writing: 30 × 1.500đ = 45.000đ (≈ 67%).
 - Mức dùng trung bình ~30–40% → chi phí ≈ 15.000–20.000đ ≈ 22–30% doanh thu, đạt O4.
-- Nếu A5 cho thấy chi phí Speaking &gt; 5.000đ/bài thi, phải tăng credit/Part hoặc giảm credit/tháng trước khi bán (tuần 9).</p>
+- Nếu A5 cho thấy chi phí Speaking &gt; 5.000đ/bài thi, phải tăng credit/Part hoặc giảm credit/tháng trước khi bán (tuần 16).</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -2161,13 +2232,13 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tbody>
 <tr>
 <td>FR-150</td>
-<td>Hệ thống PHẢI hiển thị dự đoán band <strong>Speaking</strong> và <strong>Writing</strong> riêng biệt dưới dạng khoảng (VD: 6.0–6.5); KHÔNG dự đoán Listening, Reading, overall trong R1</td>
+<td>Hệ thống PHẢI hiển thị dự đoán band <strong>Listening, Reading, Speaking, Writing</strong> riêng biệt và <strong>overall</strong> dưới dạng khoảng (VD: 6.0–6.5); overall chỉ hiển thị khi cả 4 kỹ năng có dự đoán</td>
 <td>BR-022</td>
 <td>AC-F16-1</td>
 </tr>
 <tr>
 <td>FR-151</td>
-<td>Dự đoán CHỈ dựa trên bài làm Exam Mode đủ điều kiện: Speaking đủ 3 Part; Writing có Task 2 (Task 1 nếu có); ≥ 2 bài thi thử mỗi kỹ năng trong 14 ngày gần nhất <span class="tag tag-prop">Đề xuất</span></td>
+<td>Dự đoán CHỈ dựa trên bài làm Exam Mode đủ điều kiện: Listening/Reading là bài đủ 40 câu trên đề đã hiệu chỉnh bảng quy đổi (FR-222); Speaking đủ 3 Part; Writing có Task 2 (Task 1 nếu có); ≥ 2 bài thi thử mỗi kỹ năng trong 14 ngày gần nhất <span class="tag tag-prop">Đề xuất</span></td>
 <td>BR-022</td>
 <td>AC-F16-2</td>
 </tr>
@@ -2198,7 +2269,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tbody>
 </table></div>
 <ul>
-<li><strong>AC-F16-1</strong> — Given người học có đủ bài thi thử hợp lệ, When mở trang Dự đoán, Then thấy 2 khoảng band riêng cho Speaking và Writing, không có overall.</li>
+<li><strong>AC-F16-1</strong> — Given người học có đủ bài thi thử hợp lệ cả 4 kỹ năng, When mở trang Dự đoán, Then thấy 4 khoảng band riêng và 1 khoảng band overall; nếu thiếu một kỹ năng thì overall không hiển thị và hệ thống chỉ rõ kỹ năng còn thiếu.</li>
 <li><strong>AC-F16-2</strong> — Given người học mới chỉ có 1 bài Speaking Part 1, When mở trang Dự đoán, Then hệ thống không đưa dự đoán Speaking và chỉ rõ còn thiếu gì ("cần 2 bài thi đủ 3 Part trong 14 ngày").</li>
 <li><strong>AC-F16-3</strong> — Given calibration model chưa đạt FR-174, When hiển thị dự đoán, Then nhãn là "chưa được hiệu chỉnh" và không có chữ "sai số".</li>
 </ul>
@@ -2215,7 +2286,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tbody>
 <tr>
 <td>FR-160</td>
-<td>Người dùng PHẢI gửi được kết quả thi: ngày thi, dạng thi (Academic/GT, máy/giấy), band Speaking và Writing (bắt buộc); band Listening, Reading, overall (tùy chọn, dùng cho R2)</td>
+<td>Người dùng PHẢI gửi được kết quả thi: ngày thi, dạng thi (Academic/GT, máy/giấy), band Listening, Reading, Speaking, Writing và overall</td>
 <td>BR-023</td>
 <td>Form validate band 0–9, bước 0,5</td>
 </tr>
@@ -2251,7 +2322,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>FR-166</td>
-<td>Hệ thống PHẢI có luồng <strong>"Vừa thi xong"</strong> (nguồn 1): đăng ký → thi thử Speaking đủ 3 Part + Writing Task 2 (Task 1 tùy chọn), không trừ credit → gửi kết quả</td>
+<td>Hệ thống PHẢI có luồng <strong>"Vừa thi xong"</strong> (nguồn 1): đăng ký → thi thử Speaking đủ 3 Part + Writing Task 2 (Task 1 tùy chọn), không trừ credit → gửi kết quả; Listening + Reading tùy chọn, có thưởng thêm 1 tháng Premium <span class="tag tag-prop">Đề xuất</span></td>
 <td>BR-023</td>
 <td>AC-F17-4</td>
 </tr>
@@ -2354,7 +2425,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>FR-182</td>
-<td>Lộ trình PHẢI có 1 nhiệm vụ/ngày ≤ 20 phút <span class="tag tag-prop">Đề xuất</span> và 1 bài thi thử đủ (Speaking 3 Part + Writing) mỗi 2 tuần để cập nhật dự đoán (F16)</td>
+<td>Lộ trình PHẢI có 1 nhiệm vụ/ngày ≤ 20 phút <span class="tag tag-prop">Đề xuất</span> và 1 bài thi thử đủ 4 kỹ năng mỗi 2 tuần (được chia nhiều ngày trong cùng tuần) để cập nhật dự đoán (F16)</td>
 <td>BR-026, BR-022</td>
 <td>AC-F19-1</td>
 </tr>
@@ -2463,10 +2534,189 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <ul>
 <li><strong>AC-F21-1</strong> — Given bộ ELLIPSE được đăng ký với license CC BY-NC-SA, When chạy eval có chọn bộ này, Then pipeline dừng và báo "cần license thương mại".</li>
 </ul>
+<h3 id="8-22-feature-f22-listening-reading-làm-bài-priority-m">8.22 Feature F22 — Listening &amp; Reading: làm bài (Priority: M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-200</td>
+<td>Listening PHẢI có 4 phần, tổng 40 câu; Reading PHẢI có 3 bài đọc, tổng 40 câu, 60 phút; cấu trúc và thời gian lưu trong metadata đề</td>
+<td>BR-017</td>
+<td>AC-F22-1</td>
+</tr>
+<tr>
+<td>FR-201</td>
+<td>Dạng câu hỏi bắt buộc: Multiple Choice (1 và nhiều đáp án), Form/Note/Table/Sentence/Summary Completion (có giới hạn số từ), True/False/Not Given, Yes/No/Not Given, Matching Headings, Matching Information/Features</td>
+<td>BR-017</td>
+<td>Mỗi dạng có renderer và chấm tự động</td>
+</tr>
+<tr>
+<td>FR-202</td>
+<td>Dạng câu hỏi NÊN có: Map/Plan/Diagram Labelling, Short-answer Questions</td>
+<td>BR-017</td>
+<td>—</td>
+</tr>
+<tr>
+<td>FR-203</td>
+<td>Exam Mode Listening PHẢI phát audio <strong>một lần</strong>, không tua, không dừng; audio PHẢI được tải đủ trước khi bắt đầu để mất mạng không làm gián đoạn</td>
+<td>BR-017, BR-008</td>
+<td>AC-F22-2</td>
+</tr>
+<tr>
+<td>FR-204</td>
+<td>Practice Mode Listening PHẢI cho phép tua, nghe lại, xem transcript sau khi nộp</td>
+<td>BR-017</td>
+<td>Nút tua và transcript chỉ có ở Practice Mode</td>
+</tr>
+<tr>
+<td>FR-205</td>
+<td>Chấm tự động PHẢI hỗ trợ biến thể đáp án được chấp nhận, không phân biệt hoa/thường, và quy tắc giới hạn số từ ("NO MORE THAN TWO WORDS"); đáp án vượt giới hạn tính sai</td>
+<td>BR-017</td>
+<td>AC-F22-3</td>
+</tr>
+<tr>
+<td>FR-206</td>
+<td>Sau khi nộp, người học PHẢI xem đáp án đúng, giải thích và vị trí bằng chứng trong bài đọc/transcript</td>
+<td>BR-017</td>
+<td>Bấm câu hỏi → highlight đoạn chứa đáp án</td>
+</tr>
+<tr>
+<td>FR-207</td>
+<td>Autosave và khôi phục bài L/R PHẢI theo FR-023, FR-024; Listening bị gián đoạn trong Exam Mode được đánh dấu "không đủ điều kiện dự đoán"</td>
+<td>BR-008, BR-022</td>
+<td>AC-F22-4</td>
+</tr>
+<tr>
+<td>FR-208</td>
+<td>Lỗi L/R PHẢI được gắn error tag theo dạng câu hỏi và kỹ năng con (VD: "bẫy paraphrase", "không nghe được số", "sai chính tả đáp án") vào Error Memory</td>
+<td>BR-002</td>
+<td>Error Memory có nhóm L/R</td>
+</tr>
+<tr>
+<td>FR-209</td>
+<td>Chấm L/R KHÔNG trừ credit; Free được làm 1 bộ Listening + 1 bộ Reading, Premium làm toàn bộ kho đề <span class="tag tag-prop">Đề xuất</span></td>
+<td>BR-003</td>
+<td>Kiểm tra entitlement</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F22-1</strong> — Given đề Reading đủ điều kiện publish, When người học bắt đầu Exam Mode, Then đồng hồ 60 phút chạy, có 3 bài đọc và 40 câu, tự nộp khi hết giờ.</li>
+<li><strong>AC-F22-2</strong> — Given người học mất mạng ở phút 12 của Listening Exam Mode, When audio đang phát, Then audio tiếp tục phát (đã tải trước) và câu trả lời được lưu local.</li>
+<li><strong>AC-F22-3</strong> — Given đáp án chuẩn "train station" với giới hạn "NO MORE THAN TWO WORDS", When người học điền "the train station", Then câu được chấm sai; When điền "Train Station", Then chấm đúng.</li>
+<li><strong>AC-F22-4</strong> — Given người học đóng tab giữa Listening Exam Mode, When mở lại, Then bài được lưu nhưng gắn nhãn "không đủ điều kiện dự đoán" và người học được mời làm lại đề khác.</li>
+</ul>
+<h3 id="8-23-feature-f23-quy-trình-soạn-đề-l-r-priority-m">8.23 Feature F23 — Quy trình soạn đề L/R (Priority: M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-210</td>
+<td>Đề L/R PHẢI được tạo qua quy trình: AI soạn nháp (bài đọc/kịch bản nghe + câu hỏi + đáp án + giải thích) → kiểm tra tự động → người duyệt → pilot → publish</td>
+<td>BR-030</td>
+<td>Trạng thái đề: draft / reviewed / pilot / published</td>
+</tr>
+<tr>
+<td>FR-211</td>
+<td>Bài đọc PHẢI là văn bản gốc do AI viết hoặc dựa trên nguồn có quyền sử dụng đã đăng ký (F21); lưu provenance cho từng bài</td>
+<td>BR-030, BR-025</td>
+<td>Đề thiếu provenance không publish được</td>
+</tr>
+<tr>
+<td>FR-212</td>
+<td>Audio Listening PHẢI tạo bằng TTS có quyền dùng thương mại (<span class="tag tag-tbd">TBD-19</span>), nhiều giọng (Anh, Úc, Bắc Mỹ…), có hội thoại nhiều người; audio được tạo một lần và cache</td>
+<td>BR-017, BR-030</td>
+<td>Mỗi đề có ≥ 2 giọng khác nhau</td>
+</tr>
+<tr>
+<td>FR-213</td>
+<td>Kiểm tra tự động PHẢI xác nhận: mỗi đáp án xuất hiện đúng trong bài đọc/transcript; đáp án tuân thủ giới hạn số từ; câu hỏi đúng thứ tự xuất hiện (khi dạng câu hỏi yêu cầu); không có hai đáp án cùng đúng ở câu trắc nghiệm một đáp án</td>
+<td>BR-030</td>
+<td>AC-F23-1</td>
+</tr>
+<tr>
+<td>FR-214</td>
+<td>Người duyệt PHẢI hoàn thành checklist (đáp án duy nhất, phương án nhiễu hợp lý, độ dài bài đọc theo chuẩn, audio rõ, đúng tốc độ) trước khi chuyển sang pilot</td>
+<td>BR-030</td>
+<td>Checklist bắt buộc trong admin</td>
+</tr>
+<tr>
+<td>FR-215</td>
+<td>Hệ thống và quy trình KHÔNG được crawl hoặc nhập đề từ sách có bản quyền, website luyện thi, hay đề thi thật do thí sinh nhớ lại; công cụ import từ chối đề không có provenance hợp lệ</td>
+<td>BR-030</td>
+<td>AC-F23-2</td>
+</tr>
+<tr>
+<td>FR-216</td>
+<td>Người học PHẢI báo lỗi được từng câu hỏi; câu có lỗi đáp án được xác nhận thì sửa và chấm lại cho mọi bài đã làm</td>
+<td>BR-030, BR-009</td>
+<td>AC-F23-3</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F23-1</strong> — Given AI soạn câu Completion có đáp án "renewable energy" nhưng cụm này không có trong bài đọc, When chạy kiểm tra tự động, Then đề bị chặn ở trạng thái draft kèm lỗi cụ thể.</li>
+<li><strong>AC-F23-2</strong> — Given admin import một đề với provenance "website X", When validate, Then import bị từ chối.</li>
+<li><strong>AC-F23-3</strong> — Given câu 17 được xác nhận sai đáp án, When admin sửa, Then mọi bài đã làm đề đó được chấm lại và band quy đổi được cập nhật.</li>
+</ul>
+<h3 id="8-24-feature-f24-bảng-quy-đổi-band-l-r-theo-từng-đề-priority-m">8.24 Feature F24 — Bảng quy đổi band L/R theo từng đề (Priority: M)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Functional Requirement</th>
+<th>Source BR</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-220</td>
+<td>Mỗi đề L/R PHẢI có bảng quy đổi điểm thô (0–40) → band riêng, có version; bảng khởi đầu là bảng tham chiếu công khai (gần đúng)</td>
+<td>BR-017</td>
+<td>Mỗi đề có bảng v1</td>
+</tr>
+<tr>
+<td>FR-221</td>
+<td>Hệ thống PHẢI tính thống kê từng câu (tỉ lệ đúng, độ phân biệt) và từng đề (điểm trung bình so với các đề khác cùng nhóm người làm); gắn cờ câu quá dễ/quá khó hoặc có độ phân biệt âm</td>
+<td>BR-017, BR-024</td>
+<td>Báo cáo item statistics trong admin</td>
+</tr>
+<tr>
+<td>FR-222</td>
+<td>Đề CHỈ được dùng cho dự đoán (F16) khi có ≥ 50 lượt làm Exam Mode <span class="tag tag-prop">Đề xuất</span> và bảng quy đổi đã được điều chỉnh theo độ khó quan sát được; trước đó đề chỉ dùng để luyện, band hiển thị kèm nhãn "đề mới, chưa hiệu chỉnh"</td>
+<td>BR-022, BR-024</td>
+<td>AC-F24-1</td>
+</tr>
+<tr>
+<td>FR-223</td>
+<td>Khi có cặp điểm thật L/R (F17), bảng quy đổi PHẢI được hiệu chỉnh tiếp theo quy trình F18, tạo version mới</td>
+<td>BR-024</td>
+<td>Version bảng quy đổi gắn với calibration model</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>AC-F24-1</strong> — Given đề Listening #7 mới có 20 lượt làm, When người học làm đề này ở Exam Mode, Then band hiển thị có nhãn "đề mới, chưa hiệu chỉnh" và bài không được dùng làm đầu vào dự đoán.</li>
+</ul>
 <hr />
 <h2 id="9-non-functional-requirements">9. Non-Functional Requirements</h2>
 <blockquote class="note">
-<p>Các target có nhãn <span class="tag tag-prop">Đề xuất</span> chờ duyệt trước tuần 9.</p>
+<p>Các target có nhãn <span class="tag tag-prop">Đề xuất</span> chờ duyệt trước tuần 15.</p>
 </blockquote>
 <h3 id="9-1-performance">9.1 Performance</h3>
 <div class="table-wrap"><table>
@@ -2794,10 +3044,10 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>Speech provider(s)</td>
-<td>STT, chấm phát âm ở mức âm/từ (Lớp A); TTS giọng giám khảo và mẫu phát âm (Lớp B, cache lại)</td>
+<td>STT, chấm phát âm ở mức âm/từ (Lớp A); TTS giọng giám khảo, mẫu phát âm và <strong>audio Listening</strong> (Lớp B, cache lại)</td>
 <td>HTTPS REST / streaming</td>
 <td>API key (backend)</td>
-<td><span class="tag tag-tbd">TBD-04</span>; cùng yêu cầu Lớp A như AI provider</td>
+<td><span class="tag tag-tbd">TBD-04</span>; cùng yêu cầu Lớp A như AI provider; TTS phải cho phép dùng thương mại (<span class="tag tag-tbd">TBD-19</span>)</td>
 </tr>
 <tr>
 <td>Payment provider</td>
@@ -2860,8 +3110,8 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td><code>section</code>, <code>task_type</code></td>
-<td>Writing Task 1/2, Speaking Part 1/2/3 …</td>
-<td>Cấu trúc section, thời gian (chuẩn bị, thời lượng nói) và luật điều hướng lưu trong metadata, không hard-code UI</td>
+<td>Listening Part 1–4, Reading Passage 1–3, Writing Task 1/2, Speaking Part 1/2/3 …</td>
+<td>Cấu trúc section, thời gian (chuẩn bị, thời lượng nói, thời gian làm bài) và luật điều hướng (audio phát một lần) lưu trong metadata, không hard-code UI</td>
 </tr>
 <tr>
 <td><code>item</code> (đề)</td>
@@ -2870,8 +3120,8 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td><code>scoring_strategy</code></td>
-<td>rubric_ai (IELTS Writing), speech_rubric_ai (IELTS Speaking), answer_key, raw_to_band, raw_to_scaled (TOEIC), adaptive_module (SAT)</td>
-<td>R1 triển khai rubric_ai và speech_rubric_ai</td>
+<td>rubric_ai (IELTS Writing), speech_rubric_ai (IELTS Speaking), answer_key + raw_to_band theo đề (IELTS L/R), raw_to_scaled (TOEIC), adaptive_module (SAT)</td>
+<td>R1 triển khai rubric_ai, speech_rubric_ai, answer_key + raw_to_band</td>
 </tr>
 <tr>
 <td><code>rubric_version</code></td>
@@ -2963,6 +3213,21 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <td>tên, nguồn, license, cờ thương mại, file thỏa thuận</td>
 <td>F21</td>
 </tr>
+<tr>
+<td><code>conversion_table</code></td>
+<td>đề, version, ánh xạ 0–40 → band, trạng thái hiệu chỉnh</td>
+<td>F24</td>
+</tr>
+<tr>
+<td><code>item_stats</code></td>
+<td>câu hỏi, số lượt, tỉ lệ đúng, độ phân biệt, cờ</td>
+<td>F24</td>
+</tr>
+<tr>
+<td><code>content_review</code></td>
+<td>đề, người duyệt, checklist, kết quả kiểm tra tự động, trạng thái</td>
+<td>F23</td>
+</tr>
 </tbody>
 </table></div>
 <blockquote class="note">
@@ -3017,7 +3282,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </table></div>
 <h3 id="11-3-content-quality-gates-trước-khi-publish-đề">11.3 Content Quality Gates (trước khi publish đề)</h3>
 <ol>
-<li>Validate schema. 2. Kiểm tra dữ liệu biểu đồ khớp hình hiển thị (Task 1). 3. Nghe lại audio TTS câu hỏi Speaking. 4. Kiểm tra quyền sử dụng &amp; provenance. 5. Review nội dung AI-generated. 6. Nội dung chưa chắc chắn giữ ở trạng thái draft.</li>
+<li>Validate schema. 2. Kiểm tra dữ liệu biểu đồ khớp hình hiển thị (Task 1). 3. Nghe lại audio TTS câu hỏi Speaking. 4. <strong>L/R: kiểm tra tự động (FR-213), checklist người duyệt (FR-214), nghe lại toàn bộ audio Listening, pilot trước khi dùng cho dự đoán (FR-222).</strong> 5. Kiểm tra quyền sử dụng &amp; provenance; không có đề crawl (FR-215). 6. Review nội dung AI-generated. 7. Nội dung chưa chắc chắn giữ ở trạng thái draft.</li>
 </ol>
 <hr />
 <h2 id="12-compliance-legal">12. Compliance &amp; Legal</h2>
@@ -3054,6 +3319,16 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <td>Bảo mật đề thi</td>
 <td>✅</td>
 <td>Không thu thập nội dung câu hỏi đề thi thật (FR-167)</td>
+</tr>
+<tr>
+<td>Nguồn đề L/R</td>
+<td>✅</td>
+<td>Chỉ đề tự soạn/có quyền; không crawl; không dùng sách đề có bản quyền hay đề thi thật do thí sinh nhớ lại (FR-215)</td>
+</tr>
+<tr>
+<td>Giọng TTS</td>
+<td>✅</td>
+<td>Điều khoản TTS phải cho phép phân phối audio trong sản phẩm thương mại (<span class="tag tag-tbd">TBD-19</span>)</td>
 </tr>
 <tr>
 <td>License bộ dữ liệu</td>
@@ -3107,13 +3382,13 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>Free</td>
 <td>0đ</td>
-<td>Diagnostic + 3 credit tổng <span class="tag tag-prop">Đề xuất</span></td>
-<td>Đủ trải nghiệm vòng lặp chấm → rewrite</td>
+<td>Diagnostic + 3 credit tổng <span class="tag tag-prop">Đề xuất</span> + 1 bộ Listening + 1 bộ Reading</td>
+<td>Đủ trải nghiệm vòng lặp chấm → rewrite và thấy dự đoán</td>
 </tr>
 <tr>
 <td>Premium tháng</td>
 <td><strong>69.000đ</strong></td>
-<td>30/tháng <span class="tag tag-prop">Đề xuất</span> (VD: 10 bài thi Speaking đủ 3 Part, hoặc 30 bài Writing, hoặc kết hợp)</td>
+<td>30/tháng <span class="tag tag-prop">Đề xuất</span> (VD: 10 bài thi Speaking đủ 3 Part, hoặc 30 bài Writing, hoặc kết hợp); <strong>Listening/Reading không tốn credit</strong>, làm toàn bộ kho đề</td>
 <td>Không tự gia hạn trong R1</td>
 </tr>
 <tr>
@@ -3142,7 +3417,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <hr />
 <h2 id="14-lỗi-đặc-trưng-của-người-việt-danh-sách-khởi-đầu">14. Lỗi đặc trưng của người Việt — danh sách khởi đầu</h2>
 <blockquote class="note">
-<p>Đây là <strong>giả thuyết ban đầu</strong> dựa trên các lỗi phổ biến của người học tiếng Anh có tiếng mẹ đẻ là tiếng Việt. Phải kiểm chứng và tinh chỉnh bằng eval set Speaking/Writing (FR-091) và người review có chuyên môn (<span class="tag tag-tbd">TBD-13</span>) trước tuần 9.</p>
+<p>Đây là <strong>giả thuyết ban đầu</strong> dựa trên các lỗi phổ biến của người học tiếng Anh có tiếng mẹ đẻ là tiếng Việt. Phải kiểm chứng và tinh chỉnh bằng eval set Speaking/Writing (FR-091) và người review có chuyên môn (<span class="tag tag-tbd">TBD-13</span>) trước tuần 15.</p>
 </blockquote>
 <div class="table-wrap"><table>
 <thead>
@@ -3309,24 +3584,24 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tbody>
 <tr>
 <td>1 (tuần 1–3)</td>
-<td><strong>Nguồn 4 — dữ liệu công khai</strong> + eval set tự xây</td>
+<td><strong>Nguồn 4 — dữ liệu công khai</strong> + eval set tự xây (kho đề L/R xây ở tuần 9–15)</td>
 <td>Kiểm tra và làm vững bộ chấm trước khi mở beta</td>
 <td>Đánh giá nội bộ bộ chấm; <strong>không</strong> hiệu chỉnh theo band IELTS</td>
 </tr>
 <tr>
-<td>2 (tuần 10)</td>
+<td>2 (tuần 16)</td>
 <td>Open beta</td>
 <td>Có người dùng và bài thi thử</td>
 <td>—</td>
 </tr>
 <tr>
-<td>3 (từ tuần 10)</td>
+<td>3 (từ tuần 16)</td>
 <td><strong>Nguồn 1 — người vừa thi xong</strong> (luồng FR-166)</td>
 <td>Tạo cặp dữ liệu nhanh, không phải chờ người học đi thi</td>
 <td><strong>Hiệu chỉnh</strong> dự đoán band thật</td>
 </tr>
 <tr>
-<td>4 (từ tuần 12)</td>
+<td>4 (từ tuần 18)</td>
 <td>Cohort (F19)</td>
 <td>Cặp chất lượng cao, có lịch sử 8 tuần</td>
 <td>Hiệu chỉnh, lâu dài</td>
@@ -3541,7 +3816,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <td>Người dùng không trả tiền (sai giả thuyết)</td>
 <td>Med</td>
 <td>High</td>
-<td>Open beta + bán từ tuần 10; đo O6; quyết định tiếp tục/điều chỉnh ở tuần 16</td>
+<td>Open beta + bán từ tuần 16; đo O6; quyết định tiếp tục/điều chỉnh ở tuần 22</td>
 </tr>
 <tr>
 <td>R10</td>
@@ -3620,10 +3895,38 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <td>High</td>
 <td>Đi trước về dữ liệu người Việt; công bố sớm con số thật; cohort tạo cộng đồng</td>
 </tr>
+<tr>
+<td>R21</td>
+<td>Đề L/R do AI soạn có đáp án sai hoặc mơ hồ</td>
+<td>Med</td>
+<td>High</td>
+<td>Kiểm tra tự động (FR-213), checklist duyệt (FR-214), pilot + thống kê câu hỏi (FR-221), báo lỗi và chấm lại (FR-216)</td>
+</tr>
+<tr>
+<td>R22</td>
+<td>Sản xuất đề L/R chiếm quá nhiều thời gian của Founder</td>
+<td>High</td>
+<td>High</td>
+<td>Mục tiêu tối thiểu 6 bộ mỗi loại trước beta; có thể giảm còn 4 (§18); cân nhắc cộng tác viên duyệt (<span class="tag tag-tbd">TBD-20</span>)</td>
+</tr>
+<tr>
+<td>R23</td>
+<td>Độ khó đề tự soạn khác đề thật làm lệch dự đoán L/R</td>
+<td>Med</td>
+<td>High</td>
+<td>Bảng quy đổi riêng từng đề, chỉ dùng đề đã pilot cho dự đoán (FR-222), hiệu chỉnh bằng cặp điểm thật (FR-223)</td>
+</tr>
+<tr>
+<td>R24</td>
+<td>Áp lực dùng đề crawl để có nhiều đề nhanh</td>
+<td>Med</td>
+<td>High</td>
+<td>Cấm trong quy trình và công cụ import (FR-215); provenance bắt buộc</td>
+</tr>
 </tbody>
 </table></div>
 <hr />
-<h2 id="18-roadmap-16-tuần">18. Roadmap 16 tuần</h2>
+<h2 id="18-roadmap-22-tuần">18. Roadmap 22 tuần</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -3637,7 +3940,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>1–3</td>
 <td><strong>P0 — Nguồn 4 &amp; nền tảng</strong></td>
-<td>F21 dataset registry; đánh giá speech provider bằng speechocean762; gửi yêu cầu license (<span class="tag tag-tbd">TBD-15</span>); tuyển tình nguyện viên xây eval set; kiểm tra A1, A5, A2; <strong>đăng lời mời thử kiểm chứng A7</strong>; data model §11.1</td>
+<td>F21 dataset registry; đánh giá speech provider bằng speechocean762; gửi yêu cầu license (<span class="tag tag-tbd">TBD-15</span>); tuyển tình nguyện viên xây eval set; kiểm tra A1, A5, A2; chọn TTS (<span class="tag tag-tbd">TBD-19</span>); <strong>đăng lời mời thử kiểm chứng A7</strong>; data model §11.1</td>
 <td>Có danh sách provider Lớp A; chi phí Speaking ≤ 5.000đ/bài thi; eval set ≥ 30 Speaking + ≥ 40 Writing; A7 có kết quả</td>
 </tr>
 <tr>
@@ -3653,39 +3956,57 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <td>Thi đủ 3 Part → report ≤ 120s (p95); ghi âm chạy trên ma trận <span class="tag tag-tbd">TBD-14</span>; O1(b) đạt trên eval set Speaking</td>
 </tr>
 <tr>
-<td>9</td>
-<td>M3 — Dự đoán &amp; thu thập</td>
-<td>F16 (trạng thái "chưa hiệu chỉnh"), F17 + luồng "Vừa thi xong", F8 credit + xác nhận chuyển khoản thủ công, F2</td>
+<td>9–11</td>
+<td>M3 — Listening &amp; Reading engine</td>
+<td>F22 (dạng câu hỏi bắt buộc, audio phát một lần, chấm tự động), F23 quy trình soạn đề + kiểm tra tự động, F24 bảng quy đổi v1</td>
+<td>Làm đủ 1 bộ L + 1 bộ R đầu-cuối; kiểm tra tự động bắt được lỗi đáp án cài sẵn</td>
+</tr>
+<tr>
+<td>9–15</td>
+<td>Song song — Sản xuất đề</td>
+<td>Soạn, duyệt, pilot với tình nguyện viên</td>
+<td><strong>≥ 6 bộ Listening + ≥ 6 bộ Reading</strong> published trước tuần 16 <span class="tag tag-prop">Đề xuất</span></td>
+</tr>
+<tr>
+<td>12–13</td>
+<td>M4 — Dự đoán &amp; thu thập</td>
+<td>F16 (4 kỹ năng + overall, "chưa hiệu chỉnh"), F17 + luồng "Vừa thi xong", F8 credit + xác nhận chuyển khoản thủ công, F2, full mock</td>
 <td>Luồng gửi phiếu điểm → duyệt → thưởng chạy đầu-cuối; ảnh tự xóa ≤ 7 ngày</td>
 </tr>
 <tr>
-<td>10</td>
-<td><strong>M4 — Open beta + bắt đầu bán</strong></td>
-<td>Landing page theo §2.7; chiến dịch nguồn 1</td>
+<td>14–15</td>
+<td>M5 — Ổn định &amp; pháp lý</td>
+<td>Hardening, landing page theo §2.7, rà soát <span class="tag tag-tbd">TBD-12</span>, backup/restore</td>
+<td>Không còn lỗi critical; <span class="tag tag-tbd">TBD-12</span> đã có kết luận</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>M6 — Open beta + bắt đầu bán</strong></td>
+<td>Chiến dịch nguồn 1</td>
 <td>Thanh toán đầu tiên; cặp dữ liệu đầu tiên được xác minh</td>
 </tr>
 <tr>
-<td>11–12</td>
-<td>M5 — Cohort</td>
+<td>17–18</td>
+<td>M7 — Cohort</td>
 <td>F19 (chưa có cọc nếu <span class="tag tag-tbd">TBD-18</span> chưa xong), F20 qua email, F18 trang dữ liệu hiệu chỉnh</td>
-<td><strong>Cohort #1 khai giảng tuần 12</strong></td>
+<td><strong>Cohort #1 khai giảng tuần 18</strong></td>
 </tr>
 <tr>
-<td>13–16</td>
-<td>M6 — Hoàn thiện &amp; đo</td>
-<td>F5, Writing Task 1, F10 đầy đủ, FR-074 trần chi phí, backup/restore; hiệu chỉnh nội bộ lần đầu khi ≥ 50 cặp/kỹ năng</td>
-<td>Đo O1–O7; quyết định tiếp tục/điều chỉnh</td>
+<td>19–22</td>
+<td>M8 — Hoàn thiện &amp; đo</td>
+<td>F5, Writing Task 1, F10 đầy đủ, FR-074 trần chi phí; hiệu chỉnh bảng quy đổi L/R (FR-222) và hiệu chỉnh nội bộ lần đầu khi ≥ 50 cặp/kỹ năng; thêm đề đến ≥ 12 bộ mỗi loại</td>
+<td>Đo O1–O7, O10; quyết định tiếp tục/điều chỉnh</td>
 </tr>
 <tr>
-<td>Tháng 5–9</td>
-<td>M7 — Công bố &amp; cam kết</td>
-<td>Cohort #2–#3; ≥ 300 cặp/kỹ năng; công bố độ chính xác (FR-174); R1.5 khi O8 đạt</td>
+<td>Tháng 6–11</td>
+<td>M9 — Công bố &amp; cam kết</td>
+<td>Cohort #2–#4; ≥ 300 cặp/kỹ năng; công bố độ chính xác (FR-174); R1.5 khi O8 đạt</td>
 <td>O8 đạt → bật FR-175 theo từng mức band</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>Thứ tự cắt scope nếu trễ:</strong> FR-098 referral → FR-095 chia sẻ report → F6/FR-124 drill → FR-057 biểu đồ tiến bộ → FR-122 insight xuyên kỹ năng → tự động hóa thanh toán (giữ xác nhận thủ công) → <strong>Writing Task 1</strong> (giữ Task 2) → kênh Zalo (giữ email) → đặt cọc (cohort vẫn chạy không cọc).</p>
-<p><strong>Không cắt:</strong> F16 dự đoán, F17 thu thập kết quả, F18 hiệu chỉnh, F19 cohort cơ bản, Speaking (F13, F14) — đây là lõi của lợi thế A + C.</p>
+<p><strong>Thứ tự cắt scope nếu trễ:</strong> FR-098 referral → FR-095 chia sẻ report → F6/FR-124 drill → FR-057 biểu đồ tiến bộ → FR-122 insight xuyên kỹ năng → FR-202 dạng câu hỏi L/R bổ sung → tự động hóa thanh toán (giữ xác nhận thủ công) → <strong>Writing Task 1</strong> (giữ Task 2) → kênh Zalo (giữ email) → đặt cọc (cohort vẫn chạy không cọc) → <strong>giảm số bộ đề L/R trước open beta xuống 4 mỗi loại</strong>.</p>
+<p><strong>Không cắt:</strong> F16 dự đoán, F17 thu thập kết quả, F18 hiệu chỉnh, F19 cohort cơ bản, Speaking (F13, F14), L/R engine và kiểm tra đáp án (F22, FR-213, FR-214) — đây là lõi của lợi thế A + C.</p>
 <p><strong>Cũng không cắt:</strong> bảo mật &amp; cách ly dữ liệu, nhãn band không chính thức và nhãn trạng thái hiệu chỉnh, validate bằng chứng, autosave/lưu bản ghi, credit ở backend, xác minh thanh toán, phân loại dữ liệu Lớp A, không suy ra phát âm từ transcript, xóa audio sau 30 ngày, consent &amp; xóa ảnh phiếu điểm, kiểm tra license dữ liệu, quyền nội dung.</p>
 <hr />
 <h2 id="19-open-issues-tbd">19. Open Issues (TBD)</h2>
@@ -3701,12 +4022,12 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>TBD-01</td>
 <td>Phân khúc beta (P1/P2/P3) và <strong>duyệt các ngưỡng <span class="tag tag-prop">Đề xuất</span></strong> (KPI, credit, giá gói, cohort, phần thưởng, NFR)</td>
-<td>Trước tuần 9</td>
+<td>Trước tuần 15</td>
 </tr>
 <tr>
 <td>TBD-02</td>
 <td>Tên thương hiệu chung</td>
-<td>Trước landing page (tuần 5)</td>
+<td>Trước landing page (tuần 14)</td>
 </tr>
 <tr>
 <td>TBD-03</td>
@@ -3726,12 +4047,12 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>TBD-06</td>
 <td>Chính sách hoàn tiền</td>
-<td>Trước tuần 10</td>
+<td>Trước tuần 16</td>
 </tr>
 <tr>
 <td>TBD-07</td>
 <td>Payment provider, điều kiện pháp lý, phí</td>
-<td>Tuần 1 (kiểm tra), tuần 12 (tích hợp tự động)</td>
+<td>Tuần 1 (kiểm tra), tuần 18 (tích hợp tự động)</td>
 </tr>
 <tr>
 <td>TBD-08</td>
@@ -3741,7 +4062,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>TBD-09</td>
 <td>Email provider, lịch nhắc</td>
-<td>Tuần 9</td>
+<td>Tuần 17</td>
 </tr>
 <tr>
 <td>TBD-10</td>
@@ -3751,12 +4072,12 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>TBD-11</td>
 <td>Quy trình support và định nghĩa mức độ nghiêm trọng</td>
-<td>Trước tuần 10</td>
+<td>Trước tuần 16</td>
 </tr>
 <tr>
 <td>TBD-12</td>
 <td>Rà soát pháp lý: dữ liệu cá nhân, <strong>ghi âm giọng nói</strong>, <strong>phiếu điểm</strong>, chuyển dữ liệu ra nước ngoài, người chưa thành niên, điều khoản, lưu chứng từ</td>
-<td>Trước open beta (tuần 10)</td>
+<td>Trước open beta (tuần 16)</td>
 </tr>
 <tr>
 <td>TBD-13</td>
@@ -3776,17 +4097,27 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>TBD-16</td>
 <td>Kênh nhắn tin chủ động (Zalo OA hoặc thay thế): chính sách, chi phí, điều kiện đăng ký</td>
-<td>Tuần 8</td>
+<td>Tuần 16</td>
 </tr>
 <tr>
 <td>TBD-17</td>
 <td>Phần thưởng và điều kiện cặp dữ liệu hợp lệ (mức thưởng, cửa sổ 28 ngày)</td>
-<td>Tuần 9</td>
+<td>Tuần 12</td>
 </tr>
 <tr>
 <td>TBD-18</td>
 <td>Pháp lý cho đặt cọc cohort, cam kết hoàn tiền theo kết quả, và quảng cáo độ chính xác</td>
-<td>Đặt cọc: trước tuần 12; hoàn tiền: trước R1.5</td>
+<td>Đặt cọc: trước tuần 18; hoàn tiền: trước R1.5</td>
+</tr>
+<tr>
+<td>TBD-19</td>
+<td>Nhà cung cấp TTS cho audio Listening: chất lượng giọng, đa giọng, <strong>quyền dùng thương mại</strong> audio</td>
+<td>Tuần 3</td>
+</tr>
+<tr>
+<td>TBD-20</td>
+<td>Người duyệt đề L/R (Founder hay cộng tác viên), định mức thời gian duyệt/bộ đề</td>
+<td>Tuần 8</td>
 </tr>
 </tbody>
 </table></div>
@@ -3815,14 +4146,14 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>BR-002</td>
-<td>FR-012, FR-040–FR-044, FR-083</td>
+<td>FR-012, FR-040–FR-044, FR-083, FR-208</td>
 <td>—</td>
 <td>TC-020 – TC-025</td>
 <td>Todo</td>
 </tr>
 <tr>
 <td>BR-003</td>
-<td>FR-011, FR-025, FR-027, FR-038, FR-039, FR-052, FR-060–FR-066, FR-071, FR-116</td>
+<td>FR-011, FR-025, FR-027, FR-038, FR-039, FR-052, FR-060–FR-066, FR-071, FR-116, FR-209</td>
 <td>NFR-S08</td>
 <td>TC-030 – TC-040</td>
 <td>Todo</td>
@@ -3857,14 +4188,14 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>BR-008</td>
-<td>FR-023–FR-025, FR-038, FR-068, FR-106–FR-108, FR-116</td>
+<td>FR-023–FR-025, FR-038, FR-068, FR-106–FR-108, FR-116, FR-203, FR-207</td>
 <td>NFR-P04, NFR-R02, NFR-R05, NFR-R06</td>
 <td>TC-075 – TC-079</td>
 <td>Todo</td>
 </tr>
 <tr>
 <td>BR-009</td>
-<td>FR-037, FR-073, FR-080–FR-082, FR-085, FR-090, FR-117</td>
+<td>FR-037, FR-073, FR-080–FR-082, FR-085, FR-090, FR-117, FR-216</td>
 <td>NFR-R03, NFR-R04</td>
 <td>TC-080 – TC-085</td>
 <td>Todo</td>
@@ -3934,7 +4265,7 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>BR-022</td>
-<td>FR-150–FR-155, FR-182</td>
+<td>FR-150–FR-155, FR-182, FR-207, FR-222</td>
 <td>NFR-P07, NFR-U04</td>
 <td>TC-160 – TC-166</td>
 <td>Todo</td>
@@ -3948,14 +4279,14 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 </tr>
 <tr>
 <td>BR-024</td>
-<td>FR-152, FR-170–FR-174, FR-176</td>
+<td>FR-152, FR-170–FR-174, FR-176, FR-221–FR-223</td>
 <td>—</td>
 <td>TC-180 – TC-186</td>
 <td>Todo</td>
 </tr>
 <tr>
 <td>BR-025</td>
-<td>FR-195–FR-197</td>
+<td>FR-195–FR-197, FR-211</td>
 <td>—</td>
 <td>TC-190 – TC-192</td>
 <td>Todo</td>
@@ -3981,9 +4312,23 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <td>TC-210 – TC-212</td>
 <td>Todo</td>
 </tr>
+<tr>
+<td>BR-017</td>
+<td>FR-044, FR-200–FR-206, FR-209, FR-212, FR-220–FR-223</td>
+<td>—</td>
+<td>TC-220 – TC-235</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>BR-030</td>
+<td>FR-210, FR-211, FR-213–FR-216</td>
+<td>—</td>
+<td>TC-240 – TC-246</td>
+<td>Todo</td>
+</tr>
 </tbody>
 </table></div>
-<p><strong>Kiểm tra orphan:</strong> mọi FR trong §8 đều trace về ≥ 1 BR; mọi BR in-scope đều có ≥ 1 FR. BR-017 – BR-019 là Won't, không có FR ở R1. BR-029 (Won't ở R1) có FR-175 được xây sẵn công tắc nhưng khóa cho tới R1.5.</p>
+<p><strong>Kiểm tra orphan:</strong> mọi FR trong §8 đều trace về ≥ 1 BR; mọi BR in-scope đều có ≥ 1 FR. BR-018, BR-019 là Won't, không có FR ở R1. BR-029 (Won't ở R1) có FR-175 được xây sẵn công tắc nhưng khóa cho tới R1.5.</p>
 <hr />
 <h2 id="21-glossary">21. Glossary</h2>
 <div class="table-wrap"><table>
@@ -4061,6 +4406,18 @@ Không định vị là "AI chấm IELTS" (ChatGPT đã làm tốt). Mọi band 
 <tr>
 <td>Nguồn 1 / 3 / 4</td>
 <td>Người vừa thi xong / trung tâm–giáo viên / bộ dữ liệu công khai (§16)</td>
+</tr>
+<tr>
+<td>Bảng quy đổi (conversion table)</td>
+<td>Ánh xạ điểm thô 0–40 của một đề L/R sang band, riêng cho từng đề</td>
+</tr>
+<tr>
+<td>Pilot</td>
+<td>Giai đoạn đề mới được làm thử để đo độ khó trước khi dùng cho dự đoán</td>
+</tr>
+<tr>
+<td>Item statistics</td>
+<td>Thống kê từng câu hỏi: tỉ lệ đúng, độ phân biệt</td>
 </tr>
 <tr>
 <td>Retest</td>
