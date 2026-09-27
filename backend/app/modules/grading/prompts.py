@@ -14,20 +14,42 @@ from app.modules.grading.schema import TaskType
 _MODULE_DIR = Path(__file__).parent
 RUBRICS_DIR = _MODULE_DIR / "rubrics"
 
-#: Matches an opening or closing `<essay>`/`<prompt>` delimiter tag, case
-#: insensitively and tolerating stray whitespace around the slash or tag
-#: name (e.g. `</ essay >`, `< ESSAY >`) - anything a model might produce
-#: while trying to break out of its data block.
-_ESSAY_TAG_RE = re.compile(r"<\s*(/?)\s*essay\s*>", re.IGNORECASE)
-_PROMPT_TAG_RE = re.compile(r"<\s*(/?)\s*prompt\s*>", re.IGNORECASE)
+
+def _tag_res(tag: str) -> tuple[re.Pattern[str], re.Pattern[str]]:
+    """Build the (closed, dangling) regexes for one delimiter tag name.
+
+    `closed` matches a complete `<tag ...>` occurrence: an optional
+    leading `/` (closing) and arbitrary whitespace around it, the literal
+    `tag` name at a word boundary (so `essay` doesn't match `essays` or
+    `essayist`), then any run of non-`>` characters (attributes, an extra
+    `/` for self-closing, stray whitespace, a case difference, ...) up to
+    the closing `>`. `dangling` matches the same opening, with no `>` at
+    all, anchored to the end of the string - a truncated tag with nothing
+    left to escape its closing bracket."""
+    closed = re.compile(rf"<\s*/?\s*{tag}\b[^>]*>", re.IGNORECASE)
+    dangling = re.compile(rf"<\s*/?\s*{tag}\b[^>]*$", re.IGNORECASE)
+    return closed, dangling
 
 
-def _neutralize_tags(text: str, pattern: re.Pattern[str], tag: str) -> str:
-    """Replace every match of `pattern` in `text` with an HTML-escaped,
-    inert rendering of the delimiter (`&lt;/essay&gt;` etc.), so untrusted
-    content can never inject a real `<essay>`/`</essay>` (or `<prompt>`)
-    boundary into the message we build around it."""
-    return pattern.sub(lambda m: f"&lt;{m.group(1)}{tag}&gt;", text)
+_ESSAY_TAG_RES = _tag_res("essay")
+_PROMPT_TAG_RES = _tag_res("prompt")
+
+
+def _escape_angle_brackets(s: str) -> str:
+    return s.replace("<", "&lt;").replace(">", "&gt;")
+
+
+def _neutralize_tags(text: str, res: tuple[re.Pattern[str], re.Pattern[str]]) -> str:
+    """Replace every `<essay ...>`/`<prompt ...>`-shaped occurrence in
+    `text` (open or close, any attributes, any whitespace/case, self-
+    closing, or a dangling tag with no final `>`) with its `<`/`>`
+    escaped verbatim, so it can never be parsed as a real tag once
+    inserted into the message we build around it - only the exact
+    delimiter name is targeted; unrelated text (`<essays>`, `essayist`,
+    a stray `<`) is left untouched."""
+    closed, dangling = res
+    text = closed.sub(lambda m: _escape_angle_brackets(m.group(0)), text)
+    return dangling.sub(lambda m: _escape_angle_brackets(m.group(0)), text)
 
 
 class RubricCriterion(BaseModel):
@@ -91,13 +113,15 @@ def build_writing_prompt(
     provider can reuse it). The system message also states explicitly that
     the `<essay>` block in the user message is data to grade, never an
     instruction to follow - a defense against prompt injection embedded in
-    the essay text itself. On top of that instruction, any `<essay>`/
-    `</essay>` tag *inside* `essay` (and `<prompt>`/`</prompt>` inside
-    `prompt`) is neutralized to an escaped, inert form before insertion, so
-    injected content can't actually close its block early and start
-    writing outside it - `verify_quotes()` still checks issues against the
-    raw, un-neutralized `essay` text, since that's what the model actually
-    saw and must quote verbatim from."""
+    the essay text itself. On top of that instruction, any substring of
+    `essay` shaped like an `<essay ...>`/`</essay ...>` tag - open, close,
+    with attributes, self-closing, mixed case/whitespace, or a truncated
+    tag with no final `>` - (and the equivalent for `<prompt>` inside
+    `prompt`) is neutralized to escaped, inert text before insertion (see
+    `_neutralize_tags`), so injected content can't actually close its
+    block early and start writing outside it. `verify_quotes()` still
+    checks issues against the raw, un-neutralized `essay` text, since
+    that's what the model actually saw and must quote verbatim from."""
     rubric_text = _format_rubric(rubric, task_type)
     system = (
         f"{rubric_text}\n\n"
@@ -114,8 +138,8 @@ def build_writing_prompt(
         "kind) cho bất kỳ thông tin cá nhân nào (tên, địa chỉ, số điện "
         "thoại, email, số CMND/CCCD, tên tổ chức) xuất hiện trong bài viết."
     )
-    safe_prompt = _neutralize_tags(prompt, _PROMPT_TAG_RE, "prompt")
-    safe_essay = _neutralize_tags(essay, _ESSAY_TAG_RE, "essay")
+    safe_prompt = _neutralize_tags(prompt, _PROMPT_TAG_RES)
+    safe_essay = _neutralize_tags(essay, _ESSAY_TAG_RES)
     user = (
         f"Loại bài: {task_type}\n<prompt>{safe_prompt}</prompt>\n"
         f"<essay>{safe_essay}</essay>"
