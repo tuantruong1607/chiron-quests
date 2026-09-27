@@ -509,6 +509,75 @@ async def test_half_open_trial_released_after_budget_refused(
     assert await breaker.is_open("fake") is False
 
 
+async def test_error_on_one_route_does_not_release_a_trial_it_never_held(
+    redis, install_fake_adapter, clock, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Worker A claims "fake"'s half-open trial directly (simulating a
+    concurrent, unrelated call already in flight for it). A *different*
+    `complete()` call, whose route only ever references "fake" as its
+    *fallback* (never attempted, since its primary's error is
+    non-retryable), must not release "fake"'s trial as a side effect of its
+    own error path - only its own provider's own claim (none, here) may
+    ever be released. Before the compare-and-delete fix, a blanket release
+    of both the route's primary and fallback provider undid worker A's
+    claim here."""
+    for _ in range(3):
+        await breaker.record_result("fake", success=False)
+    clock.advance(60)
+    blocked, worker_a_token = await breaker.try_claim("fake", 70.0)
+    assert blocked is False
+    assert worker_a_token is not None
+
+    routing = RoutingConfig(
+        tasks={
+            "writing_grade": TaskRoute(
+                rubric_version="writing-v1",
+                prompt_version="writing-p1",
+                provider="other",
+                model="other-model",
+                data_class="A",
+                fallback=FallbackRoute(provider="fake", model="fake-grader"),
+            )
+        },
+        providers={
+            "other": ProviderConfig(no_training=True),
+            "fake": ProviderConfig(no_training=True),
+        },
+    )
+    monkeypatch.setattr(service, "load_routing", lambda *a, **k: routing)
+    monkeypatch.setattr(
+        service, "load_pricing", lambda *a, **k: _pricing_with_other_and_fallback()
+    )
+    # Non-retryable: `_run_route` never attempts the fallback at all.
+    install_fake_adapter(provider="other", fail_with=["invalid_request"])
+
+    with pytest.raises(AIError) as exc_info:
+        await service.complete(req(correlation_id="cross-worker-1"))
+    assert exc_info.value.kind == "invalid_request"
+
+    # Worker A's claim on "fake" must still be intact for a third caller.
+    assert await breaker.is_open("fake") is True
+
+
+def _pricing_with_other_and_fallback():
+    from app.modules.ai_gateway.routing import ModelPricing, PricingConfig
+
+    return PricingConfig(
+        models={
+            "other-model": ModelPricing(
+                input_vnd_per_1m=5000,
+                output_vnd_per_1m=15000,
+                cached_input_vnd_per_1m=2500,
+            ),
+            "fake-grader": ModelPricing(
+                input_vnd_per_1m=5000,
+                output_vnd_per_1m=15000,
+                cached_input_vnd_per_1m=2500,
+            ),
+        }
+    )
+
+
 def _pricing_with_fallback():
     from app.modules.ai_gateway.routing import ModelPricing, PricingConfig
 

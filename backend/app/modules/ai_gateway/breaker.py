@@ -14,6 +14,7 @@ race each other into a lost update.
 
 import json
 import time
+import uuid
 from collections.abc import Awaitable
 from dataclasses import dataclass
 from typing import cast
@@ -54,48 +55,88 @@ async def _load(provider: str) -> _State:
     return _State(**json.loads(raw))
 
 
-async def is_open(provider: str, *, trial_ttl_s: float = OPEN_COOLDOWN_S) -> bool:
-    """True if a call to `provider` should be blocked right now.
+async def try_claim(
+    provider: str, ttl_s: float = OPEN_COOLDOWN_S
+) -> tuple[bool, str | None]:
+    """Decide whether a call to `provider` should be blocked right now, and
+    if the breaker is open past its cooldown, atomically claim the single
+    half-open trial slot for the caller.
 
-    Once `OPEN_COOLDOWN_S` has passed since the breaker opened, exactly one
-    caller is let through as a half-open trial: **calling this function can
-    itself claim that trial** - claiming is an atomic `SET NX` on a
-    short-lived Redis key, so every other concurrent caller still sees the
-    breaker as open (this function keeps returning True for them) until the
-    trial's outcome is recorded via `record_result`, or the claim's TTL
-    expires.
+    Returns `(blocked, token)`:
+    - `(False, None)` - the breaker isn't open at all; proceed normally,
+      there is no trial claim to release.
+    - `(True, None)` - the breaker is open (either still within its
+      cooldown, or another caller already holds the trial); this call must
+      not proceed.
+    - `(False, token)` - this call has just claimed the trial. It must
+      either go on to call `record_result` for the attempt it's about to
+      make (which always clears the trial, whatever `token` was), or, if it
+      aborts before making that attempt, call `release_trial(provider,
+      token)` itself - otherwise the claim sits blocking every other caller
+      for the rest of `ttl_s`.
 
-    `trial_ttl_s` should exceed the caller's own timeout for the call it's
-    about to make (e.g. the gateway's `TIMEOUT_S` plus a margin) - otherwise
-    a trial call still in flight near that timeout could outlive its own
-    claim and let a second trial start concurrently. If a caller claims a
-    trial (gets `False` back) but then never calls `record_result` for that
-    same attempt - because, say, it aborts for an unrelated reason - it
-    must call `release_trial(provider)` itself so the claim doesn't sit
-    blocking every other caller for the rest of its TTL.
+    `ttl_s` should exceed the caller's own timeout for the call it's about
+    to make (e.g. the gateway's `TIMEOUT_S` plus a margin) - otherwise a
+    trial call still in flight near that timeout could outlive its own
+    claim and let a second trial start concurrently.
     """
     state = await _load(provider)
     if state.state != "open":
-        return False
+        return False, None
     if now() - state.opened_at < OPEN_COOLDOWN_S:
-        return True
+        return True, None
+    token = str(uuid.uuid4())
     client = get_redis()
     claimed = await cast(
         "Awaitable[bool | None]",
-        client.set(_trial_key(provider), "1", nx=True, ex=int(trial_ttl_s)),
+        client.set(_trial_key(provider), token, nx=True, ex=int(ttl_s)),
     )
-    return not bool(claimed)
+    if not claimed:
+        return True, None
+    return False, token
 
 
-async def release_trial(provider: str) -> None:
-    """Release `provider`'s half-open trial claim, if any (a harmless no-op
-    if none was claimed). Call this on any path that claimed permission to
-    call `provider` (i.e. got `False` from `is_open`) but never reaches
+async def is_open(provider: str, *, trial_ttl_s: float = OPEN_COOLDOWN_S) -> bool:
+    """True if a call to `provider` should be blocked right now.
+
+    A thin wrapper over `try_claim` for callers that have no way to hold
+    onto - and later release - a trial's token: **calling this function can
+    itself claim the half-open trial** (see `try_claim`), and since the
+    token is discarded here, that claim can then only be cleared by a
+    matching `record_result`, never by `release_trial`. Callers that might
+    abort before reaching `record_result` for their own attempt should call
+    `try_claim` directly instead, so they can release what they claimed.
+    """
+    blocked, _token = await try_claim(provider, trial_ttl_s)
+    return blocked
+
+
+# KEYS: 1=trial key. ARGV: 1=token. Deletes only if the key still holds
+# exactly this token - a lost race, a claim already consumed by
+# `record_result`, or one released/claimed by someone else in the meantime
+# all leave it alone.
+_RELEASE_TRIAL_LUA = """
+if redis.call('GET', KEYS[1]) == ARGV[1] then
+  return redis.call('DEL', KEYS[1])
+end
+return 0
+"""
+
+
+async def release_trial(provider: str, token: str) -> None:
+    """Release `provider`'s half-open trial claim, but only if it's still
+    exactly the one identified by `token` (compare-and-delete) - so this
+    never deletes a *different* claim, e.g. one made by another worker
+    after this one's own claim was already consumed by `record_result`, or
+    a claim this call never actually held in the first place. Call this on
+    any path that got a `token` back from `try_claim` but never reaches
     `record_result` for that same attempt - budget refused, an adapter
-    lookup failure, or a cancellation - so an abandoned claim doesn't block
-    every other caller for the rest of its TTL."""
+    lookup failure, or a cancellation."""
     client = get_redis()
-    await client.delete(_trial_key(provider))
+    await cast(
+        "Awaitable[int]",
+        client.eval(_RELEASE_TRIAL_LUA, 1, _trial_key(provider), token),
+    )
 
 
 # KEYS: 1=state key, 2=trial key. ARGV: 1=success ("1"/"0"), 2=moment,
