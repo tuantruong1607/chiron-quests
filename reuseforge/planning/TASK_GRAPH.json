@@ -1,0 +1,833 @@
+{
+  "protocol": "reuseforge/1.0",
+  "project_id": "VSTEP-LAB",
+  "tasks": [
+    {
+      "task_id": "T-001",
+      "phase_id": "P-01",
+      "capability_ids": [],
+      "objective": "Tài khoản cho bài thi: đăng nhập Google (FR-001), kiểm tra sở hữu tài nguyên → 404 (FR-003), ghi nhận đồng ý xử lý dữ liệu + ghi âm trước lần nộp đầu (FR-005)",
+      "action": "REIMPLEMENT (mở rộng auth của template)",
+      "reuse_candidates": [],
+      "depends_on": [],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/accounts/",
+        "backend/app/api/main.py",
+        "backend/app/models.py",
+        "backend/app/alembic/versions/",
+        "backend/tests/modules/accounts/"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/accounts -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Truy cập attempt của người khác → 404",
+        "Chưa đồng ý → 409 consent_required, không gửi đi chấm",
+        "OAuth Google bằng mock provider trong test"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-002",
+      "phase_id": "P-01",
+      "capability_ids": [
+        "CAP-001"
+      ],
+      "objective": "Mô hình đề có version (exam, section, item) + attempt; API bắt đầu phần thi trả deadline do server giữ; nộp lặp idempotent (FR-024, FR-026, FR-028)",
+      "action": "REIMPLEMENT (RF-D-001)",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-001"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/exams/",
+        "backend/app/api/main.py",
+        "backend/app/models.py",
+        "backend/app/alembic/versions/",
+        "backend/tests/modules/exams/"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/exams -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "GET attempt sau khi 'tải lại' trả cùng deadline (AC-F3-3 phía server)",
+        "Nộp 2 lần → 1 bản ghi, không trừ lượt 2 lần",
+        "Đổi số câu trong JSON đề không cần sửa code"
+      ],
+      "risk": "medium",
+      "complexity": "high",
+      "recommended_worker_profile": "capable implementer"
+    },
+    {
+      "task_id": "T-003",
+      "phase_id": "P-01",
+      "capability_ids": [
+        "CAP-002"
+      ],
+      "objective": "API upload ghi âm từng phần: PUT idempotent theo (attempt, part), nhận audio/mp4 và audio/webm, giới hạn kích thước/thời lượng, lưu volume, xóa sau 30 ngày (FR-005, FR-027)",
+      "action": "REIMPLEMENT phía server cho RF-D-002",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-002"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/speaking/uploads.py",
+        "backend/app/modules/speaking/models.py",
+        "backend/app/modules/speaking/service.py",
+        "backend/app/alembic/versions/",
+        "backend/tests/modules/speaking/test_uploads.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/speaking -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "PUT lặp cùng phần → 1 file, 200",
+        "File > giới hạn → 413",
+        "Cron xóa audio > 30 ngày"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-004",
+      "phase_id": "P-01",
+      "capability_ids": [
+        "CAP-002"
+      ],
+      "objective": "Brief UI ghi âm + test nghiệm thu Playwright (Founder dựng bằng Antigravity): hook MediaRecorder + idb-keyval, tự bắt đầu/dừng theo giờ, upload lại khi có mạng",
+      "action": "USE_AS_IS idb-keyval (RF-D-002); agent không viết UI sản phẩm",
+      "reuse_candidates": [
+        "jakearchibald/idb-keyval@17a69a1165be"
+      ],
+      "depends_on": [
+        "T-003"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/",
+        "frontend/"
+      ],
+      "allowed_write_scope": [
+        "docs/ui/speaking-recorder.md",
+        "frontend/tests/acceptance/speaking.spec.ts"
+      ],
+      "planned_commands": [
+        "cd frontend && npx playwright test tests/acceptance/speaking.spec.ts"
+      ],
+      "verification": [
+        "Test mô phỏng offline→online: bản ghi tự upload (AC-F3-4)",
+        "Hết giờ Part 2 → ghi tự dừng (AC-F3-2)",
+        "Test FAIL vì chưa có UI, không vì backend"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer (docs+tests)"
+    },
+    {
+      "task_id": "T-005",
+      "phase_id": "P-01",
+      "capability_ids": [
+        "CAP-003"
+      ],
+      "objective": "Adapter ASR cục bộ faster-whisper base.en int8 trong ai_gateway; hàng đợi arq 'speech' concurrency 1; job chép từng phần ngay khi upload, lưu transcript + word timestamps",
+      "action": "WRAP faster-whisper (RF-D-003)",
+      "reuse_candidates": [
+        "SYSTRAN/faster-whisper@ed9a06cd89a9"
+      ],
+      "depends_on": [
+        "T-003"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/ai_gateway/adapters/local_whisper.py",
+        "backend/app/modules/ai_gateway/service.py",
+        "backend/app/modules/ai_gateway/routing.yaml",
+        "backend/app/modules/speaking/jobs.py",
+        "backend/app/worker.py",
+        "backend/pyproject.toml",
+        "backend/tests/modules/ai_gateway/test_local_whisper.py",
+        "backend/tests/modules/speaking/test_jobs.py",
+        "compose.yml"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/speaking backend/tests/modules/ai_gateway -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Test dùng file WAV ngắn trong repo, model tiny.en trong CI (hoặc mock adapter nếu CI không tải model)",
+        "Upload phần → job → transcript có word timestamps",
+        "Chỉ ai_gateway import faster_whisper (test ranh giới)"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "capable implementer"
+    },
+    {
+      "task_id": "T-006",
+      "phase_id": "P-01",
+      "capability_ids": [
+        "CAP-003"
+      ],
+      "objective": "Xác minh ASR: chạy lại spike trên VPS Gold; harness đo WER trên 20 bản ghi giọng Việt Founder cung cấp (ngưỡng ≤15%); chọn base.en/small.en/API fallback",
+      "action": "RUN verification cho RF-D-003",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-005"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/speaking/eval_asr.py",
+        "reuseforge/spikes/",
+        "docs/eval/asr-<ngày>.md"
+      ],
+      "planned_commands": [
+        "python -m app.modules.speaking.eval_asr --dir <recordings> --model base.en"
+      ],
+      "verification": [
+        "Báo cáo WER + RTF trên VPS",
+        "WER >15% → mở ticket đổi model/API (Gate B amendment nếu đổi hành động)"
+      ],
+      "risk": "high",
+      "complexity": "low",
+      "recommended_worker_profile": "standard implementer + Founder data"
+    },
+    {
+      "task_id": "T-007",
+      "phase_id": "P-01",
+      "capability_ids": [
+        "CAP-005"
+      ],
+      "objective": "Số đo trôi chảy từ word timestamps: WPM, số/độ dài khoảng ngừng >0,25 s, từ đệm",
+      "action": "REIMPLEMENT (RF-D-005)",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-005"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/speaking/fluency.py",
+        "backend/tests/modules/speaking/test_fluency.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/speaking/test_fluency.py -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Test thuần với timestamps giả: WPM, pause count, fillers đúng"
+      ],
+      "risk": "low",
+      "complexity": "low",
+      "recommended_worker_profile": "cheap implementer"
+    },
+    {
+      "task_id": "T-008",
+      "phase_id": "P-01",
+      "capability_ids": [],
+      "objective": "Chấm Speaking bằng LLM trên transcript + số đo trôi chảy theo rubric speaking-v1 (FR-040/041/043/045); trích đoạn phải khớp transcript; phát âm = 'chưa đánh giá được' (FR-042, AC-F5-2) cho tới khi CAP-004 được duyệt",
+      "action": "REIMPLEMENT dùng lại grading (quote check, schema strict, round_half)",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-005",
+        "T-007"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/grading/speaking.py",
+        "backend/app/modules/grading/rubrics/speaking-v1.yaml",
+        "backend/app/modules/grading/service.py",
+        "backend/tests/modules/grading/test_speaking.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/grading -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Report có 'chưa đánh giá được' cho phát âm",
+        "Trích đoạn không khớp transcript bị loại",
+        "Lỗi provider → trạng thái lỗi, không trừ lượt (FR-045)"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "capable implementer"
+    },
+    {
+      "task_id": "T-009",
+      "phase_id": "P-01",
+      "capability_ids": [
+        "CAP-004"
+      ],
+      "objective": "Spike phát âm (NGOÀI phạm vi Gate B): Azure PA unscripted trên đoạn mẫu 2–3 phút; đo chi phí/bài, đọc điều khoản dữ liệu, so với nhận định Founder trên 10 bài → đề xuất sửa Gate B",
+      "action": "RUN_SPIKE (RF-D-004)",
+      "reuse_candidates": [
+        "Azure Speech Pronunciation Assessment"
+      ],
+      "depends_on": [
+        "T-005"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "reuseforge/spikes/SPIKE-CAP-004.md",
+        "reuseforge/architecture/"
+      ],
+      "planned_commands": [
+        "script spike ngoài image, key do Founder cấp qua biến môi trường"
+      ],
+      "verification": [
+        "Báo cáo chi phí ≤4.000đ/bài hay không, điều khoản no-training, độ khớp 10 bài",
+        "Không merge code sản phẩm từ task này"
+      ],
+      "risk": "high",
+      "complexity": "low",
+      "recommended_worker_profile": "capable implementer + Founder key"
+    },
+    {
+      "task_id": "T-010",
+      "phase_id": "P-01",
+      "capability_ids": [],
+      "objective": "API report Speaking + brief UI + test nghiệm thu (trạng thái upload/đang chấm/xong/lỗi, transcript, báo 'transcript sai' FR-041)",
+      "action": "REIMPLEMENT (API) + handoff UI",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-008"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/",
+        "frontend/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/speaking/routes.py",
+        "backend/tests/modules/speaking/test_routes.py",
+        "docs/ui/speaking-report.md",
+        "frontend/tests/acceptance/speaking-report.spec.ts"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/speaking -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "p95 ≤120 s đo bằng fake provider latency + ASR thật tiny.en",
+        "Báo transcript sai → hoàn lượt khi admin xác nhận"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-011",
+      "phase_id": "P-02",
+      "capability_ids": [
+        "CAP-001"
+      ],
+      "objective": "Engine Nghe/Đọc: chấm trắc nghiệm, bảng quy đổi số câu đúng → điểm 0–10 có version theo đề (RULE-04, FR-052 nhãn 'chưa hiệu chỉnh'), xem đáp án + highlight bằng chứng (FR-029)",
+      "action": "REIMPLEMENT (RF-D-001)",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-002"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/exams/scoring.py",
+        "backend/app/modules/exams/routes.py",
+        "backend/app/modules/exams/service.py",
+        "backend/tests/modules/exams/test_scoring.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/exams -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Bảng quy đổi tuyến tính khởi đầu đúng",
+        "Đề <50 lượt có nhãn chưa hiệu chỉnh"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-012",
+      "phase_id": "P-02",
+      "capability_ids": [
+        "CAP-001"
+      ],
+      "objective": "Brief UI giao diện thi + test nghiệm thu: chế độ thi/luyện, đồng hồ theo deadline server, audio tải trước và phát 1 lần, autosave ≤5 s (FR-020–027)",
+      "action": "REIMPLEMENT (Founder dựng UI)",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-011"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/",
+        "frontend/"
+      ],
+      "allowed_write_scope": [
+        "docs/ui/exam-player.md",
+        "frontend/tests/acceptance/exam-player.spec.ts"
+      ],
+      "planned_commands": [
+        "cd frontend && npx playwright test tests/acceptance/exam-player.spec.ts"
+      ],
+      "verification": [
+        "Reload ở phút 20 → đồng hồ còn 40 (AC-F3-3)",
+        "Offline khi nghe → audio phát tiếp, đáp án lưu local (AC-F3-1)"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer (docs+tests)"
+    },
+    {
+      "task_id": "T-013",
+      "phase_id": "P-02",
+      "capability_ids": [
+        "CAP-011"
+      ],
+      "objective": "Quy trình đề: trạng thái draft/reviewed/pilot/published, import JSON bắt buộc provenance hợp lệ (FR-090, FR-095)",
+      "action": "REIMPLEMENT (RF-D-011)",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-002"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/",
+        "docs/architecture/REFERENCE_ielts-cd_analysis.md"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/content/",
+        "backend/tests/modules/content/",
+        "backend/app/alembic/versions/"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/content -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Import thiếu provenance → từ chối",
+        "Chuyển trạng thái sai thứ tự → 409"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-014",
+      "phase_id": "P-02",
+      "capability_ids": [
+        "CAP-011"
+      ],
+      "objective": "Kiểm tra đề tự động + tự kiểm tra bài làm hoàn hảo (FR-091, FR-092)",
+      "action": "REIMPLEMENT/EXTRACT_CONCEPT (chỉ khái niệm từ phân tích ielts-cd)",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-013",
+        "T-011"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/",
+        "docs/architecture/REFERENCE_ielts-cd_analysis.md"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/content/validate.py",
+        "backend/tests/modules/content/test_validate.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/content/test_validate.py -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Câu có 2 đáp án đúng → giữ draft kèm lỗi (AC-F10-1)",
+        "Bài làm hoàn hảo không đạt tuyệt đối → chặn xuất bản"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-015",
+      "phase_id": "P-02",
+      "capability_ids": [
+        "CAP-011"
+      ],
+      "objective": "Báo lỗi câu hỏi + chấm lại một chiều khi sửa đáp án (FR-094)",
+      "action": "REIMPLEMENT",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-014"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/content/regrade.py",
+        "backend/tests/modules/content/test_regrade.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/content/test_regrade.py -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Sửa B→C: người chọn C được cộng, người chọn B không bị trừ (AC-F10-2)"
+      ],
+      "risk": "low",
+      "complexity": "low",
+      "recommended_worker_profile": "cheap implementer"
+    },
+    {
+      "task_id": "T-016",
+      "phase_id": "P-02",
+      "capability_ids": [
+        "CAP-006"
+      ],
+      "objective": "Pipeline TTS offline bằng Kokoro trên máy Founder: script sinh audio Nghe/câu hỏi Speaking từ JSON đề, nhiều giọng; checklist nghe duyệt (FR-093). Không vào image backend",
+      "action": "USE_AS_IS Kokoro (RF-D-006)",
+      "reuse_candidates": [
+        "hexgrad/kokoro@dfb907a02bba"
+      ],
+      "depends_on": [
+        "T-013"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "tools/tts/",
+        "docs/content/tts-checklist.md"
+      ],
+      "planned_commands": [
+        "python tools/tts/render.py --exam <file> --out <dir>"
+      ],
+      "verification": [
+        "Chạy trên 1 đề mẫu ra file audio",
+        "Không có kokoro/misaki trong backend/pyproject.toml"
+      ],
+      "risk": "low",
+      "complexity": "low",
+      "recommended_worker_profile": "cheap implementer"
+    },
+    {
+      "task_id": "T-017",
+      "phase_id": "P-02",
+      "capability_ids": [],
+      "objective": "Sản xuất ngân hàng đề trước ra mắt (FR-096: ≥5 bộ đủ 4 kỹ năng) — việc của Founder, agent chỉ hỗ trợ chạy validator",
+      "action": "FOUNDER",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-014",
+        "T-016"
+      ],
+      "allowed_read_scope": [
+        "content/"
+      ],
+      "allowed_write_scope": [
+        "content/ (ngoài git hoặc repo riêng)"
+      ],
+      "planned_commands": [
+        "python -m app.modules.content.import_cli <file>"
+      ],
+      "verification": [
+        "5 bộ đề qua validator + Founder duyệt audio"
+      ],
+      "risk": "high",
+      "complexity": "high",
+      "recommended_worker_profile": "Founder"
+    },
+    {
+      "task_id": "T-018",
+      "phase_id": "P-03",
+      "capability_ids": [],
+      "objective": "Quy đổi điểm & bậc (RULE-01–03, FR-050, FR-051)",
+      "action": "REIMPLEMENT dùng lại round_half",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-011",
+        "T-008"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/exams/bands.py",
+        "backend/tests/modules/exams/test_bands.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/exams/test_bands.py -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Nghe 6,0 Nói 6,0 Đọc 6,5 Viết 5,5 → 6,0 → B2 (AC-F6-1)",
+        "Thiếu kỹ năng → không hiện bậc tổng"
+      ],
+      "risk": "low",
+      "complexity": "low",
+      "recommended_worker_profile": "cheap implementer"
+    },
+    {
+      "task_id": "T-019",
+      "phase_id": "P-03",
+      "capability_ids": [],
+      "objective": "Dự đoán 'Đủ bậc chưa?' (FR-060–063): mục tiêu + ngày thi, ≥2 bài đầy đủ/21 ngày, ưu tiên đề chưa làm, loại bài fallback/đề chưa hiệu chỉnh, nhãn 'chưa được hiệu chỉnh'",
+      "action": "REIMPLEMENT",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-018"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/prediction/",
+        "backend/tests/modules/prediction/"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/prediction -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "AC-F7-1, AC-F7-2"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-020",
+      "phase_id": "P-03",
+      "capability_ids": [
+        "CAP-010"
+      ],
+      "objective": "Thanh toán VietQR: đơn hàng mã duy nhất, QR SePay, webhook xác minh khóa + idempotent theo mã giao dịch, xác nhận tay có audit log, không tự gia hạn (FR-100–104, RULE-15)",
+      "action": "WRAP SePay + EXTRACT_CONCEPT agentpay-vn (RF-D-010)",
+      "reuse_candidates": [
+        "sepay.vn",
+        "phuocdu/agentpay-vn@83cc2f8058c8"
+      ],
+      "depends_on": [
+        "T-001"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/billing/",
+        "backend/tests/modules/billing/",
+        "backend/app/alembic/versions/",
+        "backend/app/api/main.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/billing -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Webhook lặp không cộng lượt 2 lần",
+        "Webhook sai chữ ký/khóa → 401, không đổi trạng thái",
+        "Xác nhận tay ghi actor/thời gian/mã đơn/số tiền"
+      ],
+      "risk": "high",
+      "complexity": "medium",
+      "recommended_worker_profile": "capable implementer"
+    },
+    {
+      "task_id": "T-021",
+      "phase_id": "P-03",
+      "capability_ids": [],
+      "objective": "Gói & lượt: Free/Đến ngày thi/Tháng (RULE-10–14), trừ lượt Writing/Speaking, Nghe/Đọc không tốn lượt, lỗi/nộp trùng không trừ",
+      "action": "REIMPLEMENT",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-020",
+        "T-008"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/billing/entitlements.py",
+        "backend/tests/modules/billing/test_entitlements.py"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/billing/test_entitlements.py -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Hết lượt → 402 plan_required",
+        "Lỗi provider không trừ lượt"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-022",
+      "phase_id": "P-03",
+      "capability_ids": [],
+      "objective": "Admin: người dùng/gói/lượt (FR-120), hộp feedback (FR-123), duyệt đề/thanh toán + audit log mọi hành động (FR-124); brief UI admin",
+      "action": "REIMPLEMENT (API) + handoff UI",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-020",
+        "T-013"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/",
+        "frontend/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/admin_dash/",
+        "backend/tests/modules/admin_dash/",
+        "docs/ui/admin.md",
+        "frontend/tests/acceptance/admin.spec.ts"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/admin_dash -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Mọi hành động admin có bản ghi audit",
+        "Non-admin → 403"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    },
+    {
+      "task_id": "T-023",
+      "phase_id": "P-03",
+      "capability_ids": [
+        "CAP-001",
+        "CAP-003"
+      ],
+      "objective": "'Đủ B1 chưa?' rút gọn (FR-011): 1 phần Nghe + 1 bài Đọc + 1 câu Speaking Part 1, nhãn độ tin cậy thấp",
+      "action": "REIMPLEMENT (ghép engine đã có)",
+      "reuse_candidates": [],
+      "depends_on": [
+        "T-018",
+        "T-010"
+      ],
+      "allowed_read_scope": [
+        "backend/",
+        "docs/superpowers/specs/",
+        "docs/prd/PRD_VSTEP-Lab_v3.0_20260927.md",
+        "reuseforge/"
+      ],
+      "allowed_write_scope": [
+        "backend/app/modules/free_tools/quick_level.py",
+        "backend/tests/modules/free_tools/test_quick_level.py",
+        "docs/ui/quick-level.md"
+      ],
+      "planned_commands": [
+        "cd backend && uv run pytest backend/tests/modules/free_tools/test_quick_level.py -v",
+        "cd backend && uv run bash scripts/test.sh",
+        "cd backend && uv run bash scripts/lint.sh"
+      ],
+      "verification": [
+        "Kết quả có nhãn 'bài rút gọn — độ tin cậy thấp' (AC-F2-2)"
+      ],
+      "risk": "medium",
+      "complexity": "medium",
+      "recommended_worker_profile": "standard implementer"
+    }
+  ]
+}

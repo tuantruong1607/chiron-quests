@@ -1,0 +1,61 @@
+{
+  "protocol": "reuseforge/1.0",
+  "phases": [
+    {
+      "phase_id": "P-01",
+      "name": "M2 — Speaking",
+      "weeks": "5–6",
+      "tasks": [
+        "T-001",
+        "T-002",
+        "T-003",
+        "T-004",
+        "T-005",
+        "T-006",
+        "T-007",
+        "T-008",
+        "T-009",
+        "T-010"
+      ],
+      "depends_on_phases": [
+        "P-00 (kế hoạch Writing checker hiện hành)"
+      ],
+      "exit": "AC-F5-1 đạt với ASR thật trên VPS; WER ≤15%"
+    },
+    {
+      "phase_id": "P-02",
+      "name": "M3 — Nghe/Đọc + đề",
+      "weeks": "7–8",
+      "tasks": [
+        "T-011",
+        "T-012",
+        "T-013",
+        "T-014",
+        "T-015",
+        "T-016",
+        "T-017"
+      ],
+      "depends_on_phases": [
+        "P-01"
+      ],
+      "exit": "5 bộ đề qua kiểm tra tự động + Founder duyệt"
+    },
+    {
+      "phase_id": "P-03",
+      "name": "M4 — Bậc, dự đoán, thanh toán",
+      "weeks": "9",
+      "tasks": [
+        "T-018",
+        "T-019",
+        "T-020",
+        "T-021",
+        "T-022",
+        "T-023"
+      ],
+      "depends_on_phases": [
+        "P-02"
+      ],
+      "exit": "Thanh toán thử thành công; AC-F6-1, AC-F7-1/2 đạt"
+    }
+  ]
+}

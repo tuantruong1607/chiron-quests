@@ -1,0 +1,347 @@
+{
+  "protocol": "reuseforge/1.0",
+  "regions": {
+    "T-001": [
+      "backend/app/modules/accounts/",
+      "backend/app/api/main.py",
+      "backend/app/models.py",
+      "backend/app/alembic/versions/",
+      "backend/tests/modules/accounts/"
+    ],
+    "T-002": [
+      "backend/app/modules/exams/",
+      "backend/app/api/main.py",
+      "backend/app/models.py",
+      "backend/app/alembic/versions/",
+      "backend/tests/modules/exams/"
+    ],
+    "T-003": [
+      "backend/app/modules/speaking/uploads.py",
+      "backend/app/modules/speaking/models.py",
+      "backend/app/modules/speaking/service.py",
+      "backend/app/alembic/versions/",
+      "backend/tests/modules/speaking/test_uploads.py"
+    ],
+    "T-004": [
+      "docs/ui/speaking-recorder.md",
+      "frontend/tests/acceptance/speaking.spec.ts"
+    ],
+    "T-005": [
+      "backend/app/modules/ai_gateway/adapters/local_whisper.py",
+      "backend/app/modules/ai_gateway/service.py",
+      "backend/app/modules/ai_gateway/routing.yaml",
+      "backend/app/modules/speaking/jobs.py",
+      "backend/app/worker.py",
+      "backend/pyproject.toml",
+      "backend/tests/modules/ai_gateway/test_local_whisper.py",
+      "backend/tests/modules/speaking/test_jobs.py",
+      "compose.yml"
+    ],
+    "T-006": [
+      "backend/app/modules/speaking/eval_asr.py",
+      "reuseforge/spikes/",
+      "docs/eval/asr-<ngày>.md"
+    ],
+    "T-007": [
+      "backend/app/modules/speaking/fluency.py",
+      "backend/tests/modules/speaking/test_fluency.py"
+    ],
+    "T-008": [
+      "backend/app/modules/grading/speaking.py",
+      "backend/app/modules/grading/rubrics/speaking-v1.yaml",
+      "backend/app/modules/grading/service.py",
+      "backend/tests/modules/grading/test_speaking.py"
+    ],
+    "T-009": [
+      "reuseforge/spikes/SPIKE-CAP-004.md",
+      "reuseforge/architecture/"
+    ],
+    "T-010": [
+      "backend/app/modules/speaking/routes.py",
+      "backend/tests/modules/speaking/test_routes.py",
+      "docs/ui/speaking-report.md",
+      "frontend/tests/acceptance/speaking-report.spec.ts"
+    ],
+    "T-011": [
+      "backend/app/modules/exams/scoring.py",
+      "backend/app/modules/exams/routes.py",
+      "backend/app/modules/exams/service.py",
+      "backend/tests/modules/exams/test_scoring.py"
+    ],
+    "T-012": [
+      "docs/ui/exam-player.md",
+      "frontend/tests/acceptance/exam-player.spec.ts"
+    ],
+    "T-013": [
+      "backend/app/modules/content/",
+      "backend/tests/modules/content/",
+      "backend/app/alembic/versions/"
+    ],
+    "T-014": [
+      "backend/app/modules/content/validate.py",
+      "backend/tests/modules/content/test_validate.py"
+    ],
+    "T-015": [
+      "backend/app/modules/content/regrade.py",
+      "backend/tests/modules/content/test_regrade.py"
+    ],
+    "T-016": [
+      "tools/tts/",
+      "docs/content/tts-checklist.md"
+    ],
+    "T-017": [
+      "content/ (ngoài git hoặc repo riêng)"
+    ],
+    "T-018": [
+      "backend/app/modules/exams/bands.py",
+      "backend/tests/modules/exams/test_bands.py"
+    ],
+    "T-019": [
+      "backend/app/modules/prediction/",
+      "backend/tests/modules/prediction/"
+    ],
+    "T-020": [
+      "backend/app/modules/billing/",
+      "backend/tests/modules/billing/",
+      "backend/app/alembic/versions/",
+      "backend/app/api/main.py"
+    ],
+    "T-021": [
+      "backend/app/modules/billing/entitlements.py",
+      "backend/tests/modules/billing/test_entitlements.py"
+    ],
+    "T-022": [
+      "backend/app/modules/admin_dash/",
+      "backend/tests/modules/admin_dash/",
+      "docs/ui/admin.md",
+      "frontend/tests/acceptance/admin.spec.ts"
+    ],
+    "T-023": [
+      "backend/app/modules/free_tools/quick_level.py",
+      "backend/tests/modules/free_tools/test_quick_level.py",
+      "docs/ui/quick-level.md"
+    ]
+  },
+  "shared_regions": [
+    {
+      "tasks": [
+        "T-001",
+        "T-002"
+      ],
+      "path": "backend/app/api/main.py",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-001",
+        "T-002"
+      ],
+      "path": "backend/app/models.py",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-001",
+        "T-002"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-001",
+        "T-003"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-001",
+        "T-013"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-001",
+        "T-020"
+      ],
+      "path": "backend/app/api/main.py",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-001",
+        "T-020"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-003"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-011"
+      ],
+      "path": "backend/app/modules/exams/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-011"
+      ],
+      "path": "backend/app/modules/exams/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-011"
+      ],
+      "path": "backend/app/modules/exams/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-011"
+      ],
+      "path": "backend/tests/modules/exams/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-013"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-018"
+      ],
+      "path": "backend/app/modules/exams/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-018"
+      ],
+      "path": "backend/tests/modules/exams/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-020"
+      ],
+      "path": "backend/app/api/main.py",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-002",
+        "T-020"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-003",
+        "T-013"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-003",
+        "T-020"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-006",
+        "T-009"
+      ],
+      "path": "reuseforge/spikes/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-013",
+        "T-014"
+      ],
+      "path": "backend/app/modules/content/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-013",
+        "T-014"
+      ],
+      "path": "backend/tests/modules/content/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-013",
+        "T-015"
+      ],
+      "path": "backend/app/modules/content/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-013",
+        "T-015"
+      ],
+      "path": "backend/tests/modules/content/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-013",
+        "T-020"
+      ],
+      "path": "backend/app/alembic/versions/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-020",
+        "T-021"
+      ],
+      "path": "backend/app/modules/billing/",
+      "rule": "serial only"
+    },
+    {
+      "tasks": [
+        "T-020",
+        "T-021"
+      ],
+      "path": "backend/tests/modules/billing/",
+      "rule": "serial only"
+    }
+  ],
+  "generated_files": [
+    "backend/app/alembic/versions/* (autogenerate, one per task)",
+    "frontend/src/client/* (npm run generate-client)"
+  ]
+}

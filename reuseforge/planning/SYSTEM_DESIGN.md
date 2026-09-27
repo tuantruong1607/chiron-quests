@@ -1,0 +1,2 @@
+# SYSTEM_DESIGN
+Xem `../architecture/SYSTEM_ARCHITECTURE.md`. Module mới: `accounts` (T-001), `exams` (T-002/011/018), `speaking` (T-003/005/007/010), `content` (T-013–015), `prediction` (T-019), `billing` (T-020/021); mở rộng `grading` (Speaking, T-008), `ai_gateway` (adapter local-whisper, T-005), `admin_dash` (T-022), `free_tools` (T-023). Hàng đợi arq thứ hai `speech` (concurrency 1). Audio lưu volume `audio-data`, xóa sau 30 ngày. Công cụ ngoài image: `tools/tts/` (Kokoro).

@@ -5,3 +5,5 @@
 {"from": "AUDITING", "to": "AUDIT_COMPLETE"}
 {"from": "AUDIT_COMPLETE", "to": "ARCHITECTURE_PROPOSED", "reason": "solution architect"}
 {"from": "ARCHITECTURE_PROPOSED", "to": "ARCHITECTURE_APPROVED", "approval": "reuseforge:approval:VSTEP-LAB:B:001", "scope": "excl. RF-D-004"}
+{"from": "ARCHITECTURE_APPROVED", "to": "PLANNING"}
+{"from": "PLANNING", "to": "PLAN_READY", "reason": "17 planning files, 23 tasks, DAG acyclic"}

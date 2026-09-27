@@ -1,0 +1,121 @@
+{
+  "protocol": "reuseforge/1.0",
+  "default_mode": "serial",
+  "assignments": {
+    "T-001": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-002": {
+      "worker": "capable implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-003": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-004": {
+      "worker": "standard implementer (docs+tests)",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-005": {
+      "worker": "capable implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-006": {
+      "worker": "standard implementer + Founder data",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": "Founder"
+    },
+    "T-007": {
+      "worker": "cheap implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-008": {
+      "worker": "capable implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-009": {
+      "worker": "capable implementer + Founder key",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": "Founder"
+    },
+    "T-010": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-011": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-012": {
+      "worker": "standard implementer (docs+tests)",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-013": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-014": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-015": {
+      "worker": "cheap implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-016": {
+      "worker": "cheap implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-017": {
+      "worker": "Founder",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": "Founder"
+    },
+    "T-018": {
+      "worker": "cheap implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-019": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-020": {
+      "worker": "capable implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-021": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-022": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    },
+    "T-023": {
+      "worker": "standard implementer",
+      "executor": "subagent-driven-development (implementer + task reviewer), serial",
+      "human": null
+    }
+  }
+}

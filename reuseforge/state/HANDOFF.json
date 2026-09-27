@@ -1,10 +1,10 @@
 {
   "protocol": "reuseforge/1.0",
   "project_id": "VSTEP-LAB",
-  "workflow_state": "ARCHITECTURE_APPROVED",
+  "workflow_state": "PLAN_READY",
   "domain_profile": "edtech-exam-prep-vn",
   "current_phase": "planning",
-  "current_task": "",
+  "current_task": "done",
   "execution_mode": "undecided",
   "inputs": [
     {
@@ -70,6 +70,74 @@
     {
       "path": "spikes/SPIKE-CAP-003.md",
       "sha256": "3268aeee131c964e87ca9658eef03b64907329958940c22b38b5a9cd262748da"
+    },
+    {
+      "path": "planning/ACCEPTANCE_CRITERIA.md",
+      "sha256": "ef394001dc52783dd7471e44bd2c126d8a3881e5d05dda225ee95ec8f90b4b62"
+    },
+    {
+      "path": "planning/AGENT_ASSIGNMENTS.json",
+      "sha256": "958a3a6fd9888580ce0dc1d02afaa6a12ff64ffa2f308cc0e2790806e9bddace"
+    },
+    {
+      "path": "planning/BLOCKER_POLICY.md",
+      "sha256": "467846a899a6ca0e3df91916c3352235b20f77847ce3b8a6f9bac4dbb7b0e788"
+    },
+    {
+      "path": "planning/FILE_OWNERSHIP_PLAN.json",
+      "sha256": "e9c14176a52eb1bff33ee3a3472db08824361898b2cfba9c235e2c483282db1d"
+    },
+    {
+      "path": "planning/PHASE_GRAPH.json",
+      "sha256": "7af54b107b4d3268bb1bdedd192c8f1cf6ab4693cc42ed84c8cf9c7f895c342c"
+    },
+    {
+      "path": "planning/PROJECT_CONTEXT.md",
+      "sha256": "402aff91f08b2960ba12bd8c149d30f626b45c5c47f17226e903e20544b53bbf"
+    },
+    {
+      "path": "planning/PROJECT_SPEC.md",
+      "sha256": "a68e20bccc40cd8d0be8c98bdde305cdcb897846db2ce55bb3cbb94e47969d91"
+    },
+    {
+      "path": "planning/PROVENANCE_POLICY.md",
+      "sha256": "a0562b07f84bdc2ced36fda5cb83b86db04a62122f49de21d694de5e9b3fa6e2"
+    },
+    {
+      "path": "planning/REVIEW_GATES.md",
+      "sha256": "f9f6dd97cfdb80cc2050ca702704688111d5f7f836cc69ffdf53820618e5160c"
+    },
+    {
+      "path": "planning/RISK_REGISTER.md",
+      "sha256": "6d40c65a261458c73b9cc54bf7dbd62dce9fd66d0147842ab3c49db4300cf9cb"
+    },
+    {
+      "path": "planning/ROADMAP.md",
+      "sha256": "fb1e127522ee14e09e4ddea3577eabae1bcc75e21fecf2f2a711f6e031f0ba84"
+    },
+    {
+      "path": "planning/SAFETY_LOCKS.md",
+      "sha256": "9800705679b56df4de316541a56890fff606c0be900ebc4a873bb267b9a273ac"
+    },
+    {
+      "path": "planning/STOP_CONDITIONS.md",
+      "sha256": "6f5db39f397fce1acaad4f3f4ad8fd28b509edb43e4463bc47eadf861156548a"
+    },
+    {
+      "path": "planning/SYSTEM_DESIGN.md",
+      "sha256": "500977a7b014a1c2092055fb243014c659f337c0812870a11c3d07e8f103505f"
+    },
+    {
+      "path": "planning/TASK_GRAPH.json",
+      "sha256": "4c7823833951f59feb181aa825553b789cffe34f18bafc9c63704dd395289c33"
+    },
+    {
+      "path": "planning/TECHNICAL_PLAN.md",
+      "sha256": "8a16160cac2bca1b9c0ecd2d9572f7df0361e6cabfc73e694c2056729cfd6592"
+    },
+    {
+      "path": "planning/TEST_STRATEGY.md",
+      "sha256": "f246d58e92f31a0c7ee8752d886c008ec53ba3625c28a3cb4bcdf4477b46ee33"
     }
   ],
   "locked_decisions": [
@@ -151,6 +219,6 @@
     "evidence": "User selected 'Duyệt, loại CAP-004 (Recommended)' in chat, 2026-09-27"
   },
   "evidence_status": "SOURCE_VERIFIED",
-  "next_actor": "reuseforge-project-planner",
-  "next_action": "Fold approved decisions into implementation plan (Speaking/M2, player/M3, payment/M4); CAP-004 spike pending"
+  "next_actor": "reuseforge-execution-handoff",
+  "next_action": "Prepare P-01 execution handoff, request Gate C (phase-scoped)"
 }
